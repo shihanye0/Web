@@ -1,0 +1,16 @@
+# Obsidian 本地配置（不同步）
+.obsidian/
+
+# AI 工具配置（不同步）
+.claude/
+.hermes/
+.claudian/
+
+# 附件大文件（可选，根据需要调整）
+# 08-Attachments/*.mp4
+# 08-Attachments/*.zip
+
+# 系统文件
+.DS_Store
+Thumbs.db
+Desktop.ini
