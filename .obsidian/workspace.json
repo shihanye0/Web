@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "d2b0d9df2ec0ab7c",
+        "id": "2506cbceb6974fbd",
         "type": "tabs",
         "children": [
           {
-            "id": "9b440eeae82bae95",
+            "id": "7f1ad1cf30797184",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "01-Projects/Unitree Isaac Lab 仿真平台-补充视角.md",
+                "file": "03-Knowledge/ROS2/ROS2核心概念总结.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Unitree Isaac Lab 仿真平台-补充视角"
+              "title": "ROS2核心概念总结"
             }
           }
         ]
@@ -212,8 +212,8 @@
             "state": {
               "type": "claudian-view",
               "state": {},
-              "icon": "bot",
-              "title": "Claudian"
+              "icon": "lucide-ghost",
+              "title": "claudian-view"
             }
           },
           {
@@ -227,7 +227,7 @@
             }
           }
         ],
-        "currentTab": 10
+        "currentTab": 7
       }
     ],
     "direction": "horizontal",
@@ -263,44 +263,44 @@
       "obsidian-spaced-repetition:复习卡片": false
     }
   },
-  "active": "9b440eeae82bae95",
+  "active": "7f1ad1cf30797184",
   "lastOpenFiles": [
-    "01-Projects/Unitree Isaac Lab 仿真平台-补充视角.md",
-    "05-Code/大型全栈项目AI开发流程指南.md",
-    "05-Code/Claude Code 使用指南.md",
-    "01-Projects/Unitree Isaac Lab 仿真平台代码架构深度解析.md",
-    "01-Projects/Ubuntu常用命令手册.md",
-    "03-Knowledge/向量数据库.md",
-    "01-Projects/命理运势系统-项目手册.md",
-    "Skills仓库说明-Sliver.md",
-    "01-Projects/养老照护大赛-下午开会准备.md",
-    "03-Knowledge/爬虫工具配置指南.md",
-    "03-Knowledge/开发方法论-BDD与TDD与Brainstorming.md",
-    "2026-06-28.md",
-    "01-Projects/Unitree Isaac Lab 仿真平台安装与使用指南.md",
-    "AgentFeed-Skill说明.md",
-    "Sliver工程流Skill说明.md",
-    "Sliver工程流SKILL.md",
-    "通用Agent宪法-Sliver.md",
-    "05-Code/Understand-Anything 使用指南.md",
-    "05-Code/TrendRadar MCP 部署指南.md",
-    "05-Code/Skills-Hub 启动指南.md",
+    "02-Papers/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
+    "03-Knowledge/ROS2/ROS2核心概念总结.md",
+    "03-Knowledge/ROS2/ROS2核心概念总结.md.tmp.61516.ce0aceed8025",
+    "02-Papers/Natural-Language-Agent-Harnesses-4plus-integrated-notes.md",
+    "02-Papers/Natural-Language Agent Harnesses-.md",
+    "02-Papers/Embodied-Reasoner - Synergizing Visual Search Reasoning and Action for Embodied Interactive Tasks.md",
+    "02-Papers/DETR - End-to-End Object Detection with Transformers.md",
+    "05-Code/EasyPaper-论文翻译与知识库工具.md",
     "05-Code/Remotion-React视频创作框架.md",
-    "05-Code/prompt-optimizer 使用指南.md",
+    "05-Code/TrendRadar 使用指南.md",
+    "05-Code/skills-hub 使用指南.md",
+    "05-Code/vibe-motion-AI动画生成工具.md",
+    "05-Code/video-research-mcp-视频研究MCP工具.md",
+    "05-Code/Video-Use-MCP视频分析工具.md",
+    "05-Code/EverOS 记忆系统指南.md",
+    "06-Daily/2026-07-06-具身智能评估方向论文阅读顺序.md",
     "05-Code/PDFMathTranslate_Docker使用指南.md",
+    "05-Code/LingBot-Map/lingbot-map-setup-progress-2026-07-06.md",
+    "05-Code/Agent-Tools/Codex-Claude-Agent工具接入-2026-07-07.md",
+    "09-MCP",
+    "05-Code/作业小型项目AI开发流程指南.md",
+    "05-Code/大型全栈项目AI开发流程指南.md",
     "05-Code/HyperFrames-HTML视频合成工具.md",
     "05-Code/HyperFrames 视频框架指南.md",
-    "05-Code/EverOS 记忆系统指南.md",
-    "05-Code/女娲Skill-思维框架蒸馏工具使用指南.md.tmp.40004.ee8b50e65c62",
-    "01-Projects/Ubuntu常用命令手册.md.tmp.2388.f157abed15d5",
-    "01-Projects/命理运势系统-项目手册.md.tmp.2388.ac18f36bd2c8",
-    "01-Projects/Unitree Isaac Lab 仿真平台代码架构深度解析.md.tmp.19240.99144d486f9f",
-    "01-Projects/Unitree Isaac Lab 仿真平台代码架构深度解析.md.tmp.19240.3a69c7061db0",
-    "01-Projects/Unitree Isaac Lab 仿真平台代码架构深度解析.md.tmp.19240.cd941ceac4ad",
-    "01-Projects/Unitree Isaac Lab 仿真平台代码架构深度解析.md.tmp.19240.bd4715895388",
-    "01-Projects/Unitree Isaac Lab 仿真平台安装与使用指南.md.tmp.21176.a323e96f76c7",
-    "01-Projects/Unitree Isaac Lab 仿真平台安装与使用指南.md.tmp.21176.c60deea56e0e",
-    "05-Code/作业小型项目AI开发流程指南.md.tmp.27240.55730ec9926f",
+    "05-Code/Agent-Tools/Agent-Reach-检索接入能力.md",
+    "01-Projects/Embodied-Reasoner-评估代码与论文偏差分析.md",
+    "01-Projects/Embodied-Reasoner-评估结果与论文对比分析.md",
+    "01-Projects/Embodied-Reasoner-评估结果与论文对比分析.md.tmp.7086.7bb68758553e",
+    "2026-07-07.md",
+    "01-Projects/Embodied-Reasoner-评估代码与论文偏差分析.md.tmp.7086.f5d0049924a6",
+    "05-Code/LingBot-Map",
+    "05-Code/skills-hub 使用指南.md.tmp.45958.62c72940cab5",
+    "05-Code/TrendRadar 使用指南.md.tmp.45958.5f6fa838d777",
+    "08-skills/PDFMathTranslate 使用指南.md.tmp.45958.ea338cb0a447",
+    "08-skills/TrendRadar 使用指南.md.tmp.45958.9d17b8c45c78",
+    "08-skills/skills-hub 使用指南.md.tmp.45958.8e2a828c357c",
     "未命名.canvas",
     "未命名 2.canvas",
     "未命名 1.canvas"
