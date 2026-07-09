@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "03-Knowledge/ROS2/ROS2核心概念总结.md",
+                "file": "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "ROS2核心概念总结"
+              "title": "Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得"
             }
           }
         ]
@@ -227,7 +227,7 @@
             }
           }
         ],
-        "currentTab": 7
+        "currentTab": 10
       }
     ],
     "direction": "horizontal",
@@ -265,13 +265,20 @@
   },
   "active": "7f1ad1cf30797184",
   "lastOpenFiles": [
-    "02-Papers/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
-    "03-Knowledge/ROS2/ROS2核心概念总结.md",
-    "03-Knowledge/ROS2/ROS2核心概念总结.md.tmp.61516.ce0aceed8025",
-    "02-Papers/Natural-Language-Agent-Harnesses-4plus-integrated-notes.md",
-    "02-Papers/Natural-Language Agent Harnesses-.md",
     "02-Papers/Embodied-Reasoner - Synergizing Visual Search Reasoning and Action for Embodied Interactive Tasks.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-论文总介绍.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-图表解读.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-4plus-integrated-notes.md",
+    "05-Code/Claude Code 使用指南.md",
+    "05-Code/Docker容器管理指南.md",
+    "05-Code/大型全栈项目AI开发流程指南.md",
+    "02-Papers/Natural-Language-Agent-Harnesses",
     "02-Papers/DETR - End-to-End Object Detection with Transformers.md",
+    "03-Knowledge/ROS2/ROS2核心概念总结.md",
+    "squashfs-root",
+    "03-Knowledge/ROS2/ROS2核心概念总结.md.tmp.61516.ce0aceed8025",
     "05-Code/EasyPaper-论文翻译与知识库工具.md",
     "05-Code/Remotion-React视频创作框架.md",
     "05-Code/TrendRadar 使用指南.md",
@@ -286,21 +293,14 @@
     "05-Code/Agent-Tools/Codex-Claude-Agent工具接入-2026-07-07.md",
     "09-MCP",
     "05-Code/作业小型项目AI开发流程指南.md",
-    "05-Code/大型全栈项目AI开发流程指南.md",
     "05-Code/HyperFrames-HTML视频合成工具.md",
     "05-Code/HyperFrames 视频框架指南.md",
-    "05-Code/Agent-Tools/Agent-Reach-检索接入能力.md",
-    "01-Projects/Embodied-Reasoner-评估代码与论文偏差分析.md",
-    "01-Projects/Embodied-Reasoner-评估结果与论文对比分析.md",
     "01-Projects/Embodied-Reasoner-评估结果与论文对比分析.md.tmp.7086.7bb68758553e",
-    "2026-07-07.md",
     "01-Projects/Embodied-Reasoner-评估代码与论文偏差分析.md.tmp.7086.f5d0049924a6",
     "05-Code/LingBot-Map",
     "05-Code/skills-hub 使用指南.md.tmp.45958.62c72940cab5",
     "05-Code/TrendRadar 使用指南.md.tmp.45958.5f6fa838d777",
     "08-skills/PDFMathTranslate 使用指南.md.tmp.45958.ea338cb0a447",
-    "08-skills/TrendRadar 使用指南.md.tmp.45958.9d17b8c45c78",
-    "08-skills/skills-hub 使用指南.md.tmp.45958.8e2a828c357c",
     "未命名.canvas",
     "未命名 2.canvas",
     "未命名 1.canvas"
