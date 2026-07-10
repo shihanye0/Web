@@ -108,11 +108,11 @@ NLAH 的做法是把高层控制逻辑写成结构化自然语言。例如：
 
 Figure 3 很小，但非常重要。它展示三组映射：
 
-| 抽象层 | 实验实现 |
-|---|---|
-| Backend | Codex |
-| Runtime Charter | Runtime Skill |
-| Harness Logic | Harness Skill |
+| 抽象层             | 实验实现          |     |
+| --------------- | ------------- | --- |
+| Backend         | Codex         |     |
+| Runtime Charter | Runtime Skill |     |
+| Harness Logic   | Harness Skill |     |
 
 这张图解释了实验中如何把系统拆成可控变量。作者想研究 harness，就不能把所有东西混在一起比较，否则无法判断性能变化来自哪里。
 

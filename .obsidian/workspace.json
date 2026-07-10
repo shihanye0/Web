@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
+                "file": "05-Code/PDFMathTranslate_Docker使用指南.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得"
+              "title": "PDFMathTranslate_Docker使用指南"
             }
           }
         ]
@@ -231,7 +231,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 274.5
+    "width": 276.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -265,12 +265,24 @@
   },
   "active": "7f1ad1cf30797184",
   "lastOpenFiles": [
+    "06-Daily/2026-07-06-具身智能评估方向论文阅读顺序.md",
+    "02-Papers/General Modular Harness/General Modular Harness 与我的评估方向关联和读后迁移.md",
+    "02-Papers/General Modular Harness/General Modular Harness for LLM Agents in Multi-Turn Gaming Environments.md",
     "02-Papers/Embodied-Reasoner - Synergizing Visual Search Reasoning and Action for Embodied Interactive Tasks.md",
-    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
-    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-论文总介绍.md",
     "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-.md",
-    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-图表解读.md",
+    "02-Papers/harness/Harness 论文答疑总览.md",
+    "02-Papers/harness/Harness 模块显化、消融与诊断评估方法论.md",
+    "02-Papers/harness/Embodied-Reasoner 与 Natural-Language Agent Harnesses 两篇论文复盘总结.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-论文总介绍.md",
     "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-4plus-integrated-notes.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language Agent Harnesses-图表解读.md",
+    "02-Papers/Natural-Language-Agent-Harnesses/Natural-Language-Agent-Harnesses-与-Embodied-Reasoner-关联和心得.md",
+    "02-Papers/未命名.md",
+    "02-Papers/harness",
+    "02-Papers/Transformer - Attention Is All You Need.md",
+    "02-Papers/General Modular Harness",
+    "05-Code/PDFMathTranslate_Docker使用指南.md",
+    "通用Agent宪法-Sliver.md",
     "05-Code/Claude Code 使用指南.md",
     "05-Code/Docker容器管理指南.md",
     "05-Code/大型全栈项目AI开发流程指南.md",
@@ -283,24 +295,11 @@
     "05-Code/Remotion-React视频创作框架.md",
     "05-Code/TrendRadar 使用指南.md",
     "05-Code/skills-hub 使用指南.md",
-    "05-Code/vibe-motion-AI动画生成工具.md",
-    "05-Code/video-research-mcp-视频研究MCP工具.md",
-    "05-Code/Video-Use-MCP视频分析工具.md",
-    "05-Code/EverOS 记忆系统指南.md",
-    "06-Daily/2026-07-06-具身智能评估方向论文阅读顺序.md",
-    "05-Code/PDFMathTranslate_Docker使用指南.md",
-    "05-Code/LingBot-Map/lingbot-map-setup-progress-2026-07-06.md",
-    "05-Code/Agent-Tools/Codex-Claude-Agent工具接入-2026-07-07.md",
     "09-MCP",
-    "05-Code/作业小型项目AI开发流程指南.md",
-    "05-Code/HyperFrames-HTML视频合成工具.md",
-    "05-Code/HyperFrames 视频框架指南.md",
     "01-Projects/Embodied-Reasoner-评估结果与论文对比分析.md.tmp.7086.7bb68758553e",
     "01-Projects/Embodied-Reasoner-评估代码与论文偏差分析.md.tmp.7086.f5d0049924a6",
     "05-Code/LingBot-Map",
     "05-Code/skills-hub 使用指南.md.tmp.45958.62c72940cab5",
-    "05-Code/TrendRadar 使用指南.md.tmp.45958.5f6fa838d777",
-    "08-skills/PDFMathTranslate 使用指南.md.tmp.45958.ea338cb0a447",
     "未命名.canvas",
     "未命名 2.canvas",
     "未命名 1.canvas"
