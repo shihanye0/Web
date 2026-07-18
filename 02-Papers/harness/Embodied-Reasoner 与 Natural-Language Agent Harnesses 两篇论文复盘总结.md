@@ -95,7 +95,17 @@ Task Completeness  -> 是否覆盖关键动作链
 - 是否提前终止？
 - 是否完成了部分子任务但漏掉关键动作？
 - 是否虽然成功但路径非常低效？
+##指标不只看 outcome
 
+至少要分三层：
+
+| 层级 | 指标 |
+|---|---|
+| Outcome | success, score, task completion |
+| Efficiency | steps, cost, repeated actions, time |
+| Diagnosis | perception error, memory error, illegal action, evaluator mismatch |
+
+Embodied-Reasoner 的 Success / Search Efficiency / Task Completeness 就是向这个方向迈了一步。
 ## Natural-Language Agent Harnesses 的核心价值
 
 NLAH 不是具身智能方法论文。它真正给我的，是一个读 agent 系统和评估代码的上层框架。

@@ -272,7 +272,20 @@ Prompt standardization reduces template noise
 
 本文选 Sokoban、Tetris、2048、Candy Crush 的价值在于，它们不是同一种游戏换皮，而是有不同瓶颈：
 
-- 空间布局；
+- 空间布局；￼￼3. 指标不只看 outcome
+
+至少要分三层：
+
+层级
+指标
+Outcome
+success, score, task completion
+Efficiency
+steps, cost, repeated actions, time
+Diagnosis
+perception error, memory error, illegal action, evaluator mismatch
+
+Embodied-Reasoner 的 Success / Search Efficiency / Task Completeness 就是向这个方向迈了一步。
 - 长期规划；
 - 延迟奖励；
 - 低容错；
