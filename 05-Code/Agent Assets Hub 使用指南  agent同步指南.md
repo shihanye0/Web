@@ -7,186 +7,150 @@ tags:
   - mcp
   - 跨agent
   - 配置同步
+  - windows11
 updated: 2026-09-22
 ---
-# Agent Assets Hub 使用指南
+# Agent Assets Hub 使用指南（Windows 11 本地版）
 
-> 跨 Agent 共享 Skills / 规则 / 习惯 / MCP 的统一真源与一键同步
-> 更新：2026-09-22
-> 根目录：`~/.agents/`
+> 跨 Agent（Codex / Claude Code / Antigravity）共享 Skills / 规则契约 / 习惯 / MCP 的统一真源与同步管理  
+> 更新时间：2026-09-22  
+> 本机控制面：`C:\Users\Lenovo\.agent-config\`  
+> 共享技能库真源：`C:\Users\Lenovo\.skillshub\`
 
 ---
 
 ## 一、解决什么问题
 
-同时用 Codex、Claude Code、Antigravity（反重力）、dsh、Gemini CLI、mimo 时：
+在 Windows 11 环境下同时使用 **Codex**、**Claude Code** 与 **Antigravity（反重力）** 时：
 
-- Skill 各写一份，版本对不齐
-- `AGENTS.md` / 偏好 / 调试习惯分散在各端
-- MCP 服务在 `config.toml`、`.mcp.json`、`mcp_config.json` 重复维护
-- 插件安装器互不兼容，无法硬共享
+- **技能碎片化**：Skill 各写一份或全量暴力拷贝，导致各端版本漂移、更新不同步。
+- **规则冲突与上下文膨胀**：`CLAUDE.md` 堆砌上千行历史踩坑日记，浪费上万 Token 并引发“注意力稀释”与规则互斥。
+- **MCP 重复配置**：各端配置文件格式不同（TOML vs JSON），手动维护极易遗漏。
+- **链接不兼容**：Windows 原生不支持或易失效 POSIX Symlink，需要一套原生稳定的联接机制。
 
-**原则：一处维护，按端能力投影。能同步的同步，不能的跳过。**
+**本体系原则：资产集中维护，按端能力投影；契约统一共享，隐私与原生配置本地隔离。**
 
 ---
 
-## 二、目录结构
+## 二、架构与目录结构
 
 ```text
-~/.agents/                      # Agent Assets Hub（唯一真源）
-├── skills/                     # Agent Skills（SKILL.md 标准，~75 精选）
-├── rules/                      # 用户习惯 / 风格 / 调试 / 工作流
-│   ├── preferences.md          #   称呼、沟通、决策、路径习惯
-│   ├── coding-style.md         #   代码风格
-│   ├── debugging.md            #   调试习惯
-│   ├── workflow.md             #   工作流
-│   └── lessons-learned.md      #   历史教训
-├── agents/AGENTS.md            # 全局指令正文
-├── mcp/
-│   ├── servers.yaml            # 可移植 MCP 定义（禁止写密钥）
-│   └── servers.local.yaml      # 本机密钥/覆盖（gitignore）
-├── commands/                   # 可移植命令（暂空）
-├── plugins/                    # 仅可拆解内容；安装器不同步
-├── manifest.yaml               # 各端能力矩阵
-└── bin/
-    ├── hub-update              # 一键：状态 → 同步 → 状态
-    ├── hub-status              # 查看投影情况
-    └── sync-profile            # 按能力投影
+C:\Users\Lenovo\
+├── .agent-config/                 # Agent 配置控制面（非敏感中枢）
+│   ├── rules/                     # 跨 Agent 共享微内核 (L0 规则，高信噪比)
+│   │   ├── preferences.md         #   称呼 Boss、中文优先、Windows 11、E盘 Conda
+│   │   ├── evidence-debugging.md  #   Codex 证据链(FACT/INFERENCE)、根因修复、杜绝假数据
+│   │   ├── coding-verification.md #   Karpathy 准则、py_compile/tsc 物理门禁、大文件排除
+│   │   └── git-safety.md          #   禁止 git add .、不自动提交、零凭据泄露
+│   ├── scripts/                   # PowerShell 7 原生运维脚本
+│   │   ├── Get-AgentPlatformStatus.ps1  # 状态总览（对标 hub-status）
+│   │   ├── Sync-AgentSkill.ps1          # 安全挂接/解挂 Skill（对标 sync-profile，支持 -WhatIf）
+│   │   └── Test-AgentPlatform.ps1       # 全端基线漂移审计（对标 hub-update 校验）
+│   ├── references/                # 离线沉淀知识库（按需查阅，不占全局 System Prompt）
+│   │   ├── platform-matrix.md     #   各端投影与支持能力矩阵
+│   │   └── git-troubleshooting.md #   Git 9418 协议错误、凭证配置与历史大文件清理手册
+│   └── registry.json              # 平台资产与 MCP 服务清单注册表
+│
+└── .skillshub/                    # 共享技能库唯一真源（608+ 精选 Skills，SKILL.md 标准）
+    ├── agent-platform-sync/       #   跨 Agent 同步专用引导技能
+    ├── archify/                   #   架构归档技能
+    ├── chinese-thesis-workbench/  #   学术论文写作与去 AI 化工作台
+    └── ...                        #   其余 600+ 共享技能
 ```
 
 ---
 
-## 三、各端投影能力
+## 三、各端能力投影矩阵（Windows 11 实测）
 
-| 端 | skills | MCP | rules / AGENTS | commands | plugins |
-|---|---|---|---|---|---|
-| **Codex** | symlink | 片段 `~/.agents/.projection/codex.mcp.toml`（不自动改 config.toml） | `AGENTS.md` 软链到 hub | 支持 | 只拆内容 |
-| **Claude Code** | symlink | `.mcp.json` merge | `CLAUDE.md` 薄壳 `@` 引用 | 支持 | 只拆内容 |
-| **Antigravity** | **copy**（symlink 不稳） | `mcp_config.json` merge | `GEMINI.md` 薄壳 | 跳过 | 跳过 |
-| **Gemini CLI** | symlink | `mcp_config.json` merge | `GEMINI.md` 薄壳 | 跳过 | 跳过 |
-| **dsh** | symlink | **跳过** | `AGENTS.md` 软链 | 跳过 | 跳过 |
-| **mimo / 共享别名** | 已在 `~/.agents/skills`，不拷 | 跳过 | 跳过 | 跳过 | 跳过 |
+| 端 (Agent) | 共享 Skills 机制 | MCP 维护机制 | 全局规则文件 | 插件 (Plugins) |
+|---|---|---|---|---|
+| **Codex** | **NTFS Junction**（按需单 Skill 挂接至 `~/.agents/skills`） | 原生 `~/.codex/config.toml`（保留本地原生服务） | `~/.codex/AGENTS.md`（吸收共享微内核） | TOML 声明，本地插件缓存 |
+| **Claude Code** | **NTFS Junction**（按需单 Skill 挂接至 `~/.claude/skills`） | 原生 `~/.claude/.mcp.json`（JSON 合并） | `~/.claude/CLAUDE.md`（精炼薄壳 37 行，吸收共享微内核） | `settings.json` 启用声明 |
+| **Antigravity** | **全量 Direct Junction**（根目录直通 `.skillshub`，608+ 技能全量可用） | 原生 `~/.gemini/config/mcp_config.json`（JSON 合并） | `~/.gemini/GEMINI.md`（吸收共享微内核） | 不适用（原生 MCP/Skills 架构） |
 
-> 不支持的类别直接 skip，不硬塞。
+> **关键机制说明**：在 Windows 11 下，放弃不稳定的 POSIX Symlink 和盲目拷贝，统一采用 **NTFS Junction（目录联接）**。既保证了零文件复制冗余、修改真源全局实时生效，又保证了删除联接点绝不伤及源文件。
 
 ---
 
-## 四、共享什么 / 不共享什么
+## 四、共享什么 / 不共享什么（安全底线）
 
-### 共享（内容资产）
+### 共享（核心内容资产）
+- **Skills 技能库**：以 `SKILL.md` 标准打包的所有功能技能（脚本、Prompt、参考资料）。
+- **微内核规则契约**：称呼、沟通风格、Windows 11 环境、调试证据分级、编译运行门禁。
+- **通用 MCP 服务定义**：服务名、命令（如 `uvx` / `node`）、URL、参数名（10 大通用服务）。
+- **离线知识库**：历史踩坑教程、平台矩阵、故障排查手册。
 
-- Skills（`SKILL.md` + scripts/references/assets）
-- 全局指令 `AGENTS.md` 正文
-- 用户习惯 / 风格 / 调试 / 工作流（`rules/`）
-- MCP **服务定义**（命令、URL；密钥用 env 名）
-- 可移植 commands 文本
-
-### 不共享（各端本地）
-
-- API Key / 凭据 / token
-- 权限、审批、hooks 路径策略
-- 模型目录、reasoning effort
-- 插件安装器与厂商私有二进制
-- Codex 自带 `node_repl` 等绑定安装前缀的服务
+### 不共享（各端本地独立）
+- **API Key / 令牌 / 凭据**：严禁写入任何共享规则或清单，各自在本地环境变量或专属配置中注入。
+- **客户端配置文件原生格式**：Codex 维持 `.toml`，Claude / Antigravity 维持 `.json`，由清单校验一致性，不搞跨格式乱拷。
+- **插件二进制缓存与临时会话**：避免各客户端缓存机制互斥导致崩溃。
 
 ---
 
-## 五、一键更新指令
+## 五、日常高频管理指令 (PowerShell 7)
 
-### 日常最常用
+日常运维已全部封装为 PowerShell 7 原生脚本，开箱即用：
 
-```bash
-~/.agents/bin/hub-update
+### 1. 查看全端投影与状态（最常用，对标 `hub-status`）
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Get-AgentPlatformStatus.ps1'
 ```
+*一键扫描 Codex、Claude、Antigravity 的规则状态、MCP 服务总数、挂接的 Skills 清单及断链检测。*
 
-看状态 → 按能力同步 → 再看状态。
+### 2. 将共享技能挂接给 Codex 或 Claude（对标 `sync-profile`）
+```powershell
+# 挂接前安全预览（-WhatIf 预演）
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent codex -SkillName archify -WhatIf
 
-### 其它命令
+# 实际挂接（秒级创建 NTFS Junction）
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent codex -SkillName archify
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent claudeCode -SkillName archify
 
-```bash
-~/.agents/bin/hub-status                          # 只看投影情况
-~/.agents/bin/sync-profile                        # 全量同步
-~/.agents/bin/sync-profile --dry-run              # 预览
-~/.agents/bin/sync-profile --only skills,mcp,rules
-~/.agents/bin/sync-profile --agent codex,dsh
+# 安全解挂（仅删除联接点，绝对不损坏 .skillshub 中的源文件）
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent codex -SkillName archify -Action Unlink
 ```
+*(注：Antigravity 整个技能目录已直通 `.skillshub`，无需手动挂接单个技能，自动全量可用)*
 
-建议加入 PATH：
-
-```bash
-export PATH="$HOME/.agents/bin:$PATH"
-# 之后：hub-update / hub-status / sync-profile
+### 3. 运行全平台基线审计
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Test-AgentPlatform.ps1'
 ```
-
-### Skill 入口（各 Agent 里可直接说）
-
-已安装 skill：**`hub-sync`**（已投影到 Codex / Claude / 反重力 / Gemini / dsh）
-
-触发说法：
-
-- 「hub-sync」
-- 「一键同步」
-- 「同步共享配置」
-- 「更新 skill / 规则 / MCP」
+*校验各端 rules 是否健在、10 个通用 MCP 是否全部对齐、引导技能是否正常。*
 
 ---
 
-## 六、改了配置之后怎么更新
+## 六、改了配置之后怎么维护
 
-| 你改了                            | 之后执行                      |
-| ------------------------------ | ------------------------- |
-| `~/.agents/skills/**`          | `hub-update`              |
-| `~/.agents/rules/**`           | `hub-update --only rules` |
-| `~/.agents/agents/AGENTS.md`   | `hub-update --only rules` |
-| `~/.agents/mcp/servers.yaml`   | `hub-update --only mcp`   |
-| `~/.agents/manifest.yaml`（端能力） | `hub-update`              |
-
-改一处，多端生效：
-
-- 改 **技能** → 各端 skills 目录
-- 改 **习惯 / 偏好** → `rules/*.md`，被 AGENTS 正文索引 + Claude/Gemini 薄壳 `@`
-- 改 **全局指令** → `agents/AGENTS.md`（Codex / dsh 软链直接吃）
-- 改 **MCP** → Claude / Gemini / 反重力 JSON；Codex 看下一节
+| 修改内容 | 对应路径 | 生效方式 |
+|---|---|---|
+| **习惯 / 称呼 / 交付门禁** | `C:\Users\Lenovo\.agent-config\rules\*.md` | 修改后，各端新会话中自然生效（各端均已吸收微内核约定） |
+| **新增 / 更新 Skill** | `C:\Users\Lenovo\.skillshub\<skill>\` | Antigravity 立即生效；Codex / Claude 运行 `Sync-AgentSkill.ps1` 挂接 |
+| **新增通用 MCP** | 各端原生配置文件 | 分别写入各端原生配置，在 `registry.json` 的 `commonMcpIds` 中登记，运行 `Test-AgentPlatform.ps1` 审计 |
+| **学术论文 / 专项排错** | 独立 Skill 或 `references/` 知识库 | 按需触发对应 Skill（如 `chinese-thesis-workbench`），不占用常驻上下文 |
 
 ---
 
-## 七、Codex MCP 合并（可选）
+## 七、与 skills-hub 桌面端的关系
 
-Codex 的 `~/.codex/config.toml` **不会被自动改**，避免覆盖 `node_repl` 等本机项。
-
-1. 片段：`~/.agents/.projection/codex.mcp.toml`
-2. 需要时**备份** `config.toml` 后，把 `[mcp_servers.*]` 手动合并进去
-3. 保留本地私有服务，不要整文件覆盖
-
----
-
-## 八、与 skills-hub 桌面端
-
-| 项 | 说明 |
+| 设施 | 角色与说明 |
 |---|---|
-| skills-hub | 浏览 / 安装技能的 GUI（`~/github-product/skills-hub`） |
-| 历史库 | `~/.skillshub`（约 381 个）作**安装源**，不是运行时真源 |
-| 运行时真源 | `~/.agents/skills`（精选约 75 个） |
-| 建议 | skills-hub Settings 里 Central Repo 可指到 `~/.agents/skills` |
+| **skills-hub (GUI)** | 用于搜索、浏览、下载 GitHub 开源技能的桌面可视化客户端。 |
+| **共享技能真源** | `C:\Users\Lenovo\.skillshub`（约 608 个可用技能），作为本机所有 Agent 的**唯一权威真源**。 |
+| **推荐配置** | skills-hub 客户端中的 Central Repo / 本地库路径建议直接指向 `C:\Users\Lenovo\.skillshub`。 |
 
 ---
 
-## 九、备份与安全
+## 八、备份与防呆机制
 
-- 投影前入口文件备份在：`~/.agents/.backup/`
-- `mcp/servers.local.yaml` 已 gitignore，放密钥
-- 勿把 token 写进 `servers.yaml` 或任何共享文件
-- 第三方 skill 先审再进 `skills/`
-
----
-
-## 十、相关
-
-- [[skills-hub 使用指南]]
-- [[Claude Code 使用指南]]
-- Agent Skills 标准：https://agentskills.io
-- 备份目录：`~/.agents/.backup/`
+1. **历史遗留规则备份**：
+   原 1392 行的 Claude 规则已完整归档在：  
+   `C:\Users\Lenovo\.claude\CLAUDE.md.legacy-backup`（64 KB，包含全部历史踩坑日记，随时可回溯查阅）。
+2. **离线排错知识库**：
+   Git 9418 端口错误解决法、GitHub Token 凭证助手配置等，归档至：  
+   `C:\Users\Lenovo\.agent-config\references\git-troubleshooting.md`。
+3. **安全操作边界**：
+   禁止运行旧的 `sync-all.sh` 脚本；写入配置前先查看状态与 diff。
 
 ---
 
-#agent-hub #ai-tools #skills #mcp #跨agent #配置同步
+#agent-hub #windows11 #skills #mcp #跨agent #配置同步 #agent-config
