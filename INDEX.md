@@ -62,3 +62,4 @@ Transformer ─── DETR ─── Deformable DETR
 ---
 
 *本索引由 Claude 根据 cloud.md 规则自动维护*
+- [[Agent Assets Hub 使用指南  agent同步指南]] — 跨 Agent 共享 Skills/规则/MCP 与一键同步

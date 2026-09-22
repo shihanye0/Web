@@ -5,6 +5,12 @@
 .claude/
 .hermes/
 .claudian/
+.smart-env/
+
+# Obsidian 本地工作区（易变，不同步）
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
 
 # 附件大文件（可选，根据需要调整）
 # 08-Attachments/*.mp4

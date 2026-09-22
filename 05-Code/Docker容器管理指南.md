@@ -8,7 +8,8 @@
 
 | 项目 | 容器名 | 端口 | 说明 |
 |------|--------|------|------|
-| [PDFMathTranslate](#pdfmathtranslate-pdf翻译) | pdf-translate | 7860 | PDF翻译工具 |
+| [Zotero PDF2zh Server](#zotero-pdf2zh-server主用) | zotero-pdf2zh | 8890 | Zotero 插件翻译服务（主用，自动启动） |
+| [PDFMathTranslate](#pdfmathtranslate-pdf翻译) | pdf-translate | 7860 | PDF翻译 GUI 工具 |
 | [股票预测系统-前端](#股票预测系统-前端) | stock-frontend | 80 | Vue3 前端界面 |
 | [股票预测系统-后端](#股票预测系统-后端) | stock-backend | 8000 | FastAPI 后端服务 |
 | [MySQL数据库](#mysql数据库) | stock-mysql | 13306 | 数据存储 |
@@ -485,3 +486,28 @@ docker logs stock-backend
 
 *文档创建日期：2026年4月28日*
 *最后更新：2026年4月28日*
+
+
+---
+
+## Zotero PDF2zh Server（主用）
+
+> 详细配置见 [[PDFMathTranslate_Docker使用指南]]
+
+| 项目 | 值 |
+|------|-----|
+| 容器名 | `zotero-pdf2zh` |
+| 端口 | `8890` |
+| 地址 | `http://127.0.0.1:8890` |
+| 自动启动 | `restart: unless-stopped` + Docker `enabled` |
+| 部署目录 | `/home/user/zotero-pdf2zh_docker/docker/` |
+| 译文输出 | `.../docker/translated/` |
+
+```bash
+sg docker -c "docker ps --filter name=zotero-pdf2zh"
+sg docker -c "docker logs -f zotero-pdf2zh"
+sg docker -c "docker start/stop/restart zotero-pdf2zh"
+curl -s http://127.0.0.1:8890/health
+```
+
+*更新日期：2026-09-22*
