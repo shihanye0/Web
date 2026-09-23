@@ -300,12 +300,12 @@ pdf2zh --help
 
 ## 九、本机环境信息
 
-| 项目 | 值 |
-|------|-----|
-| 项目路径 | `/home/user/github-product/PDFMathTranslate/` |
-| Conda 环境 | `pdf2zh` |
-| Python 版本 | 3.12 |
-| 安装方式 | 本地 Conda editable 安装 |
+| 项目        | 值                                             |
+| --------- | --------------------------------------------- |
+| 项目路径      | `/home/user/github-product/PDFMathTranslate/` |
+| Conda 环境  | `pdf2zh`                                      |
+| Python 版本 | 3.12                                          |
+| 安装方式      | 本地 Conda editable 安装                          |
 
 ---
 
