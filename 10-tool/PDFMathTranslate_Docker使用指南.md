@@ -21,7 +21,7 @@ dp密钥：sk-3c044e00c14f492c83189b785075aa37
 | 健康检查 | http://localhost:8890/health |
 | 服务版本 | `4.1.7` |
 
-检查时容器已连续运行两周，网页和健康检查均返回 HTTP 200，健康检查返回 `status: ok`。本地 Conda 版已退出，7860 端口没有服务监听；尚未验证实际 PDF 翻译。
+2026年10月10日已重建容器并验证：网页和健康检查返回 HTTP 200，`status: ok`；LIBERO-para 论文第一页已成功生成中文及左右双语 PDF。本地 Conda 版已退出，7860 端口没有服务监听。
 
 当前用户查看 Docker 状态需要 `sudo`：
 
@@ -32,6 +32,25 @@ curl http://localhost:8890/health
 ```
 
 下文 `byaidu/pdf2zh`、`pdf-translate` 和 `7860` 属于原版 PDFMathTranslate 的安装示例，当前本机服务使用上表的容器和端口。
+
+### Zotero 插件当前有效配置
+
+| 设置 | 当前值 |
+| --- | --- |
+| Server 地址 | `http://127.0.0.1:8890` |
+| 翻译引擎 | `pdf2zh_next` |
+| 服务 / API 地址 | `deepseek` / `https://api.deepseek.com/v1` |
+| 模型 | `deepseek-v4-flash`（官方兼容别名，实测响应模型为 `deepseek-flash`） |
+| 思考模式 | `disabled`，实际发送关闭思考参数 |
+| API Key | 独立的 `zotero论文翻译`，已保存在插件配置中 |
+| 并发 / QPS | `2` / `2` |
+| 语言 / 输出 | `en → zh-CN`；中文和 `LR` 双语；去水印 |
+| OCR | 自动识别，关闭强制 OCR |
+| 自动术语提取 | 关闭，减少额外模型调用 |
+
+服务通过 `docker/runtime-overrides/deepseek_thinking.py` 的只读挂载修复 Docker 引擎能力识别，更新 Server 后需要重新核对覆盖模块。仅写 `disabled` 配合旧的 `deepseek-flash` 模型名，在当前 2.9.0 引擎中不会真正关闭思考。
+
+费用诊断及验证记录：[[PDF2zh_DeepSeek用量诊断_2026-10-10]]。
 
 ---
 
