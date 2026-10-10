@@ -50,6 +50,8 @@ curl http://localhost:8890/health
 
 服务通过 `docker/runtime-overrides/deepseek_thinking.py` 的只读挂载修复 Docker 引擎能力识别，更新 Server 后需要重新核对覆盖模块。仅写 `disabled` 配合旧的 `deepseek-flash` 模型名，在当前 2.9.0 引擎中不会真正关闭思考。
 
+单页实测：2026-10-10，约23秒完成，输出1,757 token，费用¥0.01117148；加短句检查合计¥0.01123648。
+
 费用诊断及验证记录：[[PDF2zh_DeepSeek用量诊断_2026-10-10]]。
 
 ---
