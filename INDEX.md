@@ -63,3 +63,10 @@ Transformer ─── DETR ─── Deformable DETR
 
 *本索引由 Claude 根据 cloud.md 规则自动维护*
 - [[Agent Assets Hub 使用指南  agent同步指南]] — 跨 Agent 共享 Skills/规则/MCP 与一键同步
+
+
+## 2026-10-13 开源工具与多 Agent 配置
+
+- [[开源工具多Agent共享配置-2026-10-13]] — 四个 Agent 的共享入口、项目对照、备份和验证边界
+- [[REA安装与使用说明-2026-10-13]] — 固定版本、命令和引擎能力边界
+- [[text-to-cad安装与使用说明-2026-10-13]] — 参数化建模、导出验证和 Viewer 排障
