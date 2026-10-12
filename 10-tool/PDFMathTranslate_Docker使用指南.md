@@ -6,6 +6,56 @@ dp密钥：sk-3c044e00c14f492c83189b785075aa37
 
 ---
 
+## 当前本机 Docker 服务（2026年10月10日核实）
+
+本机当前运行的是 **Zotero-PDF2zh** Docker 服务，访问地址为 **http://localhost:8890**。
+
+| 项目 | 当前值 |
+| --- | --- |
+| 容器名称 | `zotero-pdf2zh` |
+| 镜像 | `zotero-pdf2zh` |
+| 宿主机端口 | `8890` |
+| 容器端口 | `8890` |
+| 端口映射 | `8890:8890` |
+| 网页地址 | http://localhost:8890 |
+| 健康检查 | http://localhost:8890/health |
+| 服务版本 | `4.1.7` |
+
+2026年10月10日已重建容器并验证：网页和健康检查返回 HTTP 200，`status: ok`；LIBERO-para 论文第一页已成功生成中文及左右双语 PDF。本地 Conda 版已退出，7860 端口没有服务监听。
+
+当前用户查看 Docker 状态需要 `sudo`：
+
+```bash
+sudo docker ps -a --filter name=zotero-pdf2zh
+sudo docker logs --tail 50 zotero-pdf2zh
+curl http://localhost:8890/health
+```
+
+下文 `byaidu/pdf2zh`、`pdf-translate` 和 `7860` 属于原版 PDFMathTranslate 的安装示例，当前本机服务使用上表的容器和端口。
+
+### Zotero 插件当前有效配置
+
+| 设置 | 当前值 |
+| --- | --- |
+| Server 地址 | `http://127.0.0.1:8890` |
+| 翻译引擎 | `pdf2zh_next` |
+| 服务 / API 地址 | `deepseek` / `https://api.deepseek.com/v1` |
+| 模型 | `deepseek-v4-flash`（官方兼容别名，实测响应模型为 `deepseek-flash`） |
+| 思考模式 | `disabled`，实际发送关闭思考参数 |
+| API Key | 独立的 `zotero论文翻译`，已保存在插件配置中 |
+| 并发 / QPS | `2` / `2` |
+| 语言 / 输出 | `en → zh-CN`；中文和 `LR` 双语；去水印 |
+| OCR | 自动识别，关闭强制 OCR |
+| 自动术语提取 | 关闭，减少额外模型调用 |
+
+服务通过 `docker/runtime-overrides/deepseek_thinking.py` 的只读挂载修复 Docker 引擎能力识别，更新 Server 后需要重新核对覆盖模块。仅写 `disabled` 配合旧的 `deepseek-flash` 模型名，在当前 2.9.0 引擎中不会真正关闭思考。
+
+单页实测：2026-10-10，约23秒完成，输出1,757 token，费用¥0.01117148；加短句检查合计¥0.01123648。
+
+费用诊断及验证记录：[[PDF2zh_DeepSeek用量诊断_2026-10-10]]。
+
+---
+
 ## 一、项目信息
 
 - **项目地址**：https://github.com/Byaidu/PDFMathTranslate
@@ -39,7 +89,7 @@ pdf2zh --help
 
 ---
 
-## 三、Docker 部署（可选）
+## 三、原版 PDFMathTranslate Docker 部署示例（可选）
 
 ### 3.1 检查 Docker 是否安装
 
@@ -129,15 +179,17 @@ pdf2zh --interactive
 pdf2zh --share
 ```
 
-访问 `http://localhost:7860` 即可使用。
+原版本地 GUI 通常使用 `http://localhost:7860`；本机检查时仅监听 IPv6，可用 `http://[::1]:7860`。目前本地 GUI 已退出，当前 Docker 服务请访问 `http://localhost:8890`。
 
-### 4.3 Docker 方式访问
+### 4.3 当前本机 Docker 服务访问
 
 浏览器访问：
 
 ```
-http://localhost:7860
+http://localhost:8890
 ```
+
+当前服务为 `zotero-pdf2zh`，映射 `8890:8890`。原版 `byaidu/pdf2zh` 部署示例使用 7860 端口。
 
 ---
 
@@ -172,7 +224,24 @@ export BAIDU_SECRET_KEY="your-secret"
 
 ## 六、常用管理命令
 
-### 6.1 Docker 管理
+### 6.1 当前 Docker 服务管理
+
+```bash
+# 查看状态
+sudo docker ps -a --filter name=zotero-pdf2zh
+
+# 停止 / 启动 / 重启服务
+sudo docker stop zotero-pdf2zh
+sudo docker start zotero-pdf2zh
+sudo docker restart zotero-pdf2zh
+
+# 查看日志
+sudo docker logs -f zotero-pdf2zh
+```
+
+### 6.2 原版 Docker 管理示例
+
+以下命令对应第三节的 `pdf-translate` 示例容器。
 
 ```bash
 # 查看状态
@@ -197,7 +266,7 @@ docker stop pdf-translate && docker rm pdf-translate
 docker rmi byaidu/pdf2zh
 ```
 
-### 6.2 端口冲突解决
+### 6.3 原版部署端口冲突解决
 
 如果 7860 端口被占用：
 
@@ -278,23 +347,15 @@ pdf2zh --help
 
 ## 八、快速参考卡
 
-```
-┌────────────────────────────────────────────────────────┐
-│              PDFMathTranslate 常用命令速查                │
-├────────────────────────────────────────────────────────┤
-│ 翻译 PDF:     pdf2zh paper.pdf                         │
-│ 启动 GUI:     pdf2zh --interactive                      │
-│ 启动 Web:     pdf2zh --share                            │
-├────────────────────────────────────────────────────────┤
-│ Docker 部署:  docker run -d --name pdf-translate \     │
-│               -p 7860:7860 byaidu/pdf2zh               │
-├────────────────────────────────────────────────────────┤
-│ Docker 管理:  docker start/stop/restart pdf-translate   │
-│ 查看日志:     docker logs -f pdf-translate              │
-├────────────────────────────────────────────────────────┤
-│ 访问界面:     http://localhost:7860                     │
-└────────────────────────────────────────────────────────┘
-```
+| 操作 | 地址或命令 |
+| --- | --- |
+| 当前 Docker 网页 | http://localhost:8890 |
+| 当前端口映射 | `8890:8890` |
+| 健康检查 | `curl http://localhost:8890/health` |
+| 容器状态 | `sudo docker ps -a --filter name=zotero-pdf2zh` |
+| 查看日志 | `sudo docker logs -f zotero-pdf2zh` |
+| 启动容器 | `sudo docker start zotero-pdf2zh` |
+| 本地 CLI 翻译 | `conda run -n pdf2zh pdf2zh paper.pdf` |
 
 ---
 
@@ -305,9 +366,12 @@ pdf2zh --help
 | 项目路径      | `/home/user/github-product/PDFMathTranslate/` |
 | Conda 环境  | `pdf2zh`                                      |
 | Python 版本 | 3.12                                          |
-| 安装方式      | 本地 Conda editable 安装                          |
+| 本地安装方式 | Conda editable 安装（当前未运行 GUI） |
+| 当前运行服务 | Zotero-PDF2zh Docker 容器 `zotero-pdf2zh` |
+| Docker 网页地址 | http://localhost:8890 |
+| Docker 端口映射 | `8890:8890` |
 
 ---
 
-*文档更新日期：2026年7月6日*
+*文档更新日期：2026年10月10日*
 *系统：Ubuntu 22.04*
