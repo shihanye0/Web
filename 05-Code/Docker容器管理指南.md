@@ -492,7 +492,7 @@ docker logs stock-backend
 
 ## Zotero PDF2zh Server（主用）
 
-> 详细配置见 [[PDFMathTranslate_Docker使用指南]]
+> 详细配置见 [[PDFMathTranslate_Docker使用指南-根目录版本]]
 
 | 项目 | 值 |
 |------|-----|
