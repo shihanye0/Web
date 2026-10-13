@@ -6,7 +6,7 @@
 
 技能名称：`sadai-imagegen`  
 安装：`~/.codex/skills/sadai-imagegen/`  
-说明：`/home/user/Web/08-skills/sadai-imagegen 使用指南.md`
+说明：`/home/user/Web/05-Code/Skills/sadai-imagegen 使用指南.md`
 
 ---
 

@@ -1,4 +1,4 @@
-# PDFMathTranslate 使用指南（Ubuntu 版）
+# PDFMathTranslate 使用指南（Ubuntu 版）（根目录版本）
 
 > 本文档介绍如何在 Ubuntu 上使用 PDFMathTranslate / Zotero PDF2zh，支持 Zotero 插件 + Docker Server（当前主用）、本地 Conda 环境、以及独立 GUI Docker 部署。
 
