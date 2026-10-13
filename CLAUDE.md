@@ -9,34 +9,36 @@
 
 ### Command Patterns
 
+> **注意**：Windows 环境下需在 Obsidian 运行状态下通过 `pwsh` 调用 `& 'E:\Obsidian\Obsidian.com' vault=Web <command>`。
+
 #### 基本操作
-```bash
-# 读取笔记（静默模式）
-obsidian read file="Note Name" silent
+```powershell
+# 读取笔记
+& 'E:\Obsidian\Obsidian.com' vault=Web read file="Note Name"
 
-# 创建笔记（静默模式）
-obsidian create name="New Note" content="# Title" silent
+# 创建笔记（默认不前台打开；加 open 参数才会在界面打开）
+& 'E:\Obsidian\Obsidian.com' vault=Web create name="New Note" content="# Title"
 
-# 追加内容（静默模式）
-obsidian append file="Note Name" content="New content" silent
+# 追加内容
+& 'E:\Obsidian\Obsidian.com' vault=Web append file="Note Name" content="New content"
 
 # 搜索笔记
-obsidian search query="search term" limit=10 silent
+& 'E:\Obsidian\Obsidian.com' vault=Web search 'query=path:"01-Projects"' limit=10
 
 # 设置属性
-obsidian property:set name="status" value="done" file="Note Name" silent
+& 'E:\Obsidian\Obsidian.com' vault=Web property:set name="status" value="done" file="Note Name"
 ```
 
 #### 标签操作（优先使用）
-```bash
+```powershell
 # 列出所有标签及计数
-obsidian tags sort=count counts silent
+& 'E:\Obsidian\Obsidian.com' vault=Web tags sort=count counts
 
-# 搜索特定标签
-obsidian tag="#project" silent
+# 搜索特定标签统计（注意参数格式为 name=<tag>，不带 #）
+& 'E:\Obsidian\Obsidian.com' vault=Web tag name=project total
 
 # 按标签过滤笔记
-obsidian search query="tag:#important" silent
+& 'E:\Obsidian\Obsidian.com' vault=Web search 'query=tag:#important'
 ```
 
 #### 日记操作

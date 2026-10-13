@@ -1,0 +1,10 @@
+filters:
+  and:
+    - file.inFolder("02-Papers")
+views:
+  - type: table
+    name: 论文列表
+    order:
+      - file.name
+      - note.date
+      - file.mtime

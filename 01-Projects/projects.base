@@ -1,0 +1,13 @@
+filters:
+  and:
+    - file.inFolder("01-Projects")
+views:
+  - type: table
+    name: 全部项目
+    order:
+      - file.name
+      - note.status
+      - file.mtime
+  - type: kanban
+    name: 项目看板
+    groupBy: note.status
