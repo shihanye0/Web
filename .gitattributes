@@ -1,0 +1,44 @@
+# ==============================================================================
+# Cross-Platform Line Ending Normalization (Linux <-> Windows)
+# Force LF on commit and checkout for all text and markdown files
+# ==============================================================================
+
+* text=auto eol=lf
+
+# Markdown and document files
+*.md text eol=lf
+*.markdown text eol=lf
+*.txt text eol=lf
+
+# Configuration and data files
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.toml text eol=lf
+*.csv text eol=lf
+*.tsv text eol=lf
+
+# Web and styling assets
+*.css text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.html text eol=lf
+
+# Obsidian Canvas and Bases files
+*.canvas text eol=lf
+*.base text eol=lf
+
+# Binary files (do not normalize line endings)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.svg text eol=lf
+*.ico binary
+*.pdf binary
+*.zip binary
+*.tar.gz binary
+*.mp4 binary
+*.mp3 binary
+*.wav binary
