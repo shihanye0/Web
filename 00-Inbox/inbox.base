@@ -1,0 +1,14 @@
+filters:
+  and:
+    - file.inFolder("00-Inbox")
+views:
+  - type: table
+    name: 收件箱清单
+    order:
+      - file.name
+      - note.processed
+      - note.type
+      - file.mtime
+  - type: kanban
+    name: 处理进度看板
+    groupBy: note.processed

@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "0.1.0",
+  "name": "Inbox 学术论文剪藏 (arXiv & Scholar)",
+  "behavior": "create",
+  "noteNameFormat": "{{title}}",
+  "path": "00-Inbox",
+  "noteContentFormat": "---\ntitle: \"{{title}}\"\ndate: {{date}}\ntags:\n  - source\n  - paper\ntype: paper\nurl: \"{{url}}\"\nauthor: \"{{author}}\"\npublished: \"{{published_date}}\"\nprocessed: false\n---\n\n# {{title}}\n\n> 论文链接：[{{url}}]({{url}})\n> 抓取日期：{{date}}\n\n## 摘要与核心内容\n\n{{content}}\n",
+  "properties": [
+    {
+      "name": "title",
+      "value": "{{title}}",
+      "type": "text"
+    },
+    {
+      "name": "date",
+      "value": "{{date}}",
+      "type": "date"
+    },
+    {
+      "name": "tags",
+      "value": "[\"source\", \"paper\"]",
+      "type": "multitext"
+    },
+    {
+      "name": "type",
+      "value": "paper",
+      "type": "text"
+    },
+    {
+      "name": "url",
+      "value": "{{url}}",
+      "type": "text"
+    },
+    {
+      "name": "author",
+      "value": "{{author}}",
+      "type": "text"
+    },
+    {
+      "name": "processed",
+      "value": "false",
+      "type": "checkbox"
+    }
+  ],
+  "triggers": [
+    "*arxiv.org/*",
+    "*scholar.google.com/*",
+    "*paperswithcode.com/*",
+    "*huggingface.co/papers/*"
+  ]
+}

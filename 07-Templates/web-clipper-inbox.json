@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "0.1.0",
+  "name": "Inbox 网页与文章剪藏",
+  "behavior": "create",
+  "noteNameFormat": "{{title}}",
+  "path": "00-Inbox",
+  "noteContentFormat": "---\ntitle: \"{{title}}\"\ndate: {{date}}\ntags:\n  - source\ntype: article\nurl: \"{{url}}\"\nauthor: \"{{author}}\"\npublished: \"{{published_date}}\"\nprocessed: false\n---\n\n# {{title}}\n\n> 来源链接：[{{url}}]({{url}})\n> 抓取日期：{{date}}\n\n## 原文内容\n\n{{content}}\n",
+  "properties": [
+    {
+      "name": "title",
+      "value": "{{title}}",
+      "type": "text"
+    },
+    {
+      "name": "date",
+      "value": "{{date}}",
+      "type": "date"
+    },
+    {
+      "name": "tags",
+      "value": "[\"source\"]",
+      "type": "multitext"
+    },
+    {
+      "name": "type",
+      "value": "article",
+      "type": "text"
+    },
+    {
+      "name": "url",
+      "value": "{{url}}",
+      "type": "text"
+    },
+    {
+      "name": "author",
+      "value": "{{author}}",
+      "type": "text"
+    },
+    {
+      "name": "processed",
+      "value": "false",
+      "type": "checkbox"
+    }
+  ],
+  "triggers": [
+    "http://*/*",
+    "https://*/*"
+  ]
+}

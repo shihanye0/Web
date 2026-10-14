@@ -1,0 +1,14 @@
+filters:
+  and:
+    - file.inFolder("03-Knowledge")
+views:
+  - type: table
+    name: 概念清单
+    order:
+      - file.name
+      - note.status
+      - note.tags
+      - file.mtime
+  - type: kanban
+    name: 概念生命周期看板
+    groupBy: note.status
