@@ -6,5 +6,7 @@ views:
     name: 论文列表
     order:
       - file.name
+      - note.status
       - note.date
+      - note.tags
       - file.mtime
