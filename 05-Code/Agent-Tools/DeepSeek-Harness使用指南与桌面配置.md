@@ -171,3 +171,7 @@ DSH 已经完整集成本机多模态及开发增强能力：
 - [[05-Code/Agent-Tools/开源工具多Agent共享配置-2026-10-13|开源工具多Agent共享配置]]
 - [[05-Code/Agent-Tools/Agent Assets Hub 使用指南  agent同步指南|Agent Assets Hub 使用指南]]
 - [[05-Code/Agent-Tools/Claude Code 使用指南|Claude Code 使用指南]]
+
+### Q5: 提示 `Failed to load plugins @linxin666/dsh-client-ui-aionui-panel` 或 `missed the module table`？
+* **原因**：`@linxin666/dsh-client-ui-aionui-panel` 停留在 `0.3.6` 版本，属于旧版 DSH 0.1.x 架构，强制依赖了已被重构废弃的 `@deepseek-ai/dsh-client-runtime/client`。在 DSH 0.2.x 升级或自动更新时，若残留此包会导致前端 Web Boot 激活中断并弹出红屏。
+* **解决**：在 DSH 0.2.x 中，右侧工作区与文件预览已由官方 `@deepseek-ai/dsh-web-app` 内置原生支持，直接从 `~/.dsh/profiles/web/package.json` 和 `cordis.patch.yml` 中移除 `dsh-client-ui-aionui-panel` 即可恢复正常。
