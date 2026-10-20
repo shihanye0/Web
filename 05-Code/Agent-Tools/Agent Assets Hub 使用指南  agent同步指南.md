@@ -153,4 +153,30 @@ C:\Users\Lenovo\
 
 ---
 
+## 九、WorkBuddy 端接入（2026-10-20 新增）
+
+WorkBuddy Desktop（腾讯 WorkBuddy AI，CLI 内核为 CodeBuddy Code）已纳入本体系，配置根 `C:\Users\Lenovo\.workbuddy-ai`。
+
+| 项目 | 路径 | 说明 |
+|---|---|---|
+| 技能投影 | `~/.workbuddy-ai/skills` | 11 个 Junction 指向 `.skillshub`，与 Claude Code 保持同一精选集 |
+| 规则 | `~/.workbuddy-ai/AGENTS.md` | 微内核 7 模块的浓缩投影 + 真源索引 |
+| 常驻记忆 | `~/.workbuddy-ai/user-<uid>-personal/MEMORY.md` | 称呼/语言/环境/交付门禁的极简版，每会话自动加载 |
+| MCP | `~/.workbuddy-ai/mcp.json` | 15 个 `commonMcpIds` 全量导入，JSON 结构同 Claude Code |
+| UI 语言 | `storage/user-<uid>-personal/scoped/<id>/preferences.json` | `language: zh-CN`；**不在** `settings.json` 里 |
+
+```powershell
+# 挂接/解挂（已支持 workbuddy 目标）
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddy -SkillName archify -WhatIf
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddy -SkillName archify
+
+# 状态与审计已自动覆盖 workbuddy
+& 'C:\Users\Lenovo\.agent-config\scripts\Get-AgentPlatformStatus.ps1'
+& 'C:\Users\Lenovo\.agent-config\scripts\Test-AgentPlatform.ps1'
+```
+
+**注意**：`registry.json` 的 `agents.workbuddy` 已登记，`Sync-AgentSkill.ps1` 的 `ValidateSet` 已扩到 `workbuddy`。Qoder 端此前已存在 379 个指向 `.skillshub` 的 Junction（`E:\Program Files\.qoder\skills`），无需重复挂接。
+
+---
+
 #agent-hub #windows11 #skills #mcp #跨agent #配置同步 #agent-config
