@@ -1,0 +1,97 @@
+---
+title: "开源工具多Agent共享配置-2026-10-13"
+date: 2026-10-13
+tags: [agent, shared-config, open-source, MCP, tool]
+status: seed
+sources:
+  - "https://github.com/morluto/rea"
+  - "https://github.com/earthtojake/text-to-cad"
+  - "C:/Users/Lenovo/.agent-config/manifests/opensource-tools-20261013.json"
+---
+
+# 开源工具多 Agent 共享配置
+
+本轮将 REA 与 text-to-cad 接入 Codex、Claude Code、Antigravity、DSH。REA 提供软件制品分析入口；text-to-cad 补充精确尺寸建模与 STEP 导出。其他候选项目按已有工具的覆盖程度保留或暂缓安装。
+
+本笔记记录 2026-10-13 的安装和验证结果。候选项目对照采用本次调研于 2026-10-12 核对的本机基线，版本和路径随升级可能改变。项目热度属于选择线索，不作为重复安装的理由。
+
+## 共享方式与原生入口
+
+共享 Skill 的唯一权威源是 `C:/Users/Lenovo/.skillshub`。四个 Agent 按需以 NTFS Junction 引用单个 Skill；MCP 按各自原生格式注册同一程序和版本。配置清单记录预期状态，不代替客户端实际读取的文件。
+
+| Agent | MCP 原生入口 | 本轮 Skill 链接目录 |
+| --- | --- | --- |
+| Codex | `C:/Users/Lenovo/.codex/config.toml` | `C:/Users/Lenovo/.agents/skills` |
+| Claude Code | `C:/Users/Lenovo/.claude.json` | `C:/Users/Lenovo/.claude/skills` |
+| Antigravity 2.0 | `C:/Users/Lenovo/.gemini/config/mcp_config.json` | `C:/Users/Lenovo/.gemini/config/skills` |
+| DSH | `C:/Users/Lenovo/.dsh/storages/mcp_connector.json` | `C:/Users/Lenovo/.dsh/skills` |
+
+Claude Code 的遗留 `.claude/.mcp.json` 不是本轮全局配置入口。DSH 使用 Connector 存储；本轮通过已安装的 `dsh-mcp-connector@0.2.63` 的 JSON 导入归一化逻辑生成 `json-rea`、`json-cad`，保留其他连接和存储表。Antigravity 的旧 `.gemini/antigravity/skills` 整库 Junction 保留，新接入使用 2.0 入口。
+
+本轮五个 Skill 在四个目录中共建立或核验 20 个链接：`reverse-engineer-anything`、`cad`、`engineering-drawing`、`dfm`、`urdf`。其中 REA Skill 已存在；四个 CAD Skill 新增到共享源，38 个文件与固定上游版本的 SHA-256 一致。Antigravity 新入口还补上了共享 `agent-platform-sync` 引导 Skill。
+
+## 已配置项目
+
+| 工具 | 固定版本 | 四个 Agent 的 MCP ID | 已执行的验证 |
+| --- | --- | --- | --- |
+| REA | `rea-agents@6.4.0` | `rea` | 四份配置分别启动 stdio 服务，均返回 170 个工具；JavaScript 样例静态分析成功 |
+| text-to-cad | `cadgen==0.7.21` | `cad` | 四份配置分别启动服务，均返回 2 个工具；遥测状态和真实 STEP 展示调用成功 |
+
+REA 的详细命令、能力边界见 [[REA安装与使用说明-2026-10-13]]。CAD 的固定启动方式、建模样例和导出验证见 [[text-to-cad安装与使用说明-2026-10-13]]。
+
+四份 CAD 配置均设置 `CADGEN_TELEMETRY=0`、`DO_NOT_TRACK=1`、`CADGEN_UPDATE_CHECK=0`；也实际执行了全局遥测关闭命令。该环境变量集合适用于 CAD，不应误认为已关闭其他工具的遥测。
+
+## 其他项目与本地对照
+
+以下结论是基于现有用途的 **INFERENCE**；本地软件存在不证明工作流的全部功能已经验收。除上面两项外，本轮没有新增安装这些候选项目。
+
+| 项目 / 上游 | 本机已有能力或限制 | 当前判断与再次评估条件 |
+| --- | --- | --- |
+| [REA](https://github.com/morluto/rea) | 已有代码分析与浏览器工具，制品逆向入口覆盖不足 | 已配置；遇到原生二进制任务再补 Ghidra/IDA |
+| [text-to-cad](https://github.com/earthtojake/text-to-cad) | Blender 5.2.2、OpenGL 更贴合艺术建模与课程场景 | 已配置；精确尺寸、STEP、零件工作流有补充价值 |
+| [VoiceStudio](https://github.com/debpalash/VoiceStudio) | FunASR、DeepFilterNet、剪映；RTX 3050 Laptop 4 GB 显存 | 暂缓；需要语音生成/克隆时先测小模型的内存与质量 |
+| [PhotoCraft](https://github.com/storytold/photocraft) | Photoshop 2024 | 暂缓；明确需要 CLI/MCP 批量图像流程时再测；PSD 兼容性未验证 |
+| [OpenCodeReview](https://github.com/alibaba/open-code-review) | Codex、ponytail-review、代码审查 MCP | 暂缓；固定仓库需要 CI 自动审查与可重复规则时再接入 |
+| [tester-army/e2e](https://github.com/tester-army/e2e) | agent-browser 0.27、Playwright | 暂缓；有稳定 Web 回归用例和明确断言后再比较维护成本 |
+| [HyperFrames](https://github.com/heygen-com/hyperframes) | 已有 0.7.56 与口播视频工作流 | 保留现有安装；本轮没有同步它的 Codex 原生插件到其他 Agent |
+| [Hindsight](https://github.com/vectorize-io/hindsight) | claude-mem 13.24.23、已有记忆与代码索引服务 | 暂缓；先出现可测量的跨会话检索缺口，再承担新数据库和模型成本 |
+| [WeKnora](https://github.com/Tencent/WeKnora) | AnythingLLM 1.16.1、MinerU、PaperQA2 | 暂缓；团队权限或统一知识库需求形成后再评估 |
+| [Paperclip](https://github.com/paperclipai/paperclip) | 多 Agent、自动任务；claude-flow 3.7 alpha 已安装但运行未验收 | 暂缓；组织管理、预算或长期任务编排需要更独立的平台时再评估 |
+| [OpenShell](https://github.com/NVIDIA/OpenShell) | Docker 4.59、WSL Ubuntu | 暂缓；需要更强策略/凭据隔离时，在 WSL 中做专项兼容验证 |
+| [AnyPS5](https://github.com/boykopovar/AnyPS5) | 当前主要用途是课程、建模与开发 | 不安装；游戏移植用途与现阶段需求关联较低 |
+
+## 验证结果和边界
+
+**FACT：** 从四份原生配置提取命令，分别完成 REA/CAD 共 8 次 MCP 初始化、工具枚举及业务调用。Claude Code 原生 CLI 显示两个服务均 Connected；Codex CLI 可读取 CAD 配置，Antigravity CLI 可列出两项服务。
+
+**FACT：** CAD 在 Windows 上加载内核，并生成 STEP、STL、GLB。回读 STEP 为一个实体，外包尺寸 `40×20×6 mm`，体积约 `4800 mm³`；STL 有 12 个三角形，GLB 含一个网格，截图已人工查看。
+
+**UNRESOLVED：** 首次四路并发启动 CAD Viewer 时，一路返回启动失败。通过官方命令启动 Viewer 后，四个入口重测均通过；尚未证明首次失败的根因或并发冷启动长期稳定性。排障命令见 CAD 说明。
+
+**未覆盖：** 当前已运行的桌面聊天会话尚未逐个重载后验收；DSH 桌面宿主尚未启动实测。现有 Codex 会话不一定立即出现新工具，需新会话或客户端原生重载。REA 的 Ghidra/IDA、CAD 工程图/DFM/URDF 的真实工程任务未验收；Skill 可发现不等于所有功能已通过。
+
+平台检查中 Codex、Claude Code、Antigravity 均可见 15 个登记公共 MCP ID；DSH 存储有 7 项，其中包括本轮 REA/CAD，未把其余 8 项强行同步。Antigravity 插件入口、DSH 规则入口仍有既有 `UNRESOLVED` 登记，不属于本轮两项工具新增失败。
+
+## 维护和回退
+
+登记：`C:/Users/Lenovo/.agent-config/registry.json`。本轮版本、原生命令、备份和验收记录：`C:/Users/Lenovo/.agent-config/manifests/opensource-tools-20261013.json`。
+
+修改前备份：`C:/Users/Lenovo/.agent-config/backups/opensource-tools-20261013/`，含四份原生文件及旧 registry。原有 MCP/权限设置保留；Claude Code 的 `migrationVersion` 运行元数据在验收期间变化，已单独记录。
+
+升级时先在独立目录测试新版本，再统一调整共享源、四份原生适配与 manifest，重跑业务验证。不要只更新一个 Agent 或使用浮动版本。取消接入时优先仅移除本轮 `rea`/`cad` 条目与对应单 Skill 链接；停止宿主后检查最新变化，不直接用旧备份覆盖其后产生的配置。共享源可能被多个消费者使用，不随一个 Agent 的卸载删除。
+
+```powershell
+& 'C:/Users/Lenovo/.agent-config/scripts/Test-AgentPlatform.ps1'
+& 'C:/Users/Lenovo/.agent-config/scripts/Get-AgentPlatformStatus.ps1'
+```
+
+完整配置方法关联 [[Agent Assets Hub 使用指南  agent同步指南]]。以上清单检查不替代 MCP 业务调用或桌面宿主验收。
+
+## 本地证据
+
+- [MCP 八项验收](file:///E:/github-product/shared-config-verification/mcp-receipt.json)
+- [几何与导出验收](file:///E:/github-product/shared-config-verification/geometry-receipt.json)
+- [平台核验日志](file:///E:/github-product/shared-config-verification/platform-check.log)
+- [CAD 截图](file:///E:/github-product/shared-config-verification/plate.png)
+
+以上文件是本机证据，不保证在其他设备上可打开。配置和说明中不包含密钥或认证材料。
