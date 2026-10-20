@@ -8,14 +8,14 @@ tags:
   - 跨agent
   - 配置同步
   - windows11
-updated: 2026-09-22
+updated: 2026-10-20
 ---
 # Agent Assets Hub 使用指南（Windows 11 本地版）
 
-> 跨 Agent（Codex / Claude Code / Antigravity）共享 Skills / 规则契约 / 习惯 / MCP 的统一真源与同步管理  
-> 更新时间：2026-09-22  
+> 跨 Agent（Codex / Claude Code / Antigravity / WorkBuddy AI / WorkBuddy 国内版 / DSH / Qoder）共享 Skills / 规则契约 / 习惯 / MCP 的统一真源与同步管理  
+> 更新时间：2026-10-20（本轮新增：WorkBuddy 国内版、DSH、Qoder 三端登记与验证）  
 > 本机控制面：`C:\Users\Lenovo\.agent-config\`  
-> 共享技能库真源：`C:\Users\Lenovo\.skillshub\`
+> 共享技能库真源：`C:\Users\Lenovo\.skillshub\`（615 个含 SKILL.md 的技能）
 
 ---
 
@@ -51,7 +51,7 @@ C:\Users\Lenovo\
 │   │   └── git-troubleshooting.md #   Git 9418 协议错误、凭证配置与历史大文件清理手册
 │   └── registry.json              # 平台资产与 MCP 服务清单注册表
 │
-└── .skillshub/                    # 共享技能库唯一真源（608+ 精选 Skills，SKILL.md 标准）
+└── .skillshub/                    # 共享技能库唯一真源（615 个含 SKILL.md 的技能，目录总数 616）
     ├── agent-platform-sync/       #   跨 Agent 同步专用引导技能
     ├── archify/                   #   架构归档技能
     ├── chinese-thesis-workbench/  #   学术论文写作与去 AI 化工作台
@@ -64,9 +64,15 @@ C:\Users\Lenovo\
 
 | 端 (Agent) | 共享 Skills 机制 | MCP 维护机制 | 全局规则文件 | 插件 (Plugins) |
 |---|---|---|---|---|
-| **Codex** | **NTFS Junction**（按需单 Skill 挂接至 `~/.agents/skills`） | 原生 `~/.codex/config.toml`（保留本地原生服务） | `~/.codex/AGENTS.md`（吸收共享微内核） | TOML 声明，本地插件缓存 |
-| **Claude Code** | **NTFS Junction**（按需单 Skill 挂接至 `~/.claude/skills`） | 原生 `~/.claude/.mcp.json`（JSON 合并） | `~/.claude/CLAUDE.md`（精炼薄壳 37 行，吸收共享微内核） | `settings.json` 启用声明 |
-| **Antigravity** | **全量 Direct Junction**（根目录直通 `.skillshub`，608+ 技能全量可用） | 原生 `~/.gemini/config/mcp_config.json`（JSON 合并） | `~/.gemini/GEMINI.md`（吸收共享微内核） | 不适用（原生 MCP/Skills 架构） |
+| **Codex** | **NTFS Junction**（按需单 Skill 挂接至 `~/.agents/skills`，实测 13 个） | 原生 `~/.codex/config.toml`（16 个服务） | `~/.codex/AGENTS.md`（吸收共享微内核） | TOML 声明，本地插件缓存 |
+| **Claude Code** | **NTFS Junction**（11 个挂接）+ **89 个本地目录**（88 个为 Claude 独有、1 个 `research` 是待清理的重复副本） | 原生 `~/.claude/.mcp.json`（19 个服务） | `~/.claude/CLAUDE.md`（精炼薄壳，吸收共享微内核） | `settings.json` 启用声明 |
+| **Antigravity** | 新原生根 `~/.gemini/config/skills` 仅 **7 个 Junction + 1 个本地**；旧根 `~/.gemini/antigravity/skills` 才是整目录直通 `.skillshub`（616 个）。**2.0 读新根，等于只有 7 个技能可用** | 原生 `~/.gemini/config/mcp_config.json`（15 个服务） | `~/.gemini/GEMINI.md`（吸收共享微内核） | 不适用（原生 MCP/Skills 架构） |
+| **WorkBuddy AI**（`WorkBuddyAI.exe` 5.8.4） | 11 个 Junction 至 `~/.workbuddy-ai/skills` | `~/.workbuddy-ai/mcp.json`（15 个） | `~/.workbuddy-ai/AGENTS.md` + `user-<uid>-personal/MEMORY.md` | `settings.json` 的 `enabledPlugins`（16 个，含 8 个市场插件） |
+| **WorkBuddy 国内版**（`WorkBuddy.exe` 37.10.3-42） | 11 个 Junction 至 `~/.workbuddy/skills`（与 AI 端同一精选集） | `~/.workbuddy/mcp.json`（15 个） | `~/.workbuddy/AGENTS.md` + `user-<uid>-personal/MEMORY.md` | 仅 8 个内置插件；AI 端那 8 个市场插件未安装（构建版本不同，必须走市场装） |
+| **DSH**（DeepSeek Harness Desktop） | 27 个 Junction 至 `~/.dsh/skills` | `~/.dsh/storages/mcp_connector.json`（connector-store 格式，**5/15** 覆盖） | 无原生规则文件（行为在 profile patch 层） | 16 个 profile bundle |
+| **Qoder**（CodeGeeX 内核） | **380 个 Junction** 至 `E:\Program Files\.qoder\skills`（`~/.qoder` 是符号链接） | 扩展目录内 `user_mcp_config.json`（15 个，**版本锁定路径**） | 无原生全局规则文件；`memory/MEMORY.md` 是记忆索引而非规则 | `~/.qoder/settings.json`（hooks + enabledPlugins） |
+
+> 逐端完整字段（路径、格式、验证命令、已知缺陷）见 `C:\Users\Lenovo\.agent-config\references\platform-matrix.md`。
 
 > **关键机制说明**：在 Windows 11 下，放弃不稳定的 POSIX Symlink 和盲目拷贝，统一采用 **NTFS Junction（目录联接）**。既保证了零文件复制冗余、修改真源全局实时生效，又保证了删除联接点绝不伤及源文件。
 
@@ -109,13 +115,19 @@ C:\Users\Lenovo\
 # 安全解挂（仅删除联接点，绝对不损坏 .skillshub 中的源文件）
 & 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent codex -SkillName archify -Action Unlink
 ```
-*(注：Antigravity 整个技能目录已直通 `.skillshub`，无需手动挂接单个技能，自动全量可用)*
+*(注：`-Agent` 现支持 `codex` / `claudeCode` / `antigravity` / `dsh` / `workbuddy` / `workbuddyCn` / `qoder` 七端，全部从 `registry.json` 的 `sharedSkills.targets` 取目标目录。Antigravity 的**旧根** `~/.gemini/antigravity/skills` 仍是整目录直通 `.skillshub`，但 2.0 实际读的是新根 `~/.gemini/config/skills`（只有 7 个 Junction），需要按需逐个挂接。)*
 
 ### 3. 运行全平台基线审计
 ```powershell
 & 'C:\Users\Lenovo\.agent-config\scripts\Test-AgentPlatform.ps1'
 ```
-*校验各端 rules 是否健在、10 个通用 MCP 是否全部对齐、引导技能是否正常。*
+*校验各端 rules 是否健在、15 个通用 MCP 是否全部对齐、引导技能是否正常。*
+
+### 4. 一键看七端状态
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Get-AgentPlatformStatus.ps1'
+```
+*输出 codex / claudeCode / antigravity / dsh / workbuddy / workbuddyCn / qoder 七端的规则、MCP 服务数、技能挂接数与断链清单。*
 
 ---
 
@@ -135,7 +147,7 @@ C:\Users\Lenovo\
 | 设施 | 角色与说明 |
 |---|---|
 | **skills-hub (GUI)** | 用于搜索、浏览、下载 GitHub 开源技能的桌面可视化客户端。 |
-| **共享技能真源** | `C:\Users\Lenovo\.skillshub`（约 608 个可用技能），作为本机所有 Agent 的**唯一权威真源**。 |
+| **共享技能真源** | `C:\Users\Lenovo\.skillshub`（615 个含 SKILL.md 的技能），作为本机所有 Agent 的**唯一权威真源**。 |
 | **推荐配置** | skills-hub 客户端中的 Central Repo / 本地库路径建议直接指向 `C:\Users\Lenovo\.skillshub`。 |
 
 ---
@@ -153,29 +165,86 @@ C:\Users\Lenovo\
 
 ---
 
-## 九、WorkBuddy 端接入（2026-10-20 新增）
+## 九、WorkBuddy 双端接入（AI 端 + 国内版，2026-10-20）
 
-WorkBuddy Desktop（腾讯 WorkBuddy AI，CLI 内核为 CodeBuddy Code）已纳入本体系，配置根 `C:\Users\Lenovo\.workbuddy-ai`。
+WorkBuddy 有**两套互不相通的客户端与账号体系**，配置根也不同，必须分开登记：
 
-| 项目 | 路径 | 说明 |
+| 端 | 可执行文件 | 配置根 | 账号 |
+|---|---|---|---|
+| WorkBuddy AI | `E:\workbuddy\WorkBuddyAI\WorkBuddyAI.exe`（5.8.4） | `C:\Users\Lenovo\.workbuddy-ai` | shihanye0 |
+| WorkBuddy 国内版 | `E:\workbuddy\WorkBuddy.exe`（37.10.3-42） | `C:\Users\Lenovo\.workbuddy` | 枕风宿雪（UIN 330106394748） |
+
+两端投影内容一致（各自独立落地）：
+
+| 项目 | 路径（以 `~` 代指对应配置根） | 说明 |
 |---|---|---|
-| 技能投影 | `~/.workbuddy-ai/skills` | 11 个 Junction 指向 `.skillshub`，与 Claude Code 保持同一精选集 |
-| 规则 | `~/.workbuddy-ai/AGENTS.md` | 微内核 7 模块的浓缩投影 + 真源索引 |
-| 常驻记忆 | `~/.workbuddy-ai/user-<uid>-personal/MEMORY.md` | 称呼/语言/环境/交付门禁的极简版，每会话自动加载 |
-| MCP | `~/.workbuddy-ai/mcp.json` | 15 个 `commonMcpIds` 全量导入，JSON 结构同 Claude Code |
+| 技能投影 | `~/skills` | 11 个 Junction 指向 `.skillshub`，两端同一精选集 |
+| 规则 | `~/AGENTS.md` | 微内核 7 模块的浓缩投影 + 真源索引 |
+| 常驻记忆 | `~/user-<uid>-personal/MEMORY.md` | 称呼/语言/环境/交付门禁的极简版，每会话自动加载 |
+| MCP | `~/mcp.json` | 15 个 `commonMcpIds` 全量导入，JSON 结构同 Claude Code |
 | UI 语言 | `storage/user-<uid>-personal/scoped/<id>/preferences.json` | `language: zh-CN`；**不在** `settings.json` 里 |
 
 ```powershell
-# 挂接/解挂（已支持 workbuddy 目标）
-& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddy -SkillName archify -WhatIf
-& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddy -SkillName archify
+# 挂接/解挂（已支持 workbuddy 与 workbuddyCn 两个目标）
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddyCn -SkillName archify -WhatIf
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent workbuddyCn -SkillName archify
 
-# 状态与审计已自动覆盖 workbuddy
+# 状态与审计已自动覆盖两端
 & 'C:\Users\Lenovo\.agent-config\scripts\Get-AgentPlatformStatus.ps1'
 & 'C:\Users\Lenovo\.agent-config\scripts\Test-AgentPlatform.ps1'
 ```
 
-**注意**：`registry.json` 的 `agents.workbuddy` 已登记，`Sync-AgentSkill.ps1` 的 `ValidateSet` 已扩到 `workbuddy`。Qoder 端此前已存在 379 个指向 `.skillshub` 的 Junction（`E:\Program Files\.qoder\skills`），无需重复挂接。
+**注意**：`registry.json` 的 `agents.workbuddy` 与 `agents.workbuddyCn` 均已登记，`Sync-AgentSkill.ps1` 的 `ValidateSet` 已扩到七端。两端**不可共享**的东西：连接器授权（加密存储、绑账号）、插件缓存（5.8.3 vs 5.8.4 构建版本不同）、会话与积分。
+
+---
+
+## 十、DSH 端接入（2026-10-20 登记）
+
+DeepSeek Harness Desktop，27 个 Junction 至 `~/.dsh/skills`，引导技能已就位。
+
+| 项目 | 路径 | 说明 |
+|---|---|---|
+| 技能投影 | `~/.dsh/skills` | 27 个 Junction，0 断链 |
+| 规则 | 无 | 行为在 profile patch 层，`registry` 里 `rules: null`，审计显示 `UNRESOLVED` 属预期 |
+| MCP | `~/.dsh/storages/mcp_connector.json` | `connector-store` 格式，只统计 `tables.connections` 中 `enabled != false` 的连接；当前 **5/15** 覆盖（codex 系 15 个，DSH 只接了 5 个） |
+| 插件 | `~/.dsh/profiles/desktop/package.json` | 16 个 profile bundle |
+
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent dsh -SkillName archify
+```
+
+---
+
+## 十一、Qoder 端接入（2026-10-20 登记）
+
+Qoder（CodeGeeX 内核）。**`~/.qoder` 是符号链接**，真实位置 `E:\Program Files\.qoder`——所有路径都在 E 盘 Program Files 下，这是它与其他端的最大差异。
+
+| 项目 | 路径 | 说明 |
+|---|---|---|
+| 技能投影 | `E:\Program Files\.qoder\skills` | **380 个 Junction**，0 副本、0 断链（本轮补挂了 `agent-platform-sync`） |
+| 规则 | 无原生全局规则文件 | `memory\MEMORY.md` 是记忆索引（指向 `memory\*.md`），不是规则文件；`registry` 里 `rules: null` |
+| MCP | `...\extensions\.184c6178-...\dist\agent\configs\user_mcp_config.json` | 15 个服务已写入。**路径含扩展版本哈希，Qoder 升级会丢** |
+| 插件 | `E:\Program Files\.qoder\settings.json` | hooks + enabledPlugins |
+
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Sync-AgentSkill.ps1' -Agent qoder -SkillName archify
+```
+
+---
+
+## 十二、已知漂移与待办（对抗式审查结论，2026-10-20）
+
+| # | 问题 | 级别 | 处置 |
+|---|---|---|---|
+| 1 | Antigravity 新根只有 7 个技能，旧根才是全量直通；若 2.0 只读新根，等于 615 个技能里只有 7 个可用 | 高 | 确认 2.0 实际读取根，再决定是否在新根补挂 |
+| 2 | Qoder 的 MCP 配置写在**版本锁定的扩展目录**里，升级即丢 | 高 | 升级后必须重跑审计；长期方案是找官方用户级 MCP 路径 |
+| 3 | Qoder `settings.json` 的 hook 指向 `E:\clawd-on-desk-main\hooks\qoder-hook.js`，实际文件在 `...\clawd-on-desk-main\clawd-on-desk-main\hooks\qoder-hook.js`，**少一层目录，hook 静默失效** | 中 | 修 clawd 侧路径或改 settings |
+| 4 | Claude Code 有 89 个本地技能目录，其中 `research` 与 `.skillshub` 重名（是副本不是 Junction），会随真源更新而漂移 | 中 | 删副本 → 建 Junction |
+| 5 | Qoder 内置 `mcp_config.json` 自带 3 个 `python -m codegeex_mcp_tools.*` 服务，本机禁系统 Python，预计启动即失败 | 中 | 在 Qoder 里禁用这 3 个内置服务 |
+| 6 | `Get-AgentPlatformStatus.ps1` 用 `Get-ChildItem` 未加 `-Directory`，把 `.workbuddy\skills` 下两个迁移标记 JSON 算成"本地技能"（显示 2 local/native） | 低 | 脚本加 `-Directory` 过滤 |
+| 7 | `Test-AgentPlatform.ps1` 的 `PluginInventory` 只认 codex / claudeCode / dsh，workbuddy 系与 qoder 没有插件行，容易误读为"全绿" | 低 | 按 `enabledPlugins` 通用化 |
+| 8 | 国内版缺 AI 端那 8 个市场插件（构建版本不同，不能拷缓存） | 低 | 在国内版插件市场安装 |
+| 9 | DSH 只覆盖 5/15 通用 MCP | 低 | 按需在 connector store 里补 |
 
 ---
 
