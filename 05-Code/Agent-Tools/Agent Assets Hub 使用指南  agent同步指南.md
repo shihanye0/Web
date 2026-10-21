@@ -7,13 +7,14 @@ tags:
   - mcp
   - 跨agent
   - 配置同步
+  - 能力投影
   - windows11
 updated: 2026-10-21
 ---
 # Agent Assets Hub 使用指南（Windows 11 本地版）
 
 > 跨 Agent（Codex / Claude Code / Antigravity / WorkBuddy AI / WorkBuddy 国内版 / DSH / Qoder）共享 Skills / 规则契约 / 习惯 / MCP 的统一真源与同步管理  
-> 更新时间：2026-10-21（Antigravity 读取根已确认并补齐；对抗式审查第二轮复核）  
+> 更新时间：2026-10-21（第三轮：能力差异化投影定案；更正 DSH/Qoder 规则面；DSH MCP 漂移修复；补 WorkBuddy CODEBUDDY.md）  
 > 本机控制面：`C:\Users\Lenovo\.agent-config\`  
 > 共享技能库真源：`C:\Users\Lenovo\.skillshub\`（615 个含 SKILL.md 的技能）
 
@@ -28,7 +29,9 @@ updated: 2026-10-21
 - **MCP 重复配置**：各端配置文件格式不同（TOML vs JSON），手动维护极易遗漏。
 - **链接不兼容**：Windows 原生不支持或易失效 POSIX Symlink，需要一套原生稳定的联接机制。
 
-**本体系原则：资产集中维护，按端能力投影；契约统一共享，隐私与原生配置本地隔离。**
+**本体系原则：资产集中维护，按端能力差异化投影；契约统一共享，隐私与原生配置本地隔离。**
+
+各端能力与定位不同，**不追求逐端配置一致**——核心集必齐，扩展集按端定位（见第三章「能力差异化投影」）。基地的价值是让各端按需取用、互相借鉴，而不是把差异拉平。
 
 ---
 
@@ -37,21 +40,25 @@ updated: 2026-10-21
 ```text
 C:\Users\Lenovo\
 ├── .agent-config/                 # Agent 配置控制面（非敏感中枢）
-│   ├── rules/                     # 跨 Agent 共享微内核 (L0 规则，高信噪比)
-│   │   ├── preferences.md         #   称呼 Boss、中文优先、Windows 11、E盘 Conda
-│   │   ├── evidence-debugging.md  #   Codex 证据链(FACT/INFERENCE)、根因修复、杜绝假数据
-│   │   ├── coding-verification.md #   Karpathy 准则、py_compile/tsc 物理门禁、大文件排除
-│   │   └── git-safety.md          #   禁止 git add .、不自动提交、零凭据泄露
+│   ├── rules/                     # 跨 Agent 共享微内核 (L0 契约，7 个模块)
+│   │   ├── preferences.md              #   称呼 Boss、中文优先、Windows 11、E盘 Conda
+│   │   ├── document-authorship.md      #   正式产物作者视角，避免旁观者叙事
+│   │   ├── evidence-debugging.md       #   FACT/INFERENCE 证据链、根因修复、杜绝假数据
+│   │   ├── coding-verification.md      #   Karpathy 准则、py_compile/tsc 物理门禁
+│   │   ├── git-safety.md               #   禁止 git add .、不自动提交、零凭据泄露
+│   │   ├── powershell-version.md       #   只允许 PowerShell 7，禁用 5.1
+│   │   └── presentation-layout-contracts.md  # 演示文稿/视觉排版先定内容区契约
 │   ├── scripts/                   # PowerShell 7 原生运维脚本
 │   │   ├── Get-AgentPlatformStatus.ps1  # 状态总览（对标 hub-status）
 │   │   ├── Sync-AgentSkill.ps1          # 安全挂接/解挂 Skill（对标 sync-profile，支持 -WhatIf）
 │   │   ├── Test-AgentPlatform.ps1       # 全端基线漂移审计（对标 hub-update 校验）
+│   │   ├── Test-ProjectionPolicy.ps1    # 按能力差异化策略校验七端（技能分层/MCP 能力组/规则面）
 │   │   └── Repair-QoderMcp.ps1          # Qoder 升级后重建 15 个 MCP（自动探测版本哈希目录）
 │   ├── backups/                   # 变更前备份（孤儿链接清单等）
 │   ├── references/                # 离线沉淀知识库（按需查阅，不占全局 System Prompt）
 │   │   ├── platform-matrix.md     #   各端投影与支持能力矩阵
 │   │   └── git-troubleshooting.md #   Git 9418 协议错误、凭证配置与历史大文件清理手册
-│   └── registry.json              # 平台资产与 MCP 服务清单注册表
+│   └── registry.json              # 平台资产与 MCP 服务清单 + projection 差异化投影策略
 │
 └── .skillshub/                    # 共享技能库唯一真源（615 个含 SKILL.md 的技能，目录总数 616）
     ├── agent-platform-sync/       #   跨 Agent 同步专用引导技能
@@ -71,12 +78,27 @@ C:\Users\Lenovo\
 | **Antigravity** | **已确认 2.0 读新根 `~/.gemini/config/skills`**（判据见第十二章）：现为 **11 个 Junction + 1 个本地 `codex-continuity`**，与 WorkBuddy 精选集对齐。旧根 `~/.gemini/antigravity/skills` 的 616 个整目录 Junction 已失效 | 原生 `~/.gemini/config/mcp_config.json`（15 个服务） | `~/.gemini/GEMINI.md`（吸收共享微内核） | 不适用（原生 MCP/Skills 架构） |
 | **WorkBuddy AI**（`WorkBuddyAI.exe` 5.8.4） | 11 个 Junction 至 `~/.workbuddy-ai/skills` | `~/.workbuddy-ai/mcp.json`（15 个） | `~/.workbuddy-ai/AGENTS.md` + `user-<uid>-personal/MEMORY.md` | `settings.json` 的 `enabledPlugins`（16 个，含 8 个市场插件） |
 | **WorkBuddy 国内版**（`WorkBuddy.exe` 37.10.3-42） | 11 个 Junction 至 `~/.workbuddy/skills`（与 AI 端同一精选集） | `~/.workbuddy/mcp.json`（15 个） | `~/.workbuddy/AGENTS.md` + `user-<uid>-personal/MEMORY.md` | 仅 8 个内置插件；AI 端那 8 个市场插件未安装（构建版本不同，必须走市场装） |
-| **DSH**（DeepSeek Harness Desktop） | 30 个 Junction 至 `~/.dsh/skills` | `~/.dsh/storages/mcp_connector.json`（connector-store 格式，**9/15** 覆盖） | 无原生规则文件（行为在 profile patch 层） | 15 个 profile bundle |
-| **Qoder**（CodeGeeX 内核） | **387 个 Junction** 至 `E:\Program Files\.qoder\skills`（`~/.qoder` 是符号链接） | 扩展目录内 `user_mcp_config.json`（15 个，**版本锁定路径**） | 无原生全局规则文件；`memory/MEMORY.md` 是记忆索引而非规则 | `~/.qoder/settings.json`（hooks + enabledPlugins） |
+| **DSH**（DeepSeek Harness Desktop） | 30 个 Junction 至 `~/.dsh/skills` | `~/.dsh/storages/mcp_connector.json`（connector-store 格式，**9/15** 覆盖） | **`~/.dsh/AGENTS.md`**（原生 AGENTS.md，**2026-10-21 更正**） | 15 个 profile bundle |
+| **Qoder**（CodeGeeX 内核） | **387 个 Junction** 至 `E:\Program Files\.qoder\skills`（`~/.qoder` 是符号链接） | 扩展目录内 `user_mcp_config.json`（15 个，**版本锁定路径**） | **`~/.qoder/AGENTS.md`**（原生，**2026-10-21 更正**） | `~/.qoder/settings.json`（hooks + enabledPlugins） |
 
 > 逐端完整字段（路径、格式、验证命令、已知缺陷）见 `C:\Users\Lenovo\.agent-config\references\platform-matrix.md`。
 
-> **关键机制说明**：在 Windows 11 下，放弃不稳定的 POSIX Symlink 和盲目拷贝，统一采用 **NTFS Junction（目录联接）**。既保证了零文件复制冗余、修改真源全局实时生效，又保证了删除联接点绝不伤及源文件。
+> **关键机制说明**：在 Windows 11 下，放弃不稳定的 POSIX Symlink 和盲目拷贝，统一采用 **NTFS Junction（目录联接）**。既保证了零文件复制冗余、修改真源全局实时生效，又保证了删除联接点绝不伤及源文件。选择该机制与官方建议一致：symlink 在 Windows 需管理员或开发者模式，且 Git 需开启 `core.symlinks` 才不会被当成普通文本文件检出。
+
+### 能力差异化投影（2026-10-21 定案）
+
+> 机器可读策略在 `registry.json` 的 `projection` 键；只读校验脚本 `scripts\Test-ProjectionPolicy.ps1`。
+
+**共享的是资产与契约，不是某一端的配置文件。** 七端能力与定位不同，强制一致只会制造无用上下文。
+
+| 层 | 内容 | 投影端 |
+|---|---|---|
+| **core（11）** | agent-platform-sync、agent-browser、cdp-host-browser-automation、computer-use-agents、anatomy、cad、dfm、engineering-drawing、urdf、reverse-engineer-anything、chinese-thesis-workbench | 七端必齐 |
+| **extended（19）** | archify、brainstorming、context-window-management、deep-research、dispatching-parallel-agents、docx、executing-plans、humanizer-cn、mcp-builder、multi-agent-team、pptx、research、subagent-driven-development、systematic-debugging、thesis-deai、token-budget-advisor、writing-plans、writing-skills、xlsx | **仅 DSH** |
+| **端专属** | Codex 另挂 archify、ppt-master；Claude 自有 59 技能 + 30 容器目录；反重力本地 codex-continuity | 各自保留 |
+| **全库** | Qoder 387 个 Junction（核心 11/11 齐备） | 全量检索端 |
+
+**取舍理由**：DSH 有 subagent 委派、计划/执行、上下文与 token 预算工具，计划-编排-文档类技能在这里有真实落点；Codex 的 archify/ppt-master 补它的架构图与演示交付。MCP 同步按**能力组**（search-fetch / browser / code-repo / memory / visual / automation / specialist）校验：DSH 按覆盖率（9/15 达标即可），其余六端要求能力组全齐。
 
 ---
 
@@ -137,6 +159,12 @@ C:\Users\Lenovo\
 & 'C:\Users\Lenovo\.agent-config\scripts\Repair-QoderMcp.ps1'           # 实跑
 ```
 *Qoder 的 MCP 存在扩展版本目录里，升级即丢；脚本自动探测当前目录、缺文件自动创建、保留本地项、幂等。*
+
+### 6. 按能力策略校验七端（本次新增）
+```powershell
+& 'C:\Users\Lenovo\.agent-config\scripts\Test-ProjectionPolicy.ps1'
+```
+*校验三层：技能分层是否符合策略（core 必齐、扩展集按端）、规则面是否存在、MCP 能力组是否覆盖。只有 `FAIL` / `DRIFT` 才是问题；`UNRESOLVED` 表示该端确实没有这个原生面。*
 
 ---
 
@@ -214,7 +242,7 @@ DeepSeek Harness Desktop，30 个 Junction 至 `~/.dsh/skills`，引导技能已
 | 项目 | 路径 | 说明 |
 |---|---|---|
 | 技能投影 | `~/.dsh/skills` | 30 个 Junction，0 断链 |
-| 规则 | 无 | 行为在 profile patch 层，`registry` 里 `rules: null`，审计显示 `UNRESOLVED` 属预期 |
+| 规则 | `~/.dsh/AGENTS.md` | 原生用户全局指令文件（`$DSH_HOME/AGENTS.md`，官方包 `dsh-agent-instructions`），其后读 `~/.agents/AGENTS.md`。**2026-10-21 更正**：此前记为「无规则文件」有误 |
 | MCP | `~/.dsh/storages/mcp_connector.json` | `connector-store` 格式，只统计 `tables.connections` 中 `enabled != false` 的连接；**2026-10-21 补 8 条并启用后为 9/15**（剩余 6 条为原有 disabled：memory / context7 / codebase-memory / drawio / rea / cad） |
 | 插件 | `~/.dsh/profiles/desktop/package.json` | 16 个 profile bundle |
 
@@ -233,7 +261,7 @@ Qoder（CodeGeeX 内核）。**`~/.qoder` 是符号链接**，真实位置 `E:\P
 | 项目 | 路径 | 说明 |
 |---|---|---|
 | 技能投影 | `E:\Program Files\.qoder\skills` | **387 个 Junction**，0 副本、0 断链（补挂 `agent-platform-sync` + 7 个精选集技能，11 精选集已齐） |
-| 规则 | 无原生全局规则文件 | `memory\MEMORY.md` 是记忆索引（指向 `memory\*.md`），不是规则文件；`registry` 里 `rules: null` |
+| 规则 | `~/.qoder/AGENTS.md` | 官方默认上下文文件名即 `AGENTS.md`；另有用户级规则目录 `~/.qoder/rules/**/*.md`（frontmatter `trigger` / `alwaysApply` / `paths`）。**2026-10-21 更正** |
 | MCP | `...\extensions\.184c6178-...\dist\agent\configs\user_mcp_config.json` | 15 个服务已写入。**路径含扩展版本哈希，Qoder 升级会丢** |
 | 插件 | `E:\Program Files\.qoder\settings.json` | hooks + enabledPlugins |
 
@@ -267,6 +295,11 @@ Qoder（CodeGeeX 内核）。**`~/.qoder` 是符号链接**，真实位置 `E:\P
 | 11 | DSH 只覆盖 5/15 通用 MCP（审计口径 = `enabled != false`） | 低→已改善 | 已补 8 条连接并启用（playwright / antv-chart / exa / tavily / firecrawl / github / n8n / zai-mcp-server）→ **9/15**；剩余 6 条是原有 `enabled:false`（memory / context7 / codebase-memory / drawio / rea / cad），未擅自改动，需要时在 DSH 面板开启。备份 `mcp_connector.json.bak-20261021` |
 | 12 | `agy.exe` 会在执行命令时**自动更新自身**（本次 `agy --help` 触发升级，留下 `agy.exe.<ts>.old`），CLI 升级可能改动配置路径 | 低 | 升级后重跑审计 |
 | 13 | **"11 精选集"在各端并不齐**（此前只比总数没比成员）：Qoder 缺 7 个（anatomy / cad / cdp-host-browser-automation / dfm / engineering-drawing / reverse-engineer-anything / urdf），DSH 缺 3 个（agent-browser / chinese-thesis-workbench / computer-use-agents） | 中→已解决 | 已逐端补齐：Qoder 380→**387**、DSH 27→**30**；现七端精选集均 **11/11** |
+| 14 | **DSH 的 MCP 曾全部掉线**：15 条连接一度全 `enabled:false`（DSH 自检 `connectionState=disabled`），指南记的 9/15 失效 | 高→已修复 | 判定为 DSH 运行中私有存储被重写。改用**原生 `mcp_connector_set_enabled` 接口**（不再手改 JSON）恢复 9 条；回滚快照 `snapshot-1792559606789-6a6ee985` |
+| 15 | 指南第二章只列 4 条规则模块，实际 `rules\` 有 **7 条**（漏 document-authorship / powershell-version / presentation-layout-contracts） | 低→已修复 | 已按实际补全 |
+| 16 | **DSH 与 Qoder 被误记为「无原生规则面」**：DSH 官方包 `dsh-agent-instructions` 与 Qoder 官方文档均证明其原生读 `AGENTS.md` | 高→已修复 | 已新增 `~/.dsh/AGENTS.md` 与 `~/.qoder/AGENTS.md`（微内核投影）；registry 由 `null` 改为实际路径，审计 `RulesProjection` 转 PASS |
+| 17 | **WorkBuddy 官方全局指令文件名是 `CODEBUDDY.md`**，而本机只有 `AGENTS.md`（官方对 AGENTS.md 是否解析未表态） | 中→已修复 | 已在两处配置根**新增 `CODEBUDDY.md`**（与 `AGENTS.md` 同源同内容），任一机制命中即生效 |
+| 18 | Qoder 387 个 Junction 与其他端 11~30 差 35 倍 | 低→已定性 | 判为**定位差异**而非漂移：Qoder 作全库检索端，核心 11/11 齐备，已写入 projection 策略 |
 
 ---
 
@@ -323,10 +356,48 @@ $ai | Where-Object { $_ -notin $cn } | Sort-Object
 ```powershell
 & 'C:\Users\Lenovo\.agent-config\scripts\Get-AgentPlatformStatus.ps1'
 & 'C:\Users\Lenovo\.agent-config\scripts\Test-AgentPlatform.ps1'
+& 'C:\Users\Lenovo\.agent-config\scripts\Test-ProjectionPolicy.ps1'
 ```
 
-判定标准：**`FAIL` 才是故障**；`UNRESOLVED` 表示该端没有这个原生表面（DSH/Qoder 无全局规则文件、Antigravity 无插件配置），属预期。
+判定标准：**`FAIL` 才是故障**；`UNRESOLVED` 表示该端没有这个原生表面（Antigravity 无插件配置；DSH/Qoder 的规则文件本轮已补齐），属预期。
 
 ---
+
+## 十四、外部依据与调研结论（2026-10-21）
+
+> 结论分级：`FACT` 有官方来源 / `INFERENCE` 由来源推得 / `UNRESOLVED` 无可靠来源。
+
+### 14.1 两个事实标准 + 一个「没有标准」
+
+| 资产 | 标准与治理 | 对本机的含义 |
+|---|---|---|
+| 指令文件 | **AGENTS.md**：6 万+ 项目使用，Linux Foundation 下 Agentic AI Foundation 托管（https://agents.md/ ） | Codex 原生 owner；DSH、Qoder 原生读取；Claude Code v2.1.277+ 也读，但**通道语义不同**（hooks 不触发、`--add-dir` 不加载） |
+| 技能 | **Agent Skills / SKILL.md**：官方 Showcase 46 个客户端（https://agentskills.io/ ） | 规范**要求同时扫描客户端私有目录与 `.agents/skills/` 跨端目录**——标准本身不主张「只留一份」 |
+| MCP | 官方只有**元数据** registry（https://modelcontextprotocol.io/registry/about ） | 客户端配置格式至少 18 种，**无统一标准**，必须逐端编译 |
+
+### 14.2 本轮更正的三个事实（对应第十二章 16/17 条）
+
+| 端 | 官方依据 | 落点 |
+|---|---|---|
+| **DSH** | 官方包 `@deepseek-ai/dsh-agent-instructions`：候选 `AGENTS.md` / `CLAUDE.md`，用户全局为 `$DSH_HOME/AGENTS.md` → `$DSH_AGENTS_HOME/AGENTS.md`，项目链按 `.git` 自根到 cwd；默认字节预算 65536；不支持 `.claude/rules/` 与 `@path` 导入 | 新增 `~/.dsh/AGENTS.md` |
+| **Qoder** | 官方文档：`AGENTS.md` 是默认上下文文件名；用户级 `~/.qoder/AGENTS.md`，用户规则 `~/.qoder/rules/**/*.md`（`trigger` / `alwaysApply` / `paths`）；技能同名时**用户级覆盖项目级** | 新增 `~/.qoder/AGENTS.md` |
+| **WorkBuddy / CodeBuddy** | 官方命名的全局指令文件是 `CODEBUDDY.md`（`~/.codebuddy/CODEBUDDY.md`），支持 `@path` 导入与 `${VAR}` 插值；AGENTS.md 是否解析官方未表态 | 两处配置根新增 `CODEBUDDY.md` |
+
+### 14.3 为什么不用现成同步器
+
+| 工具 | ★ | 结论 |
+|---|---|---|
+| [ruler](https://github.com/intellectronica/ruler) | 2.9k | 逐端四列表建模能力差异，但自述 Beta；端能力位不可用户自定义 |
+| [rulesync](https://github.com/dyoshikawa/rulesync) | 1.5k | 覆盖最广，但投影语义最「平」，难表达「某端无此概念」 |
+| [dotagents](https://github.com/getsentry/dotagents) | 254 | 以 symlink 为中心，Windows 上最脆 |
+| [amtiYo/agents](https://github.com/amtiYo/agents) | 102 | 18 种 MCP 格式逐端生成；skills 三态 native/bridge/— |
+| [spxrogers/agentsync](https://github.com/spxrogers/agentsync) | 37 | 唯一把「完整 / 有损但上报 / 显式跳过绝不静默」三态产品化 |
+
+**结论（INFERENCE）**：没有一个工具同时满足「七端 + Windows + 保留原生差异」，且社区共识集中在**内容质量**而非工具统一。本机保留自建的薄投影层（真源 + 能力矩阵 + NTFS Junction + 原生格式隔离），把上述工具作为参考实现。
+
+### 14.4 已验证与仍待验证
+
+- **已验证（FACT）**：七端技能分层、MCP 能力组、规则文件存在性由 `Test-ProjectionPolicy.ps1` 只读校验通过；DSH MCP 经其原生接口恢复至 9/15。
+- **仍待验证（UNRESOLVED）**：WorkBuddy 是否也解析 `AGENTS.md`（官方未表态，故两文件并存）；Qoder 桌面端是否读取配置根的 `AGENTS.md`（官方文档主要描述 CLI，Desktop 仅确认 rules frontmatter 兼容）；Qoder MCP 是否支持 `${VAR}` 插值。
 
 #agent-hub #windows11 #skills #mcp #跨agent #配置同步 #agent-config
