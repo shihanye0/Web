@@ -2,7 +2,7 @@
 title: "{{title}}"
 date: {{date}}
 type: paper
-status: reading | processed | revisited
+status: reading
 tags: [paper, deep-reading]
 authors: []
 venue: ""
@@ -29,6 +29,7 @@ related_project: ""
 ## 0. 阅读状态与来源
 
 - 阅读状态：
+- 状态约定：`reading` = 正在读；`processed` = 本次约定阅读范围已完成并记录边界；`revisited` = 已复读。frontmatter 只填一个值，不据此推定已掌握或复现通过。
 - 阅读日期：
 - 原始 PDF：
 - 用户提供 PDF：路径、页数、SHA-256、PDF producer：
