@@ -2,7 +2,8 @@
 
 ## 微信群
 
-![微信群：甲壳虫 Agent-vibe coding 交流](assets/wechat-group.jpg)
+> [!warning] 配图缺失：微信群二维码
+> 原图位于私有 Gitee 仓库（sliver-ring_admin/sliver-code-skill），无法自动恢复。拿到原图后存为 `05-Code/Skills/Sliver/assets/wechat-group.jpg`，并把本提示替换为 `![微信群：甲壳虫 Agent-vibe coding 交流](assets/wechat-group.jpg)`。
 
 任何时候使用中文，除非用户明确要求英文输出。
 

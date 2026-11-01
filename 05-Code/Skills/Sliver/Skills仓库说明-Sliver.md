@@ -2,7 +2,8 @@
 
 ## 微信群
 
-![微信群：甲壳虫 Agent-vibe coding 交流](assets/wechat-group.jpg)
+> [!warning] 配图缺失：微信群二维码
+> 原图位于私有 Gitee 仓库（sliver-ring_admin/sliver-code-skill），无法自动恢复。拿到原图后存为 `05-Code/Skills/Sliver/assets/wechat-group.jpg`，并把本提示替换为 `![微信群：甲壳虫 Agent-vibe coding 交流](assets/wechat-group.jpg)`。
 
 这份清单用于发给用户，列出当前整理出的可安装 skill 项目、简短描述和源链接。这里的“可安装项”只按独立安装边界列：可以单独安装的 skill 单独列；同属于一个技能包/项目的子 skill 不拆成一级条目，只写在该技能包的“包含能力”里。
 

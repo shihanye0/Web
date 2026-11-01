@@ -322,9 +322,7 @@ Attention(Q,K,V) = softmax(QK^T / √d_k) · V
 
 ### 4.2 可变形注意力的公式
 
-DeformAttn(q, p, X) = Σ_{m=1}^{M} W_m · [Σ_{k=1}^{K} A_{mk} · x(p + Δp_{mk})]
-
-![image-20260512092238741](file://C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20260512092238741.png?lastModify=1778734859)
+$$\text{DeformAttn}(q,\,p,\,x) \;=\; \sum_{m=1}^{M} W_m \left[\,\sum_{k=1}^{K} A_{mk} \cdot x\left(p + \Delta p_{mk}\right)\right]$$
 
 - q：query 特征
     
@@ -341,9 +339,9 @@ DeformAttn(q, p, X) = Σ_{m=1}^{M} W_m · [Σ_{k=1}^{K} A_{mk} · x(p + Δp_{mk}
 - x(p + Δp_{mk})：在偏移后位置的特征值（双线性插值）
     
 
-可以看到，**每个query在每个头部中采样K个位置，只需和这些位置的特征交互**（![image-20260512092418945](file://C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20260512092418945.png?lastModify=1778734859)代表基于采样点位置插值出来的value）并不需要像Transformer般一开始先从全局位置开始学习才能逐渐过渡到关注局部（&稀疏的)的、真正有意义的位置。
+可以看到，**每个query在每个头部中采样K个位置，只需和这些位置的特征交互**（$x(p + \Delta p_{mk})$ 代表基于采样点位置插值出来的value）并不需要像Transformer般一开始先从全局位置开始学习才能逐渐过渡到关注局部（&稀疏的)的、真正有意义的位置。
 
-需要注意的是，如可变形卷积一样，**位置偏移** ![image-20260512092535185](file://C:\Users\Lenovo\AppData\Roaming\Typora\typora-user-images\image-20260512092535185.png?lastModify=1778734859)**是可学习的，由query经过全连接层得到。**并且，**注意力权重也一样，直接由query经过全连接层得到**（**因此，在可变形注意力机制下，其实没有真正所谓的key来与query交互计算**，
+需要注意的是，如可变形卷积一样，**位置偏移** $\Delta p_{mk}$ **是可学习的，由query经过全连接层得到。**并且，**注意力权重也一样，直接由query经过全连接层得到**（**因此，在可变形注意力机制下，其实没有真正所谓的key来与query交互计算**，
 
 ---
 
