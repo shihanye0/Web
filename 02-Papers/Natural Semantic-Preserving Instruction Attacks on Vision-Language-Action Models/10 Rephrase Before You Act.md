@@ -238,7 +238,7 @@ FACT：只评估两个VLA、仅仿真，内部语言敏感性的原因仍开放�
 
 ## 14. 相关笔记与引用
 
-- 课题：[[1.课题名称]]；前一篇：[[2.LIBERO-Para]]；候选任务：[[泛读调研笔记#^paper10]]。
+- 课题：[[1.课题名称]]；前一篇：[[01 LIBERO-Para]]；候选任务：[[泛读调研笔记#^paper10]]。
 - Watts, Mikey; Cui, Yuchen. Rephrase Before You Act: Characterizing and Mitigating Language Sensitivity in Vision-Language-Action Models. arXiv:2610.10526v1, 2026-10-07.
 - [原文](https://arxiv.org/abs/2610.10526v1)；[作者项目页](https://sttawm.github.io/rephrase-before-you-act/)；[官方实现](https://github.com/sttawm/phrase-rl)；[官方prompts/rules/结果](https://github.com/sttawm/vla-rephrasing-artifacts)。
 - 工具参与：Codex整理来源与首站解释；实验数字归论文作者，个人理解等待实际交互。

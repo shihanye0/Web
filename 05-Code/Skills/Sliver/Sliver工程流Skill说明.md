@@ -1,4 +1,5 @@
-![Sliver Engineering Workflow 封面](assets/cover-zh-CN.png)
+> [!warning] 配图缺失：封面图
+> 原图位于私有 Gitee 仓库（sliver-ring_admin/sliver-code-skill），无法自动恢复。拿到原图后存为 `05-Code/Skills/Sliver/assets/cover-zh-CN.png`，并把本提示替换为 `![Sliver Engineering Workflow 封面](assets/cover-zh-CN.png)`。
 
 # Sliver Engineering Workflow
 
