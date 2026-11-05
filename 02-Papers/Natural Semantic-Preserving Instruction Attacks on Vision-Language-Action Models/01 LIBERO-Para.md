@@ -107,18 +107,18 @@ related_project: "Natural Semantic-Preserving Instruction Attacks on Vision-Lang
 
 ## 2. 核心概念与术语
 
-| 概念 | 本文含义 | 与相近概念的区别 | 对我的研究的意义 |
-|---|---|---|---|
-| Paraphrase robustness（释义鲁棒性） | 指令换一种表达但任务语义、场景和目标不变时，VLA 仍能完成任务的能力 | 不是新任务泛化，也不是视觉 OOD（out-of-distribution，分布外）；关键是 language form 改变 | 可作为语义保持 instruction attack 的核心威胁模型 |
-| Action axis（动作变化轴） | 改写动作如何被表达，包括 lexical（词汇层）、structural（句法结构层）、pragmatic（语用/间接表达层）三类 | 不改变目标物体；不等于改变动作本身 | 用于测试 action instruction 的显式程度和句法负担 |
-| Object axis（目标物体指称变化轴） | 改写目标物体的名词 reference（指称），采用 addition 与两种 same-polarity substitution（同极性替换，即保持语义方向的替代表达） | 不增加颜色、位置等视觉属性；不改变真实目标 | 直接测试语言到视觉对象 grounding 的鲁棒性 |
-| Compositional variation（组合变化） | 同时改变 Object 与 Action，形成 3 × 10 个交叉单元格 | 不是把两次独立实验简单相加；交互效应正是论文要测的对象 | 提醒后续攻击实验不能只做单轴 ablation（消融实验） |
-| `S_K` | content words（内容词）的最大余弦匹配平均值 | 是方向性的 O→P 匹配，不是严格对称距离 | 衡量 action/object 关键词保留程度 |
-| `S_T` | 依存树的归一化 TED（tree edit distance，树编辑距离）反映结构保持程度 | 依存边标签用 POS/dep relation（词性/依存关系标签），减少词面替换对结构分数的直接影响 | 衡量从 imperative（祈使句）形式偏离了多少 |
-| `PD` | `1 - [αS_K + (1-α)S_T]`，表示语言偏离程度 | 只描述 paraphrase 难度，不代表模型一定失败 | 可作为攻击样本难度轴 |
-| PRIDE | 成功样本取 `PD`，失败样本记为 `0` | 不是纯文本相似度，也不是独立的语义真值分数 | 同时编码“样本有多难”和“模型是否成功” |
-| Near-GT（接近成功轨迹） | 失败轨迹仍接近该任务成功轨迹 | 只能近似 execution-level failure | 可把语言误解与控制失误初步分开 |
-| Far-GT（远离成功轨迹） | 失败轨迹远离成功轨迹 | 更像 planning/task identification 偏离，但不是内部 planner 的因果证明 | 诊断 instruction-to-task mapping 是否断裂 |
+| 概念                            | 本文含义                                                                                   | 与相近概念的区别                                                        | 对我的研究的意义                            |
+| ----------------------------- | -------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------------------------- |
+| Paraphrase robustness（释义鲁棒性）  | 指令换一种表达但任务语义、场景和目标不变时，VLA 仍能完成任务的能力                                                    | 不是新任务泛化，也不是视觉 OOD（out-of-distribution，分布外）；关键是 language form 改变 | 可作为语义保持 instruction attack 的核心威胁模型  |
+| Action axis（动作变化轴）            | 改写动作如何被表达，包括 lexical（词汇层）、structural（句法结构层）、pragmatic（语用/间接表达层）三类                      | 不改变目标物体；不等于改变动作本身                                               | 用于测试 action instruction 的显式程度和句法负担  |
+| Object axis（目标物体指称变化轴）        | 改写目标物体的名词 reference（指称），采用 addition 与两种 same-polarity substitution（同极性替换，即保持语义方向的替代表达） | 不增加颜色、位置等视觉属性；不改变真实目标                                           | 直接测试语言到视觉对象 grounding 的鲁棒性          |
+| Compositional variation（组合变化） | 同时改变 Object 与 Action，形成 3 × 10 个交叉单元格                                                  | 不是把两次独立实验简单相加；交互效应正是论文要测的对象                                     | 提醒后续攻击实验不能只做单轴 ablation（消融实验）       |
+| `S_K`                         | content words（内容词）的最大余弦匹配平均值                                                           | 是方向性的 O→P 匹配，不是严格对称距离                                           | 衡量 action/object 关键词保留程度            |
+| `S_T`                         | 依存树的归一化 TED（tree edit distance，树编辑距离）反映结构保持程度                                          | 依存边标签用 POS/dep relation（词性/依存关系标签），减少词面替换对结构分数的直接影响             | 衡量从 imperative（祈使句）形式偏离了多少          |
+| `PD`                          | `1 - [αS_K + (1-α)S_T]`，表示语言偏离程度                                                       | 只描述 paraphrase 难度，不代表模型一定失败                                     | 可作为攻击样本难度轴                          |
+| PRIDE                         | 成功样本取 `PD`，失败样本记为 `0`                                                                  | 不是纯文本相似度，也不是独立的语义真值分数                                           | 同时编码“样本有多难”和“模型是否成功”                |
+| Near-GT（接近成功轨迹）               | 失败轨迹仍接近该任务成功轨迹                                                                         | 只能近似 execution-level failure                                    | 可把语言误解与控制失误初步分开                     |
+| Far-GT（远离成功轨迹）                | 失败轨迹远离成功轨迹                                                                             | 更像 planning/task identification 偏离，但不是内部 planner 的因果证明          | 诊断 instruction-to-task mapping 是否断裂 |
 
 ## 3. 论文贡献
 
