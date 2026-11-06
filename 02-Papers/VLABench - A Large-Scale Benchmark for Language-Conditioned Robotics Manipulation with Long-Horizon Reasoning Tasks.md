@@ -870,3 +870,177 @@ $$L_{\text{Diffusion}}(\theta) = \mathbb{E}_{k, \mathbf{A}_0, \epsilon} \left[ \
      $$\mathbf{A}_{k-1} = \mathbf{A}_k - \text{步长} \cdot \epsilon_\theta(\mathbf{A}_k, \mathbf{o}) + \text{微小随机微扰}$$
    - **因为减去噪声等价于加上概率梯度的正方向！** 这一连串微积分减法，在几何上不断推动这组数字向高概率密度区域滑落。
    - 经过 10~20 步由梯度场引导的位移，原本毫无规律的纯乱码被硬生生挤入专家动作的极窄流形内，最终诞生了纯净无暇的物理动作 $\mathbf{A}_0$！
+
+
+### 6.8 扩散去噪与梯度下降的底层数学全流程严格推导（直击灵魂版）
+
+本节彻底摒弃比喻，直接从多变量微积分、多元高斯分布解析式、贝叶斯条件概率与 Tweedie 公式出发，给出从头到尾毫无跳步的闭式推导。
+
+#### 一、 前向加噪的高斯对数似然与空间导数（求梯度全过程）
+
+设干净的专家动作向量为 $\mathbf{x}_0 \in \mathbb{R}^D$（例如 $D = 32 \times 8 = 256$ 维）。
+
+1. **加噪的定义式**：
+   在离散步数 $t$（在论文中也记为 $k$），前向过程引入超参数 $\alpha_t \in (0, 1)$，定义 $\bar{\alpha}_t = \prod_{s=1}^t \alpha_s$。带噪动作 $\mathbf{x}_t$ 显式表达为：
+   $$\mathbf{x}_t = \sqrt{\bar{\alpha}_t} \mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}, \quad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$$
+
+2. **条件概率密度函数的闭式解**：
+   由于 $\boldsymbol{\epsilon}$ 是标准多元高斯白噪声，给定初始无噪动作 $\mathbf{x}_0$ 时，$\mathbf{x}_t$ 的条件分布严格服从高斯分布：
+   $$\mathbf{x}_t \mid \mathbf{x}_0 \sim \mathcal{N}\left( \sqrt{\bar{\alpha}_t} \mathbf{x}_0, (1 - \bar{\alpha}_t) \mathbf{I} \right)$$
+   其多元高斯概率密度函数（PDF）的解析表达式为：
+   $$p(\mathbf{x}_t \mid \mathbf{x}_0) = \frac{1}{(2\pi (1 - \bar{\alpha}_t))^{D/2}} \exp\left( - \frac{\| \mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 \|^2}{2(1 - \bar{\alpha}_t)} \right)$$
+
+3. **对数化（Log-Likelihood）**：
+   对两边取自然对数 $\ln$：
+   $$\ln p(\mathbf{x}_t \mid \mathbf{x}_0) = - \frac{D}{2} \ln(2\pi (1 - \bar{\alpha}_t)) - \frac{\| \mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 \|^2}{2(1 - \bar{\alpha}_t)}$$
+
+4. **对动作空间坐标 $\mathbf{x}_t$ 求偏导数（求空间物理梯度）**：
+   注意：第一项与 $\mathbf{x}_t$ 无关，偏导数为 $\mathbf{0}$。
+   第二项关于向量的 L2 范数平方求导：根据微积分法则 $\nabla_\mathbf{u} \| \mathbf{u} \|^2 = 2\mathbf{u}$，并结合链式法则：
+   $$\nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0) = - \frac{1}{2(1 - \bar{\alpha}_t)} \nabla_{\mathbf{x}_t} \| \mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 \|^2 = - \frac{2(\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0)}{2(1 - \bar{\alpha}_t)} = - \frac{\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0}{1 - \bar{\alpha}_t}$$
+
+5. **代回加噪定义式进行变量替换**：
+   回顾步骤 1 的定义式，移项可得：
+   $$\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 = \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}$$
+   将此等式直接代入上面导数的分母中：
+   $$\nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0) = - \frac{\sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}}{1 - \bar{\alpha}_t} = - \frac{\boldsymbol{\epsilon}}{\sqrt{1 - \bar{\alpha}_t}}$$
+
+6. **核心定理成立**：
+   整理后得到严格的数学恒等式：
+   $$\boldsymbol{\epsilon} = - \sqrt{1 - \bar{\alpha}_t} \cdot \nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0)$$
+   **物理与几何意义**：
+   人工注入的高斯白噪声 $\boldsymbol{\epsilon}$，在数学上严格等于**该带噪点处对数概率密度梯度的相反向量（负梯度）**，再乘以标准差缩放系数 $\sqrt{1 - \bar{\alpha}_t}$。
+   因此，神经网络预测噪声 $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)$，**等价于在预测当前高维动作空间中使动作概率上升最快的梯度向量**（得分匹配 Score Matching）。
+
+---
+
+#### 二、 Tweedie 公式：从带噪点直接重构专家动作 $\mathbf{x}_0$
+
+既然 $\mathbf{x}_t = \sqrt{\bar{\alpha}_t} \mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}$，且网络预测出了 $\boldsymbol{\epsilon}_\theta \approx \boldsymbol{\epsilon}$，我们代数移项直接求解 $\mathbf{x}_0$：
+$$\hat{\mathbf{x}}_0 = \frac{\mathbf{x}_t - \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t)}{\sqrt{\bar{\alpha}_t}}$$
+根据贝叶斯统计中的 **Tweedie's Formula**，在已知边缘分布 $p(\mathbf{x}_t)$ 和高斯加噪核的前提下，后验均值 $\mathbb{E}[\mathbf{x}_0 \mid \mathbf{x}_t]$ 可以被精确表示为：
+$$\mathbb{E}[\mathbf{x}_0 \mid \mathbf{x}_t] = \frac{1}{\sqrt{\bar{\alpha}_t}} \left( \mathbf{x}_t + (1 - \bar{\alpha}_t) \nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t) \right)$$
+将步骤一求出的 $\nabla_{\mathbf{x}_t} \ln p \approx - \frac{\boldsymbol{\epsilon}_\theta}{\sqrt{1 - \bar{\alpha}_t}}$ 代入，两式完全严格吻合！
+这从数学上证明了：**预测出的噪声直接决定了专家动作的条件期望估计！**
+
+---
+
+#### 三、 逆向单步高斯转移：为什么减去噪声就能推进一步？
+
+在推理时，若直接一步跳到 $\hat{\mathbf{x}}_0$，高维空间的局部方差会导致极其严重的逼近误差。因此必须通过贝叶斯定理，计算逆向单步的转移概率 $q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0)$：
+
+$$q(\mathbf{x}_{t-1} \mid \mathbf{x}_t, \mathbf{x}_0) = \frac{q(\mathbf{x}_t \mid \mathbf{x}_{t-1}, \mathbf{x}_0) q(\mathbf{x}_{t-1} \mid \mathbf{x}_0)}{q(\mathbf{x}_t \mid \mathbf{x}_0)}$$
+
+三个分布全都是高斯分布：
+- $q(\mathbf{x}_t \mid \mathbf{x}_{t-1}, \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_t; \sqrt{\alpha_t} \mathbf{x}_{t-1}, (1 - \alpha_t)\mathbf{I})$
+- $q(\mathbf{x}_{t-1} \mid \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_{t-1}; \sqrt{\bar{\alpha}_{t-1}} \mathbf{x}_0, (1 - \bar{\alpha}_{t-1})\mathbf{I})$
+- $q(\mathbf{x}_t \mid \mathbf{x}_0) = \mathcal{N}(\mathbf{x}_t; \sqrt{\bar{\alpha}_t} \mathbf{x}_0, (1 - \bar{\alpha}_t)\mathbf{I})$
+
+将三者的指数项代入展开并配方，可以精确解析求出逆向单步的均值 $\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0)$：
+$$\tilde{\boldsymbol{\mu}}_t(\mathbf{x}_t, \mathbf{x}_0) = \frac{\sqrt{\bar{\alpha}_{t-1}} \beta_t}{1 - \bar{\alpha}_t} \mathbf{x}_0 + \frac{\sqrt{\alpha_t} (1 - \bar{\alpha}_{t-1})}{1 - \bar{\alpha}_t} \mathbf{x}_t$$
+其中 $\beta_t = 1 - \alpha_t$。现在，将第二节 Tweedie 公式中用预测噪声表示的 $\mathbf{x}_0 = \frac{\mathbf{x}_t - \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}_\theta}{\sqrt{\bar{\alpha}_t}}$ 代入上式进行多项式化简：
+$$\tilde{\boldsymbol{\mu}}_\theta(\mathbf{x}_t, t) = \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t) \right)$$
+
+**这就是整个去噪循环的执行代数方程！**
+每一轮去噪更新为：
+$$\mathbf{x}_{t-1} = \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_\theta(\mathbf{x}_t, t) \right) + \sigma_t \mathbf{z}$$
+（其中 $\mathbf{z} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$ 为去噪扰动，当使用确定的 DDIM 采样时 $\sigma_t = 0$）。
+
+**看清括号内部的真实计算**：
+当前动作 $\mathbf{x}_t$ 减去【常数系数 $\times$ 预测噪声 $\boldsymbol{\epsilon}_\theta$】。
+根据第一节的证明，$-\boldsymbol{\epsilon}_\theta$ 本质就是 $+\nabla_{\mathbf{x}_t} \ln p$。
+**因此，括号内部在代数上完全严格等价于向着高概率流形进行了一步真实的步长步进！**
+
+---
+
+#### 四、 两套体系在微积分与优化层面的终极横向对决
+
+| 比较维度 | 传统深度学习的梯度下降 (SGD / Adam) | 扩散策略推理阶段的去噪下山 (Langevin / DDIM) |
+| :--- | :--- | :--- |
+| **所在空间** | **网络参数空间** $\Theta \subset \mathbb{R}^{|\mathbf{w}|}$（例如 10 亿参数的权重空间） | **动作物理流形空间** $\mathcal{A} \subset \mathbb{R}^{32 \times 8}$（256 维的动作空间） |
+| **谁是变量？** | 权重矩阵 $\mathbf{w}$（输入数据 $\mathbf{x}$ 冻结不变） | **动作数据 $\mathbf{x}$ 本身**（网络权重 $\mathbf{w}$ 彻底冻结上锁） |
+| **驱动的梯度** | 经验损失函数关于权重的偏导：$\nabla_\mathbf{w} \mathcal{L}(\mathbf{w}; \mathbf{x}, \mathbf{y})$ | 连续概率密度关于样本自身的偏导：$\nabla_\mathbf{x} \ln p(\mathbf{x})$（得分向量） |
+| **单步迭代公式**| $\mathbf{w} \leftarrow \mathbf{w} - \eta \nabla_\mathbf{w} \mathcal{L}$ | $\mathbf{x} \leftarrow \frac{1}{\sqrt{\alpha}} (\mathbf{x} - \text{系数} \cdot \boldsymbol{\epsilon}_\theta(\mathbf{x}))$ |
+| **收敛终点** | 误差最小的局部极小参数 $\mathbf{w}^*$ | **真实物理世界中可执行的 100% 专家动作块 $\mathbf{A}_0$** |
+
+
+### 6.9 梯度下降法原理与扩散去噪动力学的两部分彻底重构
+
+#### 第一部分：经典梯度下降法（Gradient Descent）的最纯粹数学原貌
+
+##### 1. 什么是导数、偏导数与梯度向量（实数数字示例）
+- **一维导数**：$f'(x)$ 描述一维曲线上某一点的切线斜率；
+- **多维偏导数**：多元函数 $f(x, y)$ 分别沿坐标轴 $X$ 和 $Y$ 方向的变化率；
+- **梯度向量（Gradient Vector）**：所有偏导数组装成的多维矢量：
+  $$\nabla f(x, y) = \left[ \frac{\partial f}{\partial x}, \frac{\partial f}{\partial y} \right]^T$$
+- **数值算例**：设碗状曲面函数 $f(x, y) = x^2 + 2y^2$，在点 $(x=3, y=2)$ 处：
+  - $\frac{\partial f}{\partial x} = 2x = 6$；
+  - $\frac{\partial f}{\partial y} = 4y = 8$；
+  - 梯度向量为 $\nabla f(3, 2) = [6, 8]^T$。
+  - **几何意义**：从 $(3, 2)$ 出发，沿着方向 $[6, 8]^T$ 迈步，高度上升最剧烈。
+
+##### 2. 为什么“负梯度方向”下降最快？（基于一阶泰勒展开与柯西不等式的严格证明）
+假设从当前点 $\mathbf{w}$ 沿着任意单位方向向量 $\mathbf{v}$（满足 $\|\mathbf{v}\|=1$）移动微小步长 $\eta$：
+根据一阶多元泰勒展开（First-order Taylor Expansion）：
+$$f(\mathbf{w} + \eta \mathbf{v}) \approx f(\mathbf{w}) + \eta \nabla f(\mathbf{w})^T \mathbf{v}$$
+函数值的变化量为：
+$$\Delta f = f(\mathbf{w} + \eta \mathbf{v}) - f(\mathbf{w}) \approx \eta (\nabla f(\mathbf{w}) \cdot \mathbf{v})$$
+我们要让函数值下降最快，即要让点积 $(\nabla f(\mathbf{w}) \cdot \mathbf{v})$ 取得**绝对极小负值**。
+根据线性代数中的**柯西-施瓦茨不等式（Cauchy-Schwarz Inequality）**：
+$$\nabla f(\mathbf{w}) \cdot \mathbf{v} = \|\nabla f(\mathbf{w})\| \|\mathbf{v}\| \cos(\theta) = \|\nabla f(\mathbf{w})\| \cos(\theta)$$
+因为 $\cos(\theta) \in [-1, 1]$，要让变化量最小（最负），必须且仅当 $\cos(\theta) = -1$（即 $\theta = 180^\circ$ 时成立！）。
+这意味着：**移动方向 $\mathbf{v}$ 必须严格指向与梯度向量 $\nabla f(\mathbf{w})$ 完全相反的方向（负梯度方向 $-\frac{\nabla f}{\|\nabla f\|}$）！**
+这就是著名的梯度下降更新公式的数学源头：
+$$\mathbf{w}_{t+1} = \mathbf{w}_t - \eta \nabla f(\mathbf{w}_t)$$
+
+##### 3. 普通深度学习中梯度下降的执行全闭环
+- **空间归属**：**网络权重参数空间 $\Theta$**；
+- **优化对象**：卷积核、注意力矩阵、偏置项 $W, b$；
+- **前向传播（Forward）**：固定输入图像 $x$ 和真实标签 $y$，计算预测输出 $\hat{y} = f_W(x)$，计算标量损失 $\mathcal{L}(W)$；
+- **反向传播（Backprop）**：利用微积分链式法则，计算损失关于每一个网络权重的偏导数 $\frac{\partial \mathcal{L}}{\partial W}$；
+- **参数更新**：$W \leftarrow W - \eta \frac{\partial \mathcal{L}}{\partial W}$。循环数万次，直至权重收敛于最优解 $W^*$。
+
+---
+
+#### 第二部分：扩散去噪推理与梯度下降的深层数学统一
+
+##### 1. 深度学习的常规认知盲区：梯度只能更新网络参数吗？
+**绝对不是！** 
+在传统深度学习中，数据 $x$ 是固定的，优化参数 $W$；
+但在**生成模型（如对抗攻击 FGSM，以及扩散模型）**中，**网络参数 $W$ 可以被彻底冻结，而由网络求出的梯度反过来去不断修改输入数据 $x$ 本身！**
+
+##### 2. 前向加噪的高斯对数似然全导数推导（为什么注入噪声就是负梯度？）
+设初始无噪专家动作为 $\mathbf{x}_0 \in \mathbb{R}^D$。
+前向加噪定义为：
+$$\mathbf{x}_t = \sqrt{\bar{\alpha}_t} \mathbf{x}_0 + \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}, \quad \boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$$
+带噪数据 $\mathbf{x}_t$ 服从高斯条件概率分布：
+$$p(\mathbf{x}_t \mid \mathbf{x}_0) = \frac{1}{(2\pi (1 - \bar{\alpha}_t))^{D/2}} \exp\left( - \frac{\| \mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 \|^2}{2(1 - \bar{\alpha}_t)} \right)$$
+取自然对数后，对高维动作坐标 $\mathbf{x}_t$ 严格求导：
+$$\nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0) = - \frac{\nabla_{\mathbf{x}_t} \| \mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 \|^2}{2(1 - \bar{\alpha}_t)} = - \frac{2(\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0)}{2(1 - \bar{\alpha}_t)} = - \frac{\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0}{1 - \bar{\alpha}_t}$$
+由加噪公式移项得：$\mathbf{x}_t - \sqrt{\bar{\alpha}_t} \mathbf{x}_0 = \sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}$。
+代入分母直接化简：
+$$\nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0) = - \frac{\sqrt{1 - \bar{\alpha}_t} \boldsymbol{\epsilon}}{1 - \bar{\alpha}_t} = - \frac{\boldsymbol{\epsilon}}{\sqrt{1 - \bar{\alpha}_t}}$$
+整理得到终极恒等式：
+$$\boldsymbol{\epsilon} = - \sqrt{1 - \bar{\alpha}_t} \cdot \nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t \mid \mathbf{x}_0)$$
+**数学结论**：
+**人工注入的高斯噪声 $\boldsymbol{\epsilon}$，在几何上等于该点对数概率密度梯度的严格反方向（负梯度）！**
+给动作加噪声的过程，在微积分意义上就是**沿着概率下降最快的负梯度方向，把动作踢离真实专家流形**。
+
+##### 3. 推理阶段的朗之万动力学（在动作空间执行梯度上升/下山）
+在推理真跑时：
+- 网络权重参数 $W$ 已经完全训练完毕，**上锁冻结，绝不再动**；
+- 机械臂生成一段纯白噪声 $\mathbf{x}_K \sim \mathcal{N}(\mathbf{0}, \mathbf{I})$；
+- 神经网络以当前带噪动作 $\mathbf{x}_t$ 和画面为输入，输出预测噪声 $\boldsymbol{\epsilon}_\theta(\mathbf{x}_t)$；
+- 逆向单步的更新公式为：
+  $$\mathbf{x}_{t-1} = \frac{1}{\sqrt{\alpha_t}} \left( \mathbf{x}_t - \frac{1 - \alpha_t}{\sqrt{1 - \bar{\alpha}_t}} \boldsymbol{\epsilon}_\theta(\mathbf{x}_t) \right)$$
+  将恒等式 $\boldsymbol{\epsilon}_\theta \approx - \sqrt{1 - \bar{\alpha}_t} \nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t)$ 代入：
+  $$\mathbf{x}_{t-1} \propto \mathbf{x}_t + \text{步长} \cdot \nabla_{\mathbf{x}_t} \ln p(\mathbf{x}_t)$$
+  **这正是纯正的梯度上升法（Gradient Ascent）！**
+  每一轮迭代，算法都在用网络算出的概率梯度，推着这组动作数字朝“对数似然 $\ln p$ 增加最快”的方向移动。
+
+##### 4. 为什么“误差”在训练中起作用，而推理时能够“彻底洗净乱码”？
+- **训练时的误差（$\mathcal{L} = \|\boldsymbol{\epsilon} - \boldsymbol{\epsilon}_\theta\|^2$）**：
+  在训练阶段，这是标准的均方误差。它通过**第一部分的参数梯度下降**，修改网络权重 $W$。它的作用是让神经网络变成一个**高精度的物理梯度场罗盘**，能在任意空间点准确指出该处的得分向量 $\nabla_\mathbf{x} \ln p$。
+- **推理时的洗净过程**：
+  在推理时，罗盘（网络）已经打造完毕。一团乱码动作位于概率极低的荒野，算法拿着罗盘测出当前坡度，推着乱码顺着梯度滑行。
+  根据 **Anderson 时间反转随机微分方程定理**，只要每一步沿着负噪声（即正梯度）推进，并在每一步收缩方差，系统在数学上必然经过多步迭代后收敛到高维概率密度的驻点——**也就是 100% 符合现实物理约束的专家轨迹 $\mathbf{x}_0$！**
