@@ -30,8 +30,7 @@ related_project: "Robotics Manipulation & Agentic Evaluation"
 
 - 阅读状态：reading
 - 阅读日期：2026-11-04
-- 原始 PDF：`E:\论文\papers\2412.18194v1-vlabench-large-scale-benchmark\paper.pdf`（34 页，SHA-256 校验已完成）
-- 用户提供 PDF：`e:\论文\VLABench - A Large-Scale Benchmark for Language-Conditioned Robotics Manipulation with Long-Horizon Reasoning Tasks.pdf`
+- 原始 PDF：[[VLABench - A Large-Scale Benchmark for Language-Conditioned Robotics Manipulation with Long-Horizon Reasoning Tasks.pdf|VLABench.pdf]]（`08-Attachments/`，34 页，arXiv:2412.18194v1，SHA-256 `9dc4aa5c…2788b`）
 - 来源一致性结论：文件完全一致（arXiv: 2412.18194v1）
 - 原图核对状态：已核对；图表已裁切并复制至 `E:\Web\08-Attachments\VLABench-*.png`
 - 代码/数据：官方代码 `https://github.com/OpenMOSS/VLABench` 已克隆至 `E:\论文\papers\2412.18194v1-vlabench-large-scale-benchmark\code`
