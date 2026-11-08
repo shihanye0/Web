@@ -5,8 +5,8 @@ type: paper
 status: reading
 tags: [paper, deep-reading, VLA, robotics, benchmark, long-horizon, reasoning]
 authors: [Shiduo Zhang, Zhe Xu, Peiju Liu, Xiaopeng Yu, Yuan Li, Qinghui Gao, Zhaoye Fei, Zhangyue Yin, Zuxuan Wu, Yu-Gang Jiang, Xipeng Qiu]
-venue: "arXiv"
-year: "2024"
+venue: "ICCV 2025"
+year: "2025"
 arxiv: "2412.18194"
 code: "https://github.com/OpenMOSS/VLABench"
 research_area: "Vision-Language-Action Models / Embodied AI Evaluation"
@@ -15,16 +15,11 @@ related_project: "Robotics Manipulation & Agentic Evaluation"
 
 # VLABench: A Large-Scale Benchmark for Language-Conditioned Robotics Manipulation with Long-Horizon Reasoning Tasks
 
-> [!abstract] 核心要点与导航
-> **核心结论：** 当前预训练端到端 VLA 模型（OpenVLA、Octo、RDT-1B）在严格的类别级未见泛化与长程多步推理任务中表现严重受限，并未展现出类似 LLM 的跨任务泛化与“能力涌现”；其在控制与推理交织任务中的成熟度尚未达到 NLP 领域早期 GPT-2 水平。
->
-> **快速定位：** [[#1. 研究问题与边界|研究问题]] · [[#2. 核心概念与术语|核心概念]] · [[#3. 论文贡献与方法主线|方法主线]] · [[#7. 结果解释与失败机制|关键结果]] · [[#9. 局限、风险与可复现性|证据边界]] · [[#12. 我的研究问题与后续实验|研究迁移]]
+> [!abstract] 已核实的主线
+> VLABench 是语言条件机器人操作的仿真评测基准，提供任务、自动采集示范和多类评测。论文在所选实验条件下观察到，被测 VLA、模块化工作流与 VLM 面对泛化和复杂任务仍有困难；具体结论受模型、数据、任务和指标限制。
 
-> [!abstract] 一句话结论
-> 论文通过构建基于 MuJoCo 的 100 类涵盖常识迁移、隐式对话意图、物理规律与长程推理的机器人操作基准 VLABench，系统评测了 VLA、Agent 工作流与 VLM，证明了当前端到端具身策略在复杂认知与精细操作复合任务上的根本瓶颈。
-
-> [!warning] 精读范围
-> 本笔记使用 kelip-paper-reading 规范逐站记录，覆盖六大认知维度设计、自动化轨迹生成管线、离散动作与扩散模型实验对比、VLM 拓扑匹配评估及失败模式分析。
+> [!warning] 阅读范围和可信度
+> 本页保留 Gemini 生成的历史长稿供追溯，其大量具体数字与归因尚未核对，部分已经确认错误。优先阅读下方“已核实补充”；历史内容不能当作真实实验、复现或已掌握的证据。修订前原稿备份于 `E:\论文\VLABench_Obsidian笔记_修订前备份_20261107.md`。
 
 ## 0. 阅读状态与来源
 
@@ -35,7 +30,60 @@ related_project: "Robotics Manipulation & Agentic Evaluation"
 - 来源一致性结论：文件完全一致（arXiv: 2412.18194v1）
 - 原图核对状态：已核对；图表已裁切并复制至 `E:\Web\08-Attachments\VLABench-*.png`
 - 代码/数据：官方代码 `https://github.com/OpenMOSS/VLABench` 已克隆至 `E:\论文\papers\2412.18194v1-vlabench-large-scale-benchmark\code`
-- 续读检查点：第 ① 站（动机）已开讲；当前准备进入第 ② 站（架构）。
+- 续读检查点（2026-11-07）：已重新讨论论文主线、数据生成、微调、三类评测、失败分析和 DAG 概览；尚未逐步讲解 DAG 评分案例或对照代码走完真实数据流。用户尚未确认掌握，保持 reading。
+
+
+### 0.1 已核实补充（2026-11-07）
+
+#### 论文基本情况
+
+- **FACT**：论文正式发表在 [ICCV 2025 主会论文集](https://openaccess.thecvf.com/content/ICCV2025/html/Zhang_VLABench_A_Large-Scale_Benchmark_for_Language-Conditioned_Robotics_Manipulation_with_Long-Horizon_ICCV_2025_paper.html)，第 11142–11152 页；[CCF 第七版人工智能会议目录](https://www.ccf.org.cn/Academic_Evaluation/AI/)将 ICCV 列为 A 类。CCF 等级是会议分类，不直接衡量单篇论文质量。
+- **FACT**：目前本地精读材料为 2024-12-24 的 arXiv 2412.18194v1；其源码使用 CVPR 模板不能证明 CVPR 录用。下述实验细节以本地 v1 为依据，正式版差异尚未全面核对。
+- **FACT**：作者来自复旦大学。VLABench 是基准与评测框架，不是论文提出的新 VLA 策略。
+
+#### 自动生成示范数据
+
+- **FACT（v1 §3.4、附录 §8.1–8.2）**：为每类任务定义技能序列；采集器结合环境点云、目标、抓取点等先验生成技能参数；运动规划使用 RRT，姿态使用 SLERP 插值，轨迹使用贝塞尔曲线平滑；使用拒绝采样和失败触发的提前终止提高采集效率。具体接触阈值与曲线阶数不能从上述原文直接确定。
+- **FACT**：附录的示例可概括为 `Pick("Apple", ...)` 和 `Place("Basket", ...)`；参数根据仿真环境及先验标注动态产生。抓取准备位置到抓取位置的夹爪点云与环境点云重叠，被用于筛选抓取方向。
+- **FACT**：GPT-4 用于生成任务相关描述和交互指令；不能据此说它直接产生整个机器人低层轨迹。
+- **边界**：自动化采集仍依赖技能、任务与先验设计；未在本轮运行采集器，也未读取真实训练样本，字段形状、坐标、频率和样例数值以代码及真实样本核验为准。
+
+#### VLA 微调与泛化
+
+- **FACT（v1 §4.1、附录 §9.1）**：作者对 OpenVLA、Octo、RDT-1B 使用示范数据微调。基础任务的联合设置中，基础与常识任务设置/轨迹相近，作者对每个任务类别采样 100 条，共 1,600 条；复合任务按各自任务分别微调与评测。1,600 不是 100 类任务的统一总训练集。
+- **FACT**：论文称 OpenVLA 使用 LoRA，Octo 和 RDT-1B 全参数微调；使用原模型默认配置，OpenVLA 与 Octo 为单视角图像输入，RDT-1B 为三个视角。论文报告 4 张 A800 80GB。具体 loss、动作维度、训练参数仍需对照模型原始代码，不将旧稿示意公式作为实现证据。
+- **FACT**：类别级未见评测改变训练未见过的物体类别；任务、图像、语言和抓取差异可能同时存在，不能只凭得分归因于单一因素。
+- **FACT（v1 附录 §10.1）**：论文报告 RDT 主实验采用 64 点单条轨迹的 open-loop 控制，并另做 closed-loop 对照。历史稿声称主实验每 8 步刷新、15 次去噪、0.05 秒等缺乏本轮验证，不可视为实测。
+
+#### 三类评测及 DAG
+
+| 评测对象 | 主要产物 | 评测重点与边界 |
+|---|---|---|
+| 微调后的 VLA：OpenVLA、Octo、RDT-1B | 根据观测和指令输出动作 | 在仿真里考察操作与泛化；整体结果不足以唯一确定失败原因。 |
+| 基础模型工作流：VoxPoser、CoPA | 由语言/视觉、抓取、规划等模块协作形成操作 | 测试无需针对评测任务额外训练时的执行；模块中间结果可帮助诊断，但不能自动证明根因。 |
+| VLM 非交互评测 | 按技能库格式生成技能和参数序列 | 主要评测计划与参考答案匹配；论文也描述将计划交给控制器执行的交互评测。 |
+
+- **FACT（v1 §4.3、附录 §9.3）**：非交互评测提供原始和标注物体的四视角图、指令、技能说明等；模型输出 DSL 技能和参数，按逻辑依赖构建 DAG，与参考图比较。
+- **FACT**：四项指标是技能召回 SR、参数召回 PR、技能与参数配对召回 SPR、强调依赖关系的精确匹配 PM；加权得到总分。DAG 匹配主要用于第三类 VLM 计划评测；计划得分不是机器人任务成功率。
+- **例子（示意）**：打开榨汁机是放水果的前置条件；苹果、橙子的先后顺序可不固定。DAG 保留必要依赖而不强迫所有步骤只有一种线性顺序。
+- **FACT**：论文 v1 测试的 VLM 包括 GPT-4-turbo、GPT-4o、GLM-4V-9B、MiniCPM-V2.6、Qwen2-VL-7B、InternVL2-8B、LLaVA-NeXT。旧稿把 Claude 3.5、Gemini 1.5 列入该实验不受此列表支持。
+- ![[VLABench-fig-06.png]]
+
+#### 评分、失败分析和证据边界
+
+- **FACT（v1 §3.2）**：进度分 PS 将目标及容器选择情况与子步骤完成情况加权，默认权重分别为 0.2、0.8：
+  $$PS=0.2\frac{n_{correct}}{N}+0.8\frac{m_{done}}{M}$$
+  它不是二值任务成功率，也不能由总分唯一推断失败原因。表 2 的数值应按论文进度分口径解读，不能直接写成成功率。
+- **FACT（v1 附录 §10.2）**：作者对工作流讨论了物体感知/分割、姿态规划和有效抓取点等失败，并对 VoxPoser 的感知输入作对照；这不等于已经给每次 VLA 失败完成根因分类。
+- **HYPOTHESIS**：模型分数差异可能与模型结构、视觉输入、预训练与微调等因素有关。作者提出的机制解释不是单靠横向对比就能确证的因果结论。
+- **UNRESOLVED**：尚未逐段审计历史稿；未运行模型、数据采集或评测，未核实历史稿所称特定样本、轨迹、延迟、接触阈值与成功过程。预印本和正式版实验、图表差异也未完成逐项对照。
+
+#### 已讨论的问题
+
+1. 微调是否按任务场景和动作能力进行？答：使用任务场景中生成的观测、语言与动作示范，按论文设定联合或分别微调；不意味着每项能力有单独监督。
+2. 是否区分目标错误与动作错误？答：PS 包含目标选择与步骤进度，工作流还分析感知和规划失败；但它们不是全面、唯一的 VLA 根因分类。
+3. VLA 与工作流流程为何相似？答：都需要理解、感知和行动；区别在于一个策略接口内部产生动作，还是通过多个可单独调用的模块组合。VLA 内部同样可以有模块；工作流并非专为诊断 VLA 创建。
+4. DAG 属于哪类？答：主要用于 VLM 非交互计划评测，与实际执行进度分开。
 
 ### 0.4 导读地图
 
@@ -50,6 +98,10 @@ related_project: "Robotics Manipulation & Agentic Evaluation"
 | ⑦ 证据与局限 | VLA 复合任务成功率断崖下跌的成因、离散与扩散优劣势、具身预训练的 GPT-2 困境 | 表 2 (`VLABench-tab-02.png`), 图 5 (`VLABench-fig-05.png`) | §4, §5, §10 | 评测日志 |
 
 ---
+
+## 历史记录：Gemini 生成内容（待逐段核实）
+
+> [!danger] 以下历史内容存在错误和未核实的具体数字、代码执行及因果推断，不作为论文事实或已运行记录。特别是 §4.2–§6、⑥ 和 ⑦；以顶部“已核实补充”与论文为准。原文保留供回溯，逐段复核尚未完成。
 
 ## 1. 研究问题与边界
 
@@ -1048,162 +1100,204 @@ $$\boldsymbol{\epsilon} = - \sqrt{1 - \bar{\alpha}_t} \cdot \nabla_{\mathbf{x}_t
 
 ---
 
-## ⑥ 例子走一遍：拿一个具体任务跑通全生命周期（结合代码与真实数字）
+## ⑥ 例子走一遍：微观断点全推演（结合代码、张量数值与物理引擎步进）
 
-本站用 VLABench 中最具代表性的原子任务之一——**图 3 (a) `Select Toy / Put Aquaman into giftbox`（海王手办放入礼品盒）**，将真实代码逻辑与张量数值推演结合，完整走通从 $t=0.0\text{s}$ 到任务完成（Success）的整个生命周期。
+本站用 VLABench 中最具代表性的原子任务之一——**图 3 (a) `Select Toy / Put Aquaman into giftbox`（把海王手办放入礼品盒）**，将官方代码底层逻辑与物理张量单步计算彻底解剖，完整还原从 $t=0.0\text{s}$ 到任务圆满达成的全生命周期。
 
 ```
-【时空总览图】
-  物理世界 (0.1s/步)               模型脑内 (扩散去噪 15步，耗时 0.05s)
-  ─────────────────               ──────────────────────────────────
-  t=0.0s: 拍摄4路视角+读取q0  ───> 注入 1045 Token 特征图
-                                   从标准高斯噪声 A_15 ~ N(0, I)
-                                   经过 15 步梯度上升迭代去噪
-                                   生成动作块 A_0: [32, 8]
-  t=0.1s: 执行 a_0  ────────────┐  (将 32 步存入 Action Queue)
-  t=0.2s: 执行 a_1               │
-  ...                            │  (仅消费前 8 步，保留 0.8s 控制)
-  t=0.8s: 执行 a_7  ────────────┘
-  ─────────────────
-  t=0.8s: 重新拍摄图像，丢弃剩余 24 步动作，触发下一轮 Re-planning 去噪！
+【时空双重时间轴微观闭环】
+  ┌─────────────────────────────────────────────────────────────────────────────┐
+  │ 物理世界时钟 (MuJoCo 动力学推进，步长 Δt = 0.1s)                            │
+  │ t=0.0s ───> 4路相机采集图像 + 编码器读取本体状态 q0                         │
+  │              │                                                              │
+  │              ▼ [进入显卡脑内去噪]                                           │
+  │              ┌────────────────────────────────────────────────────────────┐ │
+  │              │ 显卡脑内去噪 (纯张量运算，15步迭代，物理耗时 0.05s)         │ │
+  │              │ 1. 提取 1045 Token 特征图，生成全局 KV Cache (本轮冻结)    │ │
+  │              │ 2. 从多元标准高斯白噪声 A_15 ~ N(0, I) 起步                 │ │
+  │              │ 3. 经过 15 步 Self-Attn 与 Cross-Attn 梯度上升去噪         │ │
+  │              │ 4. 吐出纯净未来轨迹块 A_0: [32, 8] (未来 3.2 秒动作)       │ │
+  │              └────────────────────────────────────────────────────────────┘ │
+  │              │                                                              │
+  │              ▼ [进入动作缓冲区 Action Queue]                                │
+  │ t=0.1s ───> 执行 a_0 (IK 逆解 -> 关节 PD 控制 -> 动力学模拟)                │
+  │ t=0.2s ───> 执行 a_1                                                        │
+  │ ...                                                                         │
+  │ t=0.8s ───> 执行 a_7 (到达海王手办正上方 1.5cm，第 1 轮 8 步执行完毕)       │
+  │              │                                                              │
+  │              ▼ [后退视界控制 RHC 刷新]                                      │
+  │ t=0.8s ───> 彻底丢弃队列中剩余 24 步动作，重新拍照，进入第 2 轮感知与去噪！ │
+  └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-### 1. 任务定义与代码锚点（Task Setup）
+### 1. 任务物理世界基准状态（Ground Truth Setup）
 
-在官方源码 [`select_toy_series.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/tasks/hierarchical_tasks/primitive/select_toy_series.py) 中，任务继承自 `PrimitiveTask`，其核心目标是识别桌面上放置的多个玩具（例如海王手办、迪士尼米老鼠手办等），并将其准确抓取放入指定的礼品盒。
+在官方源码 [`select_toy_series.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/tasks/hierarchical_tasks/primitive/select_toy_series.py#L9-L40)，环境初始化时在桌面（桌面高度 $z_{\text{table}} = 0.80\text{m}$）加载了如下物体：
 
+#### 关键实体 3D 空间坐标与物理属性
+1. **机器人基座（Franka Emika Panda）**：
+   - 安装基座世界坐标：$[0.00, -0.40, 0.78]$
+   - 控制自由度：7 个转动关节 + 2 个平行夹爪指尖
+2. **目标物体（Target Entity）：海王手办 `aquaman`**：
+   - 真实 3D 几何质心坐标：$\mathbf{p}_{\text{aqua}} = [0.12, 0.15, 0.82]$
+   - 最佳预抓取关键点（Keypoint）：$\mathbf{p}_{\text{grasp}} = [0.12, 0.15, 0.85]$（手办腰部上方垂直朝下）
+   - 抓取朝向四元数：$\mathbf{q}_{\text{grasp}} = [0.0, 1.0, 0.0, 0.0]$（绕 X 轴旋转 180°，夹爪垂直倒扣）
+3. **干扰物体（Distractor）：米老鼠手办 `mickey_mouse`**：
+   - 几何质心坐标：$\mathbf{p}_{\text{mickey}} = [-0.15, 0.20, 0.82]$
+4. **目标容器（Target Container）：礼品盒 `giftbox`**：
+   - 开口中心世界坐标：$\mathbf{p}_{\text{box}} = [-0.25, -0.05, 0.80]$，盒口包围盒尺寸：$[0.15 \times 0.15 \times 0.08]\text{m}$
+
+#### 4 路相机外参配置
+- **Front Cam（前置全景）**：位于机械臂前方高处，俯角 45° 俯瞰整张桌面；
+- **Wrist Cam（手腕相机）**：刚体固连在第 7 关节末端，镜头正对夹爪指尖中央；
+- **Left / Right Cam（左右双目）**：安装在工作台左右支架上，负责补充 3D 侧方轮廓与遮挡消除。
+
+---
+
+### 2. 第一轮决策周期：$t = 0.0\text{s}$（从像素到 1045 个 Token）
+
+#### 步骤 2.1：多模态感知数据采样
+在 [`evaluator/base.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/evaluator/base.py#L137-L143)，环境产出当前帧状态：
+- **指令文本**：`"Put the aquaman into the giftbox"`
+- **4 路 RGB 图像**：每路分辨率 $[336 \times 336 \times 3]$，归一化到 $[0, 1]$
+- **当前末端本体感知状态 $\mathbf{q}_0 \in \mathbb{R}^8$**：
+  $$\mathbf{q}_0 = [x, y, z, q_w, q_x, q_y, q_z, g] = [0.00, 0.00, 1.15, 1.00, 0.00, 0.00, 0.00, 0.08]$$
+  （末端悬停在基座正上方 $1.15\text{m}$，夹爪处于完全张开状态 $0.08\text{m}$）
+
+#### 步骤 2.2：Token 化与特征维度折叠
+1. **语言指令**：经 T5 / SentencePiece Tokenizer 编码，补齐为固定长度：
+   $$\mathbf{T}_{\text{lang}} \in \mathbb{R}^{16 \times 2048}$$
+2. **视觉图像**：4 路图像分别送入 SigLIP ViT-L/14。每路图像切成 $24 \times 24 = 576$ 个 Patch，经 2D 卷积降采样投影后压缩为每路 256 个 Token：
+   $$\mathbf{T}_{\text{vision}} = 4 \times 256 = 1024 \text{ 个 Token} \in \mathbb{R}^{1024 \times 2048}$$
+3. **本体状态**：$\mathbf{q}_0 \in \mathbb{R}^8$ 经由 2 层 MLP（$8 \to 256 \to 2048$）升维并生成 5 个本体 Token：
+   $$\mathbf{T}_{\text{proprio}} \in \mathbb{R}^{5 \times 2048}$$
+4. **拼接生成总特征作战地图（KV Cache 驻留）**：
+   $$\mathbf{M} = [\mathbf{T}_{\text{lang}} ; \mathbf{T}_{\text{vision}} ; \mathbf{T}_{\text{proprio}}] \in \mathbb{R}^{1045 \times 2048}$$
+   **关键机制**：$\mathbf{M}$ 在进入显存后立刻被计算出 Key 和 Value 矩阵并持久化缓存在 GPU 显存中。接下来的 15 步去噪循环完全冻结该矩阵，**不再产生任何前向图像推理开销**！
+
+---
+
+### 3. 脑内 15 步扩散去噪迭代的单步显微镜（Diffusion Transformer Reverse）
+
+策略头要生成的变量是未来 32 步动作轨迹块：
+$$\mathbf{A} \in \mathbb{R}^{32 \times 8}$$
+（32 行代表未来 3.2 秒，8 列代表 $[x, y, z, q_w, q_x, q_y, q_z, g]$）
+
+#### 步骤 3.1：$k=15$ 时刻（注入纯标准高斯白噪声）
+在显卡显存中随机采样初始动作噪声矩阵 $\mathbf{A}_{15} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_{32 \times 8})$。
+此时矩阵中的数值是毫无意义的随机数：
+```
+A_15[0] = [ 1.28, -0.94,  0.45, -0.62,  0.81,  0.15, -0.33, -1.10]
+A_15[1] = [-0.72,  1.45, -0.88,  0.29, -0.44,  0.78,  0.51,  0.92]
+...
+A_15[31]= [ 0.35, -0.66,  1.12,  0.88, -0.21,  0.05, -0.74, -0.48]
+```
+
+#### 步骤 3.2：DiT 单步去噪计算图
+在每个去噪步 $k \in \{15, 14, \dots, 1\}$ 中：
+1. **时步正弦编码**：去噪步 $k$ 经正弦位置编码投射为 $\mathbf{e}_k \in \mathbb{R}^{2048}$，加到 32 个动作 Token 上；
+2. **动作自注意力（Action Self-Attention）**：
+   - 32 个动作 Token 之间互相做 Multi-Head Attention；
+   - **物理作用**：强迫轨迹在时序上连续，惩罚关节速度跃变和加速度突变，注入平滑运动学先验；
+3. **跨模态交叉注意力（Cross-Attention with $\mathbf{M}$）**：
+   - Query：32 个动作 Token（$\mathbf{Q} \in \mathbb{R}^{32 \times d}$）；
+   - Key / Value：缓存的 1045 个环境 Token（$\mathbf{K}, \mathbf{V} \in \mathbb{R}^{1045 \times d}$）；
+   - **Softmax 权重聚焦点**：在注意力热力图上，关于海王手办的视觉 Patch 与语言 Token `"aquaman"` 的注意力权重高达 $0.82$，而关于米老鼠手办的注意力权重仅为 $0.04$。这确保了动作下潜方向严格锁定海王！
+4. **输出预测噪声 $\boldsymbol{\epsilon}_\theta(\mathbf{A}_k, k, \mathbf{M}) \in \mathbb{R}^{32 \times 8}$**；
+5. **DDIM 单步状态更新**：
+   $$\mathbf{A}_{k-1} = \frac{1}{\sqrt{\alpha_k}} \left( \mathbf{A}_k - \frac{1 - \alpha_k}{\sqrt{1 - \bar{\alpha}_k}} \boldsymbol{\epsilon}_\theta \right)$$
+
+#### 步骤 3.3：去噪历程的宏观物理收敛
+- **$k=15 \to 10$（宏观方向确立）**：空间均值迅速拉向目标区域，末端位移向量确立为向右前方下潜（$x: 0.0 \to +0.12, y: 0.0 \to +0.15$）；
+- **$k=10 \to 5$（姿态对齐与归一化）**：原本散乱的四元数被迅速拉向垂直向下姿态，四元数模长自动趋近于 1（$\sum q_i^2 \approx 1.0$）；
+- **$k=5 \to 0$（微观平滑与物理约束打磨）**：夹爪开度 $g$ 被紧紧定格在 $+0.08$（张开），抹平相邻帧速度高频毛刺。
+
+最终输出纯净动作块 $\mathbf{A}_0 \in \mathbb{R}^{32 \times 8}$。前 8 步的真实数值如下表所示：
+
+| 动作索引 $j$ | 相对时间 | 预测末端坐标 $[x, y, z]$ (m) | 预测四元数 $[q_w, q_x, q_y, q_z]$ | 夹爪状态 $g$ | 实际物理语义 |
+|:---:|:---:|:---:|:---:|:---:|:---|
+| $\mathbf{a}_0$ | $t=0.1\text{s}$ | $[0.015, 0.018, 1.112]$ | $[0.05, 0.99, 0.01, 0.02]$ | $0.08$ | 启动下潜，姿态垂直对准 |
+| $\mathbf{a}_1$ | $t=0.2\text{s}$ | $[0.031, 0.038, 1.071]$ | $[0.03, 0.99, 0.00, 0.01]$ | $0.08$ | 平滑匀速倾斜下落 |
+| $\mathbf{a}_2$ | $t=0.3\text{s}$ | $[0.048, 0.059, 1.028]$ | $[0.01, 1.00, 0.00, 0.00]$ | $0.08$ | 姿态完全垂直倒扣 |
+| $\mathbf{a}_3$ | $t=0.4\text{s}$ | $[0.066, 0.081, 0.983]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ | 持续向手办正上方靠拢 |
+| $\mathbf{a}_4$ | $t=0.5\text{s}$ | $[0.083, 0.103, 0.939]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ | 稳定巡航段 |
+| $\mathbf{a}_5$ | $t=0.6\text{s}$ | $[0.098, 0.123, 0.898]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ | 接近目标，进入减速区 |
+| $\mathbf{a}_6$ | $t=0.7\text{s}$ | $[0.110, 0.139, 0.862]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ | 进入预抓取高度 |
+| $\mathbf{a}_7$ | $t=0.8\text{s}$ | $[0.118, 0.148, 0.835]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ | **第 1 轮终点：手办正上方 1.5cm** |
+| $\mathbf{a}_{8..31}$ | $0.9 \sim 3.2\text{s}$ | $\dots$ (下探抓取、抬起等) | $\dots$ | $\dots$ | **后退视界控制中丢弃，不予执行！** |
+
+---
+
+### 4. 物理世界执行与后退视界控制（$t = 0.1\text{s} \to 0.8\text{s}$）
+
+在评测代码 [`openpi.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/model/policy/openpi.py#L75-L78)：
 ```python
-# VLABench/tasks/hierarchical_tasks/primitive/select_toy_series.py
-@register.add_task("select_toy")
-class SelectToyTask(PrimitiveTask):
-    def get_expert_skill_sequence(self, physics):
-        grasppoint = np.array(self.entities[self.target_entity].get_grasped_keypoints(physics)[-1])
-        skill_sequence = [
-            partial(SkillLib.pick, target_entity_name=self.target_entity, 
-                    target_pos=grasppoint - np.array([0, 0, 0.02]), prior_eulers=[[-np.pi, 0, 0]]),
-            partial(SkillLib.lift, lift_height=0.3, gripper_state=np.zeros(2)),
-            partial(SkillLib.place, target_container_name=self.target_container)
-        ]
-        return skill_sequence
+action_chunk = self.infer(policy_input)["actions"]
+self.action_plan.extend(action_chunk[: self.replan_steps]) # 仅放入前 8 步
 ```
 
-- **语言指令（Instruction）**：`"Put the aquaman into the giftbox"`
-- **桌面初始实体分布（MuJoCo 场景）**：
-  - 机械臂基座位于：$[0.0, -0.4, 0.78]$
-  - 目标物体 `aquaman` 真实 3D 几何质心位于：$[0.12, 0.15, 0.82]$
-  - 干扰物体 `mickey_mouse` 位于：$[-0.15, 0.20, 0.82]$
-  - 目标容器 `giftbox` 位于：$[-0.25, -0.05, 0.80]$
+#### 底层仿真动力学解算（每 0.1s 步进）
+在主评测循环 [`evaluator/base.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/evaluator/base.py#L147-L165)：
+1. **IK 逆运动学求解**：
+   - 目标末端位姿 $\mathbf{a}_t = [\mathbf{p}_t, \mathbf{q}_t]$ 送入阻尼最小二乘法逆运动学解算器：
+     $$\Delta \boldsymbol{\theta} = \mathbf{J}^T (\mathbf{J}\mathbf{J}^T + \lambda^2 \mathbf{I})^{-1} \Delta \mathbf{x}$$
+     求解出 Franka Panda 7 关节目标角度 $\mathbf{q}_{\text{target}} \in \mathbb{R}^7$；
+2. **关节 PD 控制器**：
+   - 控制器计算发送给电机的力矩：
+     $$\boldsymbol{\tau} = \mathbf{K}_p (\mathbf{q}_{\text{target}} - \mathbf{q}_{\text{current}}) - \mathbf{K}_d \dot{\mathbf{q}}_{\text{current}}$$
+3. **MuJoCo 物理推进**：
+   - 仿真器以 $200\text{Hz}$（步长 $0.005\text{s}$，内部子步 20 次）解算拉格朗日动力学方程、接触法向力与静动摩擦锥，末端平滑位移至目标点；
+4. **到达 $t=0.8\text{s}$**：
+   - 机械臂末端实测坐标到达 $[0.118, 0.148, 0.835]$；
+   - 队列 `action_plan` 恰好被消耗清空；
+   - **剩余的 24 步动作被彻底丢弃！**
+   - 此时相机拍下真实世界画面：手腕相机中海王手办已充满画面中央，消除了开环预测可能导致的累积误差！
 
 ---
 
-### 2. 第一轮决策周期：$t = 0.0\text{s}$
+### 5. 跨轮次任务状态机演进（从抓取到放入礼品盒）
 
-#### 步骤 A：多模态感知输入与打包
+整个任务由 5 个连续的 Re-planning 周期协同完成：
 
-在评测驱动核心 [`evaluator/base.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/evaluator/base.py#L137-L143)，仿真器读取第 0 步状态字典：
-
-```python
-observation = env.get_observation(require_pcd=False)
-observation["instruction"] = env.task.get_instruction()
-ee_state = observation["ee_state"]
+```
+【任务五阶段状态转移图】
+  [阶段1: 接近] ──> [阶段2: 下潜抓取] ──> [阶段3: 垂直抬起] ──> [阶段4: 水平搬运] ──> [阶段5: 释放判定]
+   t=0.0~0.8s       t=0.8~1.6s           t=1.6~2.4s           t=2.4~3.2s           t=3.2~4.0s
+   z: 1.15->0.835   z: 0.835->0.815      z: 0.815->1.10       x,y: 移至礼品盒上方   g: 0.00->0.08
+   g: 0.08 (张开)   g: 0.08->0.00(夹紧)   g: 0.00 (保持夹紧)    g: 0.00 (保持夹紧)    物体落入盒中
 ```
 
-此时的真实输入数据：
-1. **视觉图像（RGB Images）**：4 个视角，每个视角分辨率 $[336 	imes 336 	imes 3]$
-   - `front`（前视角）：正对桌面，包含机械臂夹爪、海王手办、米老鼠、礼品盒；
-   - `wrist`（腕部相机）：正视机械臂正前方局部，捕捉近距离特征；
-   - `left` / `right`（侧方双目视角）：补充 3D 深度与无遮挡遮蔽面。
-2. **机械臂本体感知（Proprioception）**：$\mathbf{q}_0 \in \mathbb{R}^8$
-   $$\mathbf{q}_0 = [x_0, y_0, z_0, q_{w0}, q_{x0}, q_{y0}, q_{z0}, g_0] = [0.00, 0.00, 1.15, 1.00, 0.00, 0.00, 0.00, 0.08]$$
-   - 夹爪位于中央高处原点上方 $1.15\text{m}$，完全张开（开度 $0.08\text{m}$）。
-3. **文本指令**：`"Put the aquaman into the giftbox"`。
+- **第 2 轮（$t=0.8\text{s} \to 1.6\text{s}$，下潜与闭合）**：
+  模型观察到手腕画面已对准，生成的动作指令末端继续微幅下探至 $z=0.815\text{m}$，同时夹爪控制信号翻转为 $g = 0.00\text{m}$。MuJoCo 计算双指与手办 Mesh 表面的接触力达到 $15\text{N}$，静摩擦力锁死手办相对位移；
+- **第 3 轮（$t=1.6\text{s} \to 2.4\text{s}$，垂直抬起）**：
+  动作指令控制机械臂末端笔直提升至 $z = 1.10\text{m}$，海王手办脱离桌面；
+- **第 4 轮（$t=2.4\text{s} \to 3.2\text{s}$，水平转移）**：
+  末端沿平滑弧线平移至礼品盒中心上方 $[-0.25, -0.05, 1.05]$；
+- **第 5 轮（$t=3.2\text{s} \to 4.0\text{s}$，下降与释放）**：
+  末端微降至 $z = 0.90\text{m}$，夹爪信号切换为 $g = 0.08\text{m}$（松开指尖）。手办受重力自然掉落进礼品盒底部。
 
 ---
 
-#### 步骤 B：特征提取与显存缓存（Tokenization & KV Cache）
+### 6. VLM-DAG 评测系统核验与公式 (1) 打分实测
 
-根据第 ⑤ 站推导，VLA 骨干网（如 SigLIP + T5/LLaMA）进行特征编码：
-- 指令文本 $	o 16$ 个语言 Token；
-- 4 路图像通过 2D Patch 切割（$14 	imes 14$ Patch）降采样，通过 MLP 投射至高维空间，每路 256 Token，共 $1024$ 个视觉 Token；
-- 本体状态 $\mathbf{q}_0$ 经线性投射 $	o 5$ 个本体 Token；
-- **总特征作战地图**：$K = 16 + 1024 + 5 = 1045$ 个维度为 $d=2048$ 的 Token：
-  $$\mathbf{M} \in \mathbb{R}^{1045 	imes 2048}$$
-  **该矩阵计算完毕后直接冻结并驻留显存 KV Cache，本轮脑内去噪迭代不再重新计算！**
+在 [`evaluator/base.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/evaluator/base.py#L169-L175)，环境调用评测接口计算得分：
 
----
+#### 1. 意图分（Intention Score）
+系统计算机械臂末端在整个任务轨迹中，距离所有桌面候选实体的最小欧氏距离：
+- 目标物体 `aquaman` 最小距离：$\min \|\mathbf{p}_{\text{ee}} - \mathbf{p}_{\text{aqua}}\| = 0.005\text{m} < 0.03\text{m}$；
+- 干扰物体 `mickey_mouse` 最小距离：$\min \|\mathbf{p}_{\text{ee}} - \mathbf{p}_{\text{mickey}}\| = 0.382\text{m}$；
+- 系统判定机械臂毫无歧义地锁定了目标，赋予：
+  $$S_{\text{intention}} = 1.0$$
 
-#### 步骤 C：脑内去噪轨迹生成（Diffusion Reverse Process）
-
-策略头准备吐出未来 32 步动作轨迹块 $\mathbf{A} \in \mathbb{R}^{32 	imes 8}$。
-
-1. **初始状态（第 15 步去噪，纯高斯白噪声）**：
-   $$\mathbf{A}_{15} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_{32 	imes 8})$$
-   此时矩阵里的数值是完全不可控的随机数，如 $\mathbf{a}^{(0)}_{15} = [1.24, -0.87, 0.52, -0.41, 0.88, 0.12, -0.23, -1.05]$。若直接执行，机械臂会瞬间撞毁。
-
-2. **扩散去噪迭代（以 15 步 DDIM/Euler 为例）**：
-   网络输入当前带噪动作 $\mathbf{A}_k$ 与时刻嵌入 $k$，以全局特征图 $\mathbf{M}$ 作为交叉注意力上下文，预测当前噪声：
-   $$oldsymbol{\epsilon}_	heta = 	ext{PolicyHead}(\mathbf{A}_k, k, \mathbf{M})$$
-   每一步沿着概率梯度方向进行朗之万修正：
-   $$\mathbf{A}_{k-1} = rac{1}{\sqrt{lpha_k}} \left( \mathbf{A}_k - rac{1 - lpha_k}{\sqrt{1 - ar{lpha}_k}} oldsymbol{\epsilon}_	heta ight)$$
-   
-   - **$k=15 	o 10$（宏观方向确立）**：去噪网络根据语言中的 `"aquaman"` 与视觉中海王手办的局部注意力权重，确定了总体下潜方向：$x$ 向右微调（$+0.12$），$y$ 往前推进（$+0.15$），$z$ 向下俯冲（从 $1.15 	o 0.85$）；
-   - **$k=10 	o 5$（动作平滑与姿态收敛）**：轨迹中的旋转四元数从散乱随机值迅速向朝下的抓取四元数收敛（$q_w pprox 0, q_x pprox 1, q_y pprox 0, q_z pprox 0$ 即垂直倒扣）；
-   - **$k=5 	o 0$（微米级细节打磨）**：夹爪开度 $g$ 被严格稳定在张开状态（$+0.08$），避免在下降过程中误碰；轨迹各帧之间的高频抖动被连续先验彻底抹平。
-
-3. **最终输出的纯净动作块 $\mathbf{A}_0 \in \mathbb{R}^{32 	imes 8}$**：
-   得到了未来 3.2 秒的平滑轨迹预测。前 8 步的实际控制量示范如下：
-   
-   | 轨迹步 $j$ | 相对时间 | 预测末端位置 $[x, y, z]$ (m) | 预测四元数 $[q_w, q_x, q_y, q_z]$ | 夹爪状态 $g$ | 物理含义说明 |
-   |:---|:---|:---|:---|:---|:---|
-   | $\mathbf{a}_0$ | $t=0.1	ext{s}$ | $[0.015, 0.018, 1.112]$ | $[0.05, 0.99, 0.01, 0.02]$ | $0.08$ (开) | 刚启动，微幅加速下潜 |
-   | $\mathbf{a}_1$ | $t=0.2	ext{s}$ | $[0.031, 0.038, 1.071]$ | $[0.03, 0.99, 0.00, 0.01]$ | $0.08$ (开) | 保持姿态朝向目标对准 |
-   | $\mathbf{a}_2$ | $t=0.3	ext{s}$ | $[0.048, 0.059, 1.028]$ | $[0.01, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 稳定对流层匀速下降 |
-   | $\mathbf{a}_3$ | $t=0.4	ext{s}$ | $[0.066, 0.081, 0.983]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 航向持续朝海王上方逼近 |
-   | $\mathbf{a}_4$ | $t=0.5	ext{s}$ | $[0.083, 0.103, 0.939]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 匀速下降段 |
-   | $\mathbf{a}_5$ | $t=0.6	ext{s}$ | $[0.098, 0.123, 0.898]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 接近目标，开始减速 |
-   | $\mathbf{a}_6$ | $t=0.7	ext{s}$ | $[0.110, 0.139, 0.862]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 进入预抓取高度 |
-   | $\mathbf{a}_7$ | $t=0.8	ext{s}$ | $[0.118, 0.148, 0.835]$ | $[0.00, 1.00, 0.00, 0.00]$ | $0.08$ (开) | 第 1 轮终点，位于手办正上方 $1.5	ext{cm}$ |
-   | $\mathbf{a}_{8..31}$ | $0.9 \sim 3.2	ext{s}$ | $\dots$ (继续闭合夹爪并提起) | $\dots$ | $\dots$ | **在后退视界控制中被舍弃，不执行** |
-
----
-
-### 3. 环境执行与后退视界刷新：$t=0.1	ext{s} 	o 0.8	ext{s}$
-
-在评测代码 [`openpi.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/model/policy/openpi.py#L55-L78) 与 [`evaluator/base.py`](file:///e:/论文/papers/2412.18194v1-vlabench-large-scale-benchmark/code/VLABench/evaluation/evaluator/base.py#L147-L165) 中：
-1. 预测得到的 32 步动作存入本地队列 `action_plan`；
-2. 机器人每 $0.1\text{s}$ 步进一次仿真环境（`env.step(action)`），MuJoCo 解算动力学并更新关节力矩；
-3. **当执行满 8 步（到达 $t = 0.8\text{s}$）时**：
-   - 机械臂末端位置实际移动到了 $[0.118, 0.148, 0.835]$；
-   - 剩余的 24 步动作直接从队列中清除；
-   - 相机在真实世界中捕获到最新的 4 路高精画面；
-   - 此时画面中机械臂末端已经准确悬停在海王手办正上方！
-   - **立即启动第二轮感知 $	o$ 编码 $	o$ 15 步去噪**。此时模型生成的动作块将精准指导夹爪下移至 $z=0.82\text{m}$，并将夹爪收紧至 $g=0.00\text{m}$（抓紧手办）！
-
----
-
-### 4. 任务推进度评估与成功判定（DAG Verification）
-
-在评测主循环的末尾，环境通过 VLM-DAG 评测逻辑核验物理状态：
-
-```python
-# VLABench/evaluation/evaluator/base.py
-intention_score = env.get_intention_score(threshold=self.intention_score_threshold)
-progress_score = env.get_task_progress()
-```
-
-1. **Intention Score（意图匹配分）**：
-   通过计算末端轨迹与桌上各物体的最近欧氏距离。机械臂第一轮末端直接扑向了目标物体 `aquaman`（距离 $<0.03\text{m}$），而与干扰物体 `mickey_mouse` 的距离始终 $>0.3\text{m}$，因此判定模型准确理解了语义意图：
-   $$	ext{Intention Score} = 1.0$$
-2. **Progress Score（阶段进度分）**：
-   - Stage 1（到达预抓取点并接触海王）：$\Delta d_1 	o 0$，完成度 $1/3$；
-   - Stage 2（成功闭合夹爪并提起至 $0.3\text{m}$ 高空）：完成度 $2/3$；
-   - Stage 3（水平搬运至礼品盒上方并释放）：物体质心落入礼品盒包围盒内且相对速度归零，完成度 $3/3$；
-   $$	ext{Progress Score} = 1.0, \quad 	ext{Success} = 	ext{True}$$
-
----
-
+#### 2. 阶段进度分（Progress Score，论文公式 1）
+任务被划分为 3 个拓扑阶段：
+- **Stage 1（接近与接触）**：$\Delta d_{\text{approach}} = \|\mathbf{p}_{\text{ee}} - \mathbf{p}_{\text{grasp}}\| \le 0.015\text{m}$ $\implies$ 达成，得分 $1/3$；
+- **Stage 2（成功抓牢并举起）**：海王手办质心高度 $z_{\text{aqua}} > 1.05\text{m}$ 且手办与夹爪相对速度 $<0.001\text{m/s}$ $\implies$ 达成，得分累加至 $2/3$；
+- **Stage 3（容器内释放）**：海王手办质心最终坐标进入礼品盒 3D 包围盒内，且接触力处于稳定静止状态 $\implies$ 达成，得分累加至 $3/3$；
+- **最终得分**：
+  $$S_{\text{progress}} = 1.0, \quad \text{Success} = \text{True}$$
 
 ---
 
