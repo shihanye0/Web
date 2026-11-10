@@ -1,0 +1,53 @@
+{
+  "kind": "local_camera_adapted_paired_exploration",
+  "scene_seeds": [
+    2000,
+    2001,
+    2002,
+    2003,
+    2004,
+    2005,
+    2006,
+    2007,
+    2008,
+    2009
+  ],
+  "policy_seeds": [
+    4000,
+    4001,
+    4002,
+    4003,
+    4004,
+    4005,
+    4006,
+    4007,
+    4008,
+    4009
+  ],
+  "max_steps": 500,
+  "n_action_steps": 50,
+  "num_steps": 10,
+  "tf32": true,
+  "use_amp": false,
+  "camera_ids": [
+    2,
+    0,
+    3
+  ],
+  "texture": "table/wood",
+  "replacement_rgb": [
+    40,
+    65,
+    110
+  ],
+  "intention_threshold_m": 0.1,
+  "paper_ps": null,
+  "code_ps_proxy": "0.2 * intention_score + 0.8 * progress_score",
+  "success": "fixed official contain/termination condition; no extra holding period",
+  "repeat_gate": "all 500 steps or earlier success; bitwise action/state/image/score equality",
+  "order": "even pair normal then texture, odd pair texture then normal",
+  "low_baseline_gate": "normal successes <= 1/10: diagnose before interpreting texture effects",
+  "exceptions": "stop and retain artifacts; never silently resample or count exception as failure",
+  "snapshot": "mjSTATE_INTEGRATION, forward, reapply integration state; vector/config persisted",
+  "scope": "ten predetermined scene seeds; repeat excluded from paired counts"
+}

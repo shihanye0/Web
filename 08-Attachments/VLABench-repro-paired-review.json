@@ -1,0 +1,17 @@
+{
+  "scope": [
+    "run_paired.py",
+    "tests/test_paired.py"
+  ],
+  "runner_sha256": "750f70e10f8ef634df61049ad62782261819dc9145030c3bc97312c42b450f29",
+  "code_review": "APPROVE",
+  "architectural_status": "CLEAR",
+  "independent_review_agents": [
+    "paired_code_review",
+    "paired_design_review"
+  ],
+  "tests_passed": 5,
+  "test_log": "logs/paired-tests-final.log",
+  "test_log_sha256": "8348ab87ae6cbad4f0a1c337b44a7da8bdbd8b2a645c07ab85bdc5c7f64eb1e6",
+  "reviews_do_not_replace_rollout_acceptance": true
+}

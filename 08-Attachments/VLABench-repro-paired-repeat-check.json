@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "bitwise_equal": {
+    "actions": true,
+    "integration_states": true,
+    "observation_states": true,
+    "image_sha256": true,
+    "final_image": true,
+    "scores": true
+  }
+}
