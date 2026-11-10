@@ -168,8 +168,30 @@ $$P_{code}=\frac{\mathbf 1[\text{水果曾被抓住}]+\mathbf 1[\text{当前 con
 | 原始入口代表性运行 | 已运行，seed=1000 失败 |
 | 相机适配与正常成功样本 | 已验证，seed=1001，139 步；诊断样本 |
 | 论文 PS 与代码对应 | 已确认意图分缺容器选择分项，保留 5 张代码截图 |
-| 配对入口与异常留档 | 已实现，相关本地测试通过；代码与架构独立审查通过 |
+| 配对入口与异常留档 | 已实现，相关本地测试通过；代码与架构独立审查通过，见 [[VLABench-repro-paired-review.json]] |
 | 对齐 TF32 后的正式重复验证及 10 对实验 | 正在运行，完成后更新收据与统计 |
+
+### 5.4 第 2 对样本的画面证据
+
+`seed=2001` 的指令是 `Put the orange into the plate_seen`，策略 seed 为 4001。以下拼图从左到右分别是前方、右侧和腕部相机；它们直接复制自运行记录，没有裁切或重绘。
+
+同一初始状态，正常桌面：
+
+![[VLABench-repro-paired-seed2001-normal-initial.png]]
+
+仅替换桌面纹理后的初始画面：
+
+![[VLABench-repro-paired-seed2001-texture-initial.png]]
+
+正常分支第 156 步满足官方 contain 条件，动作后的画面：
+
+![[VLABench-repro-paired-seed2001-normal-final.png]]
+
+纹理分支第 500 步仍未满足 contain，动作后的画面：
+
+![[VLABench-repro-paired-seed2001-texture-final.png]]
+
+两分支均曾触发代码中的水果抓取标记，但终态 contain 分别为真、假。这展示的是一个预设场景内的轨迹差异；官方成功条件不包含松爪后的持续稳定性要求。
 
 ## 来源与原始记录
 
