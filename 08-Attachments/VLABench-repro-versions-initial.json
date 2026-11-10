@@ -1,0 +1,108 @@
+{
+  "recorded_at_utc": "2026-11-10T10:02:16.221382+00:00",
+  "source_commits": {
+    "lerobot": "81b8c5bfdd5591ec59e512cfc7ac6db8151c70ee",
+    "VLABench": "cf588fe60c0c7282174fe979f5913170cfe69017",
+    "rrt-algorithms": "e51d95ee489a225220d6ae2a764c4111f6ba7d85"
+  },
+  "assets": {
+    "repo": "lerobot/vlabench-assets",
+    "revision": "08d7a4479a55c8fbb89ac0fd6fcf06e53d65b4a4",
+    "manifest": "asset-manifest.json",
+    "files": 6501,
+    "bytes": 2581576390
+  },
+  "policy": {
+    "repo": "lerobot/smolvla_vlabench",
+    "revision": "7ef370813eb35823caa94088b50f5389a51e4c47",
+    "sha256": "94b2cc4047e38b20b9abb929e9600b00da12104161c749c7e505c8587fb23e24"
+  },
+  "backbone": {
+    "repo": "HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
+    "revision": "7b375e1b73b11138ff12fe22c8f2822d8fe03467",
+    "filename": "model.safetensors",
+    "bytes": 2029990624,
+    "sha256": "b9bfd456c9472c0acd5719d6e514c4b859891af205ee1a736552fd3497b8b0c3"
+  },
+  "dependency_lock_sha256": "a72d82cc0590eb919da90dd7bac16ef589a3891d244ef4c283e7a90bb5452269",
+  "validation_completed": [
+    "cuda_matmul",
+    "mujoco_egl_render",
+    "eval_cli_import",
+    "checkpoint_processors_synthetic",
+    "asset_gate_regression_tests",
+    "complete_assets",
+    "complete_backbone",
+    "strict_checkpoint_load",
+    "synthetic_cuda_policy_inference",
+    "task_creation",
+    "baseline_rollout_completed",
+    "task_camera_index_check",
+    "backbone_sha256_reverified",
+    "policy_sha256_reverified",
+    "training_camera_semantics",
+    "camera_order_regression",
+    "camera_adapted_baseline_rollout",
+    "successful_camera_adapted_sample",
+    "native_state_action_video_recording"
+  ],
+  "pending": [
+    "formal_baseline_statistics",
+    "paper_ps_mapping",
+    "paired_initial_state_validation",
+    "paired_visual_experiment"
+  ],
+  "baseline": {
+    "directory": "outputs/baseline-20261110T043532Z-kzxFa1",
+    "n_episodes": 1,
+    "n_success": 0,
+    "exit_code": 0,
+    "eval_seconds": 92.7735641002655,
+    "video_frames": 500,
+    "video_duration_seconds": 50.0
+  },
+  "local_camera_adapter": {
+    "camera_ids": [
+      2,
+      0,
+      3
+    ],
+    "image_keys": [
+      "image",
+      "second_image",
+      "wrist_image"
+    ],
+    "patch": "patches/lerobot-vlabench-camera-order.patch",
+    "dataset_revision": "f61ad898199e746c20af3112f278cc86eb3ca3c4",
+    "evidence": "outputs/preflight/training-source/camera-mapping.json"
+  },
+  "diagnostic_runs": [
+    {
+      "directory": "outputs/baseline-20261110T043532Z-kzxFa1",
+      "seed": 1000,
+      "mode": "upstream_camera_order",
+      "n_episodes": 1,
+      "n_success": 0,
+      "eval_seconds": 92.7735641002655,
+      "exit_code": 0
+    },
+    {
+      "directory": "outputs/baseline-20261110T095207Z-H3kXKd",
+      "seed": 1000,
+      "mode": "camera_adapted",
+      "n_episodes": 1,
+      "n_success": 0,
+      "eval_seconds": 101.91858196258545,
+      "exit_code": 0
+    },
+    {
+      "directory": "outputs/diagnostic-seed1001-20261110T095510Z-cs0Ry1",
+      "seed": 1001,
+      "mode": "camera_adapted_native_recording",
+      "n_episodes": 1,
+      "n_success": 1,
+      "eval_seconds": 58.84036469459534,
+      "exit_code": 0
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "captured_at_utc": "2026-11-10T14:34:15.648587+00:00",
+  "kind": "local_source_browser_rendered_screenshot",
+  "description": "Exact unchanged pinned local source excerpts rendered as literal HTML with line numbers, then captured by real Chromium through Playwright CLI. This is not an IDE or GitHub screenshot.",
+  "repository": "/home/user/paper/vlabench-repro/src/VLABench",
+  "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+  "files": [
+    {
+      "id": "primitive",
+      "source_path": "/home/user/paper/vlabench-repro/src/VLABench/VLABench/tasks/hierarchical_tasks/primitive/base.py",
+      "repository_relative_path": "VLABench/tasks/hierarchical_tasks/primitive/base.py",
+      "line_ranges": [
+        [
+          21,
+          62
+        ]
+      ],
+      "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+      "source_sha256": "917441fdf81a0d34a76cb712bba6ff5c174b00522f19bc8bd9f13811d085a3a4",
+      "source_equals_git_blob": true,
+      "excerpt_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-primitive.txt",
+      "excerpt_sha256": "6fab549f42d025c4d8212d1eeefaa63095b70e195553e1b798d81b08947300d5",
+      "rendered_html_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-primitive.html",
+      "rendered_html_sha256": "2545fdf982ce9471ffceeade278e77850b31e31e75ca8e16c29f6e5d8b682205",
+      "screenshot_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-primitive.png",
+      "screenshot_sha256": "bde558909695983859e0e2116903d92d935c3fdaf868f9af87b544d8445a59db",
+      "screenshot_dimensions_px": [
+        1760,
+        1300
+      ],
+      "visual_check": "Checked: exact source visible, line numbers, source path, commit and SHA-256 readable; no clipping."
+    },
+    {
+      "id": "evaluator",
+      "source_path": "/home/user/paper/vlabench-repro/src/VLABench/VLABench/evaluation/evaluator/base.py",
+      "repository_relative_path": "VLABench/evaluation/evaluator/base.py",
+      "line_ranges": [
+        [
+          46,
+          58
+        ],
+        [
+          158,
+          175
+        ]
+      ],
+      "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+      "source_sha256": "190cd8daa9ef70252c3346c81f89731a3dc9c7eee737b0412f229e9e26f4d540",
+      "source_equals_git_blob": true,
+      "excerpt_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-evaluator.txt",
+      "excerpt_sha256": "ad689cb65869fee70f1682cfc4860547ea9f125f1d187057a3c9148b24cb965b",
+      "rendered_html_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-evaluator.html",
+      "rendered_html_sha256": "e48e3ce9d87ecb0e3a49d01f4d8daca09e4e73731d90dbc9751fe215c6096238",
+      "screenshot_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-evaluator.png",
+      "screenshot_sha256": "cff79402098f957a71ab047889b9559a87f4731b2037fdaa711598a70d780166",
+      "screenshot_dimensions_px": [
+        1760,
+        1300
+      ],
+      "visual_check": "Checked: exact source visible, line numbers, source path, commit and SHA-256 readable; no clipping."
+    },
+    {
+      "id": "hooks",
+      "source_path": "/home/user/paper/vlabench-repro/src/VLABench/VLABench/tasks/dm_task.py",
+      "repository_relative_path": "VLABench/tasks/dm_task.py",
+      "line_ranges": [
+        [
+          124,
+          152
+        ]
+      ],
+      "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+      "source_sha256": "5e0011bf019ac2393a51560eb46750c0319a27c6b36074a3bcf4a6bb04b9e109",
+      "source_equals_git_blob": true,
+      "excerpt_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-hooks.txt",
+      "excerpt_sha256": "bc5a5417eced31244d8d7f84a21665184a1ce5ab88f78e2efe2fbecba2b3176a",
+      "rendered_html_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-hooks.html",
+      "rendered_html_sha256": "32e99390d162a297456d2ae2c6279c43e0831fec755cf61ba29dc9c56c096f5b",
+      "screenshot_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-hooks.png",
+      "screenshot_sha256": "3c30f19ebea6f7111af87a429d2b089c61fe87449d5907117b3b8bb766e79680",
+      "screenshot_dimensions_px": [
+        1760,
+        1300
+      ],
+      "visual_check": "Checked: exact source visible, line numbers, source path, commit and SHA-256 readable; no clipping."
+    },
+    {
+      "id": "inheritance",
+      "source_path": "/home/user/paper/vlabench-repro/src/VLABench/VLABench/tasks/hierarchical_tasks/primitive/select_fruit_series.py",
+      "repository_relative_path": "VLABench/tasks/hierarchical_tasks/primitive/select_fruit_series.py",
+      "line_ranges": [
+        [
+          19,
+          30
+        ],
+        [
+          87,
+          97
+        ]
+      ],
+      "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+      "source_sha256": "e5f703126e8ec86ec77421199dff7e1e0e1230bd46c8b9a80b380914180b0ecb",
+      "source_equals_git_blob": true,
+      "excerpt_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-inheritance.txt",
+      "excerpt_sha256": "d5f95bd0ed442fb7a3c4a9e53d59c94c74c8f2f746ff7617ef2a59ded473f2a4",
+      "rendered_html_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-inheritance.html",
+      "rendered_html_sha256": "abe66d388fe88e57e94314cdb1f75c118e394532d1dd280118d03509a2c7b5f3",
+      "screenshot_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-inheritance.png",
+      "screenshot_sha256": "36daafc2f0f452da2350c838704c20ad97647ecf18b343e28f5f4ab757dbadc9",
+      "screenshot_dimensions_px": [
+        1760,
+        1300
+      ],
+      "visual_check": "Checked: exact source visible, line numbers, source path, commit and SHA-256 readable; no clipping."
+    },
+    {
+      "id": "termination",
+      "source_path": "/home/user/paper/vlabench-repro/src/VLABench/VLABench/tasks/dm_task.py",
+      "repository_relative_path": "VLABench/tasks/dm_task.py",
+      "line_ranges": [
+        [
+          298,
+          303
+        ]
+      ],
+      "commit": "cf588fe60c0c7282174fe979f5913170cfe69017",
+      "source_sha256": "5e0011bf019ac2393a51560eb46750c0319a27c6b36074a3bcf4a6bb04b9e109",
+      "source_equals_git_blob": true,
+      "excerpt_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-termination.txt",
+      "excerpt_sha256": "9bf86f41acf7c17161a33e69f6df189114bbb5bcad326f1f2a8a532f2d607484",
+      "rendered_html_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-termination.html",
+      "rendered_html_sha256": "a507f262b49b63711b1927833813a216f6ddc811da6ef8bd9dc1332017459934",
+      "screenshot_path": "/home/user/Web/08-Attachments/VLABench-repro-ps-termination.png",
+      "screenshot_sha256": "2850ad7019afb30faef6ab327695dfa69e035b4a676d0ee0dcf9366664bb2a98",
+      "screenshot_dimensions_px": [
+        1760,
+        1300
+      ],
+      "visual_check": "Checked: exact source visible, line numbers, source path, commit and SHA-256 readable; no clipping."
+    }
+  ],
+  "receipts": [
+    {
+      "source_path": "/home/user/paper/vlabench-repro/versions.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-versions-initial.json",
+      "sha256": "079f45b14b69fc5b8ea4bb12ce250f3cc27597f2b4a3192f8ddf21c7ca364977"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/preflight/gpu-egl.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-gpu-egl.json",
+      "sha256": "962892daeefb06dbd04cd07558827de0a20dda945534ac923bf82bda9f93807b"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/preflight/training-source/camera-mapping.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-camera-mapping.json",
+      "sha256": "d815bd1abac2b2c00e1213dd0137e7442aeebd6406a2c078df5d068104fba022"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/baseline-20261110T043532Z-kzxFa1/eval_info.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-original-seed1000-eval.json",
+      "sha256": "f4c181034aca94baf9f9d2ec65684bcb265c471b0394db0f2ea84624a83e4d19"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/baseline-20261110T095207Z-H3kXKd/eval_info.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-adapted-seed1000-eval.json",
+      "sha256": "7bf8ebca3c5642088308b5d767a5eed12b99c6f301c236ecd8b23a4d6218540f"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/diagnostic-seed1001-20261110T095510Z-cs0Ry1/eval_info.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-adapted-seed1001-eval.json",
+      "sha256": "2045e24689734bae201fba71914fcda464887d03121be7d5f9c0d24d30c52b12"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/outputs/diagnostic-seed1001-20261110T095510Z-cs0Ry1/protocol.json",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-adapted-seed1001-protocol.json",
+      "sha256": "22de5f07b4afac5867fc4135b57d806afd4f2ab6437ed9e508f75c7206d70a6b"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/patches/vlabench-ci-asset-discovery.patch",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-asset-discovery.patch",
+      "sha256": "63176001e9be38d5939a9d0792a068ad574a1b62a88e812b74bb26d6f5b0e47c"
+    },
+    {
+      "source_path": "/home/user/paper/vlabench-repro/patches/lerobot-vlabench-camera-order.patch",
+      "preserved_path": "/home/user/Web/08-Attachments/VLABench-repro-camera-order.patch",
+      "sha256": "bdc8bfd081827e5f54a236ee6946163547c8d1809216d13314b75c23b93726ba"
+    }
+  ],
+  "paper_source": {
+    "url": "https://arxiv.org/html/2412.18194v1#S3.SS2",
+    "section": "3.2, equation 1",
+    "local_pdf_path": "/home/user/paper/vlabench-repro/src/VLABench/docs/pdf/paper.pdf",
+    "pdf_sha256": "93db9d1886820fd7160c611dba49f1db71534b200d3ca163f5f718f67132802f",
+    "pdf_page_1_based": 6,
+    "checked_at_utc": "2026-11-10T14:35:44.189003+00:00"
+  },
+  "browser_capture": {
+    "tool": "Playwright CLI (already-cached package via npx --offline)",
+    "session": "vlabench-evidence",
+    "page_origin": "http://127.0.0.1:18364",
+    "viewport_css_px": [
+      1760,
+      1300
+    ],
+    "full_page": true,
+    "dependency_installation": false
+  }
+}

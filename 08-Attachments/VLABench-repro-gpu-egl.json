@@ -1,0 +1,24 @@
+{
+  "gpu": "NVIDIA GeForce RTX 4070",
+  "cuda_available": true,
+  "cuda_runtime": "11.8",
+  "render_backend": "egl",
+  "render_shape": [
+    128,
+    128,
+    3
+  ],
+  "render_std": 62.63365484069379,
+  "versions": {
+    "torch": "2.7.1+cu118",
+    "torchvision": "0.22.1+cu118",
+    "mujoco": "3.2.2",
+    "dm-control": "1.0.22",
+    "lerobot": "0.7.1",
+    "transformers": "5.22.2",
+    "numpy": "2.2.6",
+    "open3d": "0.19.0",
+    "av": "15.1.0",
+    "huggingface-hub": "1.33.0"
+  }
+}

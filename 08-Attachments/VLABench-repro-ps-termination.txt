@@ -1,0 +1,7 @@
+# VLABench/tasks/dm_task.py:298-303
+    def should_terminate_episode(self, physics):
+        if hasattr(self, "conditions"):
+            terminal = self.conditions.is_met(physics)
+        else:
+            terminal = False
+        return terminal

@@ -1,0 +1,17 @@
+{
+  "mode": "local_camera_adaptation",
+  "seed": 1001,
+  "steps": 139,
+  "official_success": true,
+  "camera_ids": [
+    2,
+    0,
+    3
+  ],
+  "action_chunk": 50,
+  "sampling_iterations": 10,
+  "max_steps": 500,
+  "recording_mode": "native_local_only",
+  "terminal_observation_recorded": false,
+  "formal_statistics": false
+}

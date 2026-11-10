@@ -1,0 +1,25 @@
+# VLABench/tasks/hierarchical_tasks/primitive/select_fruit_series.py:19-30
+    def get_instruction(self, target_entity, target_container, **kwargs):
+        instruction = [f"Put the {target_entity} into the {target_container}"]
+        self.config["task"]["instructions"] = instruction
+
+    def get_condition_config(self, target_entity, target_container, **kwargs):
+        conditions_config = dict(
+            contain=dict(
+                container=f"{target_container}",
+                entities=[f"{target_entity}"]
+            )
+        )
+        self.config["task"]["conditions"] = conditions_config
+# VLABench/tasks/hierarchical_tasks/primitive/select_fruit_series.py:87-97
+@register.add_task("select_fruit")
+class SelectFruitTask(PrimitiveTask):
+    def __init__(self, task_name, robot, **kwargs):
+        super().__init__(task_name, robot=robot, **kwargs)
+    
+    def get_expert_skill_sequence(self, physics):
+        skill_sequence = [
+            partial(SkillLib.pick, target_entity_name=self.target_entity),
+            partial(SkillLib.place, target_container_name=self.target_container), 
+        ]
+        return skill_sequence

@@ -1,0 +1,36 @@
+{
+  "dataset": "lerobot/vlabench_unified",
+  "revision": "f61ad898199e746c20af3112f278cc86eb3ca3c4",
+  "sample": "first frame of chunk-000/file-000.mp4 for each video stream",
+  "dataset_source": "models/smolvla_vlabench/train_config.json:dataset.repo_id",
+  "camera_mapping": {
+    "image": {
+      "camera_id": 2,
+      "camera_name": "forward"
+    },
+    "second_image": {
+      "camera_id": 0,
+      "camera_name": "right"
+    },
+    "wrist_image": {
+      "camera_id": 3,
+      "camera_name": "franka/Franka_wrist_cam"
+    }
+  },
+  "basis": "Visual inspection of the three actual training frames against the four rendered simulator cameras; named camera definitions in VLABench/assets/base/camera.xml.",
+  "frames": {
+    "image": {
+      "url": "https://huggingface.co/datasets/lerobot/vlabench_unified/resolve/f61ad898199e746c20af3112f278cc86eb3ca3c4/videos/observation.images.image/chunk-000/file-000.mp4",
+      "frame_sha256": "1da780a943aa732c4697ee22d60bae513db88faf307319a93583d04f413d67fd"
+    },
+    "second_image": {
+      "url": "https://huggingface.co/datasets/lerobot/vlabench_unified/resolve/f61ad898199e746c20af3112f278cc86eb3ca3c4/videos/observation.images.second_image/chunk-000/file-000.mp4",
+      "frame_sha256": "dd2d272f39e67b601ab2aa19ae7cdcfcf1833a3142e2aef1a3c75613331c2f40"
+    },
+    "wrist_image": {
+      "url": "https://huggingface.co/datasets/lerobot/vlabench_unified/resolve/f61ad898199e746c20af3112f278cc86eb3ca3c4/videos/observation.images.wrist_image/chunk-000/file-000.mp4",
+      "frame_sha256": "bbd82ff668c00e8caadb5d7e8cb8e1983c22bafb30f6a9694f2d290baac6a82b"
+    }
+  },
+  "scope": "Fixed VLABench and dataset revisions; this identifies a camera mismatch, not the sole cause of policy failure."
+}

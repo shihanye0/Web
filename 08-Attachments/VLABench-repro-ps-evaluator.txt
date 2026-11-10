@@ -1,0 +1,33 @@
+# VLABench/evaluation/evaluator/base.py:46-58
+            for task in tasks:
+                assert len(self.episode_config[task]) >= n_episodes, "The number of episodes should be less than the number of configurations"
+        self.eval_tasks = tasks
+        self.n_episodes = n_episodes 
+        
+        self.max_substeps = max_substeps
+        self.tolerance = tolerance
+        self.target_metrics = metrics
+        self.intention_score_threshold = kwargs.get("intention_score_threshold", 0.1)
+        self.eval_unseen = eval_unseen
+        self.unnorm_key = unnorm_key
+        # log, store and visualization
+        self.save_dir = save_dir
+# VLABench/evaluation/evaluator/base.py:158-175
+                timestep = env.step(action)
+                if timestep.last():
+                    success=True
+                    break
+                current_qpos = np.array(env.task.robot.get_qpos(env.physics)).reshape(-1)
+                if np.max(current_qpos-np.array(action)[:7]) < self.tolerance \
+                    and np.min(current_qpos - np.array(action)[:7]) > -self.tolerance:
+                    break
+            if success:
+                break
+            i += 1
+        intention_score =  env.get_intention_score(threshold=self.intention_score_threshold)
+        progress_score = env.get_task_progress()
+        info["task"] = task_name
+        info["success"] = success
+        info["consumed_step"] = i
+        info["intention_score"] = intention_score
+        info["progress_score"] = progress_score

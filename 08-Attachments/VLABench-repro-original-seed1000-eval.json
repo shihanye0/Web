@@ -1,0 +1,64 @@
+{
+  "per_task": [
+    {
+      "task_group": "select_fruit",
+      "task_id": 0,
+      "metrics": {
+        "sum_rewards": [
+          0.0
+        ],
+        "max_rewards": [
+          0.0
+        ],
+        "successes": [
+          false
+        ],
+        "video_paths": [
+          "/home/user/paper/vlabench-repro/outputs/baseline-20261110T043532Z-kzxFa1/videos/select_fruit_0/eval_episode_0.mp4"
+        ],
+        "predicted_video_paths": []
+      },
+      "n_episodes": 1,
+      "n_success": 0,
+      "pc_success": 0.0,
+      "pc_success_ci95": [
+        0.0,
+        79.34506856227625
+      ]
+    }
+  ],
+  "per_group": {
+    "select_fruit": {
+      "avg_sum_reward": 0.0,
+      "avg_max_reward": 0.0,
+      "pc_success": 0.0,
+      "n_episodes": 1,
+      "n_success": 0,
+      "pc_success_ci95": [
+        0.0,
+        79.34506856227625
+      ],
+      "video_paths": [
+        "/home/user/paper/vlabench-repro/outputs/baseline-20261110T043532Z-kzxFa1/videos/select_fruit_0/eval_episode_0.mp4"
+      ],
+      "predicted_video_paths": []
+    }
+  },
+  "overall": {
+    "avg_sum_reward": 0.0,
+    "avg_max_reward": 0.0,
+    "pc_success": 0.0,
+    "n_episodes": 1,
+    "n_success": 0,
+    "pc_success_ci95": [
+      0.0,
+      79.34506856227625
+    ],
+    "eval_s": 92.7735641002655,
+    "eval_ep_s": 92.77356457710266,
+    "video_paths": [
+      "/home/user/paper/vlabench-repro/outputs/baseline-20261110T043532Z-kzxFa1/videos/select_fruit_0/eval_episode_0.mp4"
+    ],
+    "predicted_video_paths": []
+  }
+}

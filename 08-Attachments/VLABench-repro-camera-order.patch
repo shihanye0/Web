@@ -1,0 +1,14 @@
+diff --git a/src/lerobot/sim/integrations/vlabench.py b/src/lerobot/sim/integrations/vlabench.py
+index d543499..b5576c7 100644
+--- a/src/lerobot/sim/integrations/vlabench.py
++++ b/src/lerobot/sim/integrations/vlabench.py
+@@ -316,7 +316,8 @@ class VLABenchEnv(gym.Env):
+ 
+         image_keys = ["image", "second_image", "wrist_image"]
+         images: dict[str, np.ndarray] = {}
+-        for i, key in enumerate(image_keys):
++        # The released dataset stores front, right, wrist views (camera IDs 2, 0, 3).
++        for i, key in zip((2, 0, 3), image_keys, strict=True):
+             if i < len(raw_frames):
+                 images[key] = _to_hwc3(raw_frames[i])
+             else:
