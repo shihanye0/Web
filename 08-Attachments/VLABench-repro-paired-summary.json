@@ -1,0 +1,563 @@
+{
+  "completed_pairs": 10,
+  "pair_categories": {
+    "both_success": 2,
+    "both_failure": 4,
+    "normal_only": 4,
+    "texture_only": 0
+  },
+  "normal_successes": 6,
+  "texture_successes": 2,
+  "baseline_nearly_all_failed": false,
+  "paper_ps": null,
+  "pairs": [
+    {
+      "scene_seed": 2000,
+      "normal": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.1361230737398803,
+          "apple": 0.011004024592027518,
+          "lemon": 0.27241103757825647,
+          "kiwi": 0.2830523883785207,
+          "orange": 0.06082044310703234
+        },
+        "steps": 500,
+        "elapsed_s": 82.0388478370005,
+        "policy_seed": 4000,
+        "final_image_sha256": "c8c33a88c588ab48905d03dd51b032263b156e74fdf757e2dd2c3744df55f2e1",
+        "initial_image_sha256": "ece6320653b2e6c79ddef942ef6850b5bb0cb0856a3dfd1b0b902b72cf241c7a",
+        "status": "completed"
+      },
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.12770525051578738,
+          "apple": 0.04355129664113263,
+          "lemon": 0.28211964641472376,
+          "kiwi": 0.3521470965951496,
+          "orange": 0.13032444280602745
+        },
+        "steps": 500,
+        "elapsed_s": 83.0506767659972,
+        "policy_seed": 4000,
+        "final_image_sha256": "ad4f465981c7fe231f53da8b8fd74dcbb61df41b11ad29f4e77fa8baa645a586",
+        "initial_image_sha256": "2675ebfb5ff22fa2acf2a4427ae111419e827b17e2b11aff23a8eed04ccaaba7",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 320368
+    },
+    {
+      "scene_seed": 2001,
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "orange": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.1292320595719641,
+          "orange": 0.021549162976476008,
+          "mango": 0.1735687341688717,
+          "lemon": 0.20512676034615218
+        },
+        "steps": 500,
+        "elapsed_s": 152.69448270600697,
+        "policy_seed": 4001,
+        "final_image_sha256": "e45475e5995be57d21febe3fc37c5b473d554e1579a4301ed518b55a0544172d",
+        "initial_image_sha256": "f9979480cd111e75dfa440bc196e851160f906e65220cc9dfe98428accc8510a",
+        "status": "completed"
+      },
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "orange": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.16801247122071541,
+          "orange": 0.005698287035394612,
+          "mango": 0.4747245335491216,
+          "lemon": 0.2640974227332879
+        },
+        "steps": 156,
+        "elapsed_s": 47.84589317100472,
+        "policy_seed": 4001,
+        "final_image_sha256": "35815ebdfb06b849b538355afc6d7bd399d445ad27eec4baa39eda3f9f8d7550",
+        "initial_image_sha256": "c3e3ef52f50567fc158032f078d4e601a6a4a43b6e79d462a842c2d2b3d3d1ee",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 295683
+    },
+    {
+      "scene_seed": 2002,
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "orange": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.09724013161846103,
+          "orange": 0.0120726709065638,
+          "lemon": 0.3799867596121802,
+          "apple": 0.3093781164163894
+        },
+        "steps": 151,
+        "elapsed_s": 23.808418753003934,
+        "policy_seed": 4002,
+        "final_image_sha256": "acd7f595b10c51a3e65b1ca662baf3da405ab4c6a64b2402140c20c6920c6261",
+        "initial_image_sha256": "5fa0bc8a98ba1c31787b35e22868a2377ac9d3668e7da0a08a20a9ea1e167415",
+        "status": "completed"
+      },
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "orange": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.14167707879579983,
+          "orange": 0.02351670473353078,
+          "lemon": 0.3305063608241101,
+          "apple": 0.19611765744824994
+        },
+        "steps": 500,
+        "elapsed_s": 75.31960589099617,
+        "policy_seed": 4002,
+        "final_image_sha256": "dbad88b90b53fd5edc2ab1a488a65575e045bc01d31f10320529da16788708b3",
+        "initial_image_sha256": "620e3ed612cf7d5c89b5e1fe5a7df6e18e4b681a382a012c11bdbb9b3c784fa5",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 295868
+    },
+    {
+      "scene_seed": 2003,
+      "texture": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.1655219816137036,
+          "banana": 0.0151441212986096,
+          "mango": 0.37169486291987236,
+          "kiwi": 0.3025278728992562
+        },
+        "steps": 441,
+        "elapsed_s": 62.5947541550122,
+        "policy_seed": 4003,
+        "final_image_sha256": "25276873f73dbdf3fe75f6ded5d97f41b92cf096662abed88342d858bf0d56d8",
+        "initial_image_sha256": "2ccad25619bff7cdb5bdb299b2e8030103e90cf16672836080baa6a90a3620ec",
+        "status": "completed"
+      },
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.13328446499104915,
+          "banana": 0.01796571712774531,
+          "mango": 0.39446667708866257,
+          "kiwi": 0.34431068800770387
+        },
+        "steps": 160,
+        "elapsed_s": 23.045794624005794,
+        "policy_seed": 4003,
+        "final_image_sha256": "8f07c5f94c51067ae3cee6e11d9a41e57db8fabc5b42e523c7530ffc3e74dc18",
+        "initial_image_sha256": "33ff498af07555190a216106ea99f61751702fb6085de4e56fb31cf76ed8f54c",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 287257
+    },
+    {
+      "scene_seed": 2004,
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.12266526981466265,
+          "banana": 0.01860154727842113,
+          "lemon": 0.3170176496368279,
+          "mango": 0.26126430061154876
+        },
+        "steps": 157,
+        "elapsed_s": 22.093172150009195,
+        "policy_seed": 4004,
+        "final_image_sha256": "244c940fe450039c8a6c86b685ba9d4ee9b4de50b79061db175ac09fd5288b9f",
+        "initial_image_sha256": "9cbd3ee9507f7e17b6e888edc75e281a1472b743e228a54f1ad215d38437cc39",
+        "status": "completed"
+      },
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.1291335573986028,
+          "banana": 0.04634866856285401,
+          "lemon": 0.11587344661687828,
+          "mango": 0.1511057429587223
+        },
+        "steps": 500,
+        "elapsed_s": 69.43472726500477,
+        "policy_seed": 4004,
+        "final_image_sha256": "1839d4c250cb6cf559f824ede44ca24375fc2dfcc38172733d55aeeaec071060",
+        "initial_image_sha256": "426a4e737f46d40cdbd1082d365620b4b7f9d1d86822389abf4dc5a275fc00f5",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 321319
+    },
+    {
+      "scene_seed": 2005,
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.20123972851862612,
+          "apple": 0.03712661272888087,
+          "peach": 0.33937984722342884,
+          "kiwi": 0.2725298734312979,
+          "mango": 0.05298438731644631
+        },
+        "steps": 500,
+        "elapsed_s": 73.71839874600118,
+        "policy_seed": 4005,
+        "final_image_sha256": "60753f3c523178de4e85d51aba5533105911a7e52d55f9251be8b432b08b1d36",
+        "initial_image_sha256": "3cc7c2a41548922faf2106b41b4e349f548b153e81c9dd3bea9b2d06946a118a",
+        "status": "completed"
+      },
+      "normal": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.13524901813249762,
+          "apple": 0.039266773597400016,
+          "peach": 0.24159643102892653,
+          "kiwi": 0.3206883285511005,
+          "mango": 0.038567964934739705
+        },
+        "steps": 500,
+        "elapsed_s": 73.89933453299454,
+        "policy_seed": 4005,
+        "final_image_sha256": "633f037e221463ff72ef18b7b6c6946c37545255d92c638292fa6c3f732c51e1",
+        "initial_image_sha256": "750589902d212b5bd74fb2a554c0d092f7730466f1ed688476d7c668a86fc963",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 313455
+    },
+    {
+      "scene_seed": 2006,
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.13588472240159977,
+          "apple": 0.006739288576687674,
+          "kiwi": 0.3840496291270224,
+          "banana": 0.2444622621628841,
+          "orange": 0.1601955428894883
+        },
+        "steps": 157,
+        "elapsed_s": 23.262272284002393,
+        "policy_seed": 4006,
+        "final_image_sha256": "bfe2120b935a0fbbe8f80bea5e4009e0aa3b7f7816684fe88fd860d58a567595",
+        "initial_image_sha256": "7229d763db3779f6eaf41ad1b79c42ab7a90e0e66e7abb9d6be15139ff8f20b7",
+        "status": "completed"
+      },
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.08016490535520295,
+          "apple": 0.006673011915904112,
+          "kiwi": 0.3366070774908961,
+          "banana": 0.08030088020889697,
+          "orange": 0.1520282205668459
+        },
+        "steps": 500,
+        "elapsed_s": 73.72166651200678,
+        "policy_seed": 4006,
+        "final_image_sha256": "031edc5f9e02030c4b766ed151993135e91fc71eb5c53c461cfac487c1899a37",
+        "initial_image_sha256": "e27f109ac70d46feed3b107e12402459c75a55a2a2ffc9f5042f1a026ad0f2bf",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 303250
+    },
+    {
+      "scene_seed": 2007,
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.13237074728997095,
+          "apple": 0.05670205597420941,
+          "lemon": 0.3683884991824244,
+          "kiwi": 0.18110105242612998
+        },
+        "steps": 500,
+        "elapsed_s": 66.41730311501306,
+        "policy_seed": 4007,
+        "final_image_sha256": "273cb29c6cd76aefdb184225fc05015e935cd9a58a6172ee7de1177854a0a0e0",
+        "initial_image_sha256": "02de72da6783178f519a4403cf6a519048616ed069c9f9c5a414dfcb8c764498",
+        "status": "completed"
+      },
+      "normal": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "apple": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.13119273232122683,
+          "apple": 0.02962001193195078,
+          "lemon": 0.45855570833210024,
+          "kiwi": 0.08628502033422593
+        },
+        "steps": 500,
+        "elapsed_s": 67.11012293300882,
+        "policy_seed": 4007,
+        "final_image_sha256": "f482bcbdb244220a94caf40b986f996e8c51e6596dd469802936aa700f51503d",
+        "initial_image_sha256": "57865be8158ecf450bbf1d2dbf866d8eeb0b530f6d9704ce22ac0befe743d09c",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 275482
+    },
+    {
+      "scene_seed": 2008,
+      "normal": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.5,
+        "code_ps_proxy": 0.6000000000000001,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "pear": true
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.08928025558535435,
+          "pear": 0.028650306823396615,
+          "peach": 0.08950910540148958,
+          "orange": 0.17783292435782752
+        },
+        "steps": 500,
+        "elapsed_s": 115.05879908600764,
+        "policy_seed": 4008,
+        "final_image_sha256": "890c6fbd8934a78da935bdf33446b994a11c633f125af52fa72f96744522b26c",
+        "initial_image_sha256": "decab097eaa30880b795c7d1f5d96f86ab6914efdf496bb951ef67cfffaedc4d",
+        "status": "completed"
+      },
+      "texture": {
+        "official_success": false,
+        "intention_score": 1,
+        "progress_score": 0.0,
+        "code_ps_proxy": 0.2,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "pear": false
+        },
+        "conditions_met": [
+          false
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.12619511658628293,
+          "pear": 0.0594667181199622,
+          "peach": 0.09550056974494882,
+          "orange": 0.17133942244739336
+        },
+        "steps": 500,
+        "elapsed_s": 117.6982166210073,
+        "policy_seed": 4008,
+        "final_image_sha256": "b04f70d8bfe9c022dc01c3f4c6942ea2c1e6d69d964148879121cd3e0706fa85",
+        "initial_image_sha256": "695602298c6bf6045637ddbb18862433caa35b1584805ad9476790263ddaa591",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 325037
+    },
+    {
+      "scene_seed": 2009,
+      "texture": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.131424563785862,
+          "banana": 0.0363380033539528,
+          "orange": 0.4139681053281821,
+          "pear": 0.2544708922304768,
+          "lemon": 0.17148515649170473
+        },
+        "steps": 163,
+        "elapsed_s": 25.677796645002672,
+        "policy_seed": 4009,
+        "final_image_sha256": "5b3b8e43af931c1a522942a2561dfc4b92b9b82596bab961e17be9411543aadb",
+        "initial_image_sha256": "a2ab00fcd1e53ab793e9f0052f9616572567e7d0959a3493bfa7425fd8a750e8",
+        "status": "completed"
+      },
+      "normal": {
+        "official_success": true,
+        "intention_score": 1,
+        "progress_score": 1.0,
+        "code_ps_proxy": 1.0,
+        "paper_ps": null,
+        "target_ever_grasped": {
+          "banana": true
+        },
+        "conditions_met": [
+          true
+        ],
+        "minimum_distances_m": {
+          "plate_seen": 0.09134152192277367,
+          "banana": 0.019546441290630982,
+          "orange": 0.3734634790920942,
+          "pear": 0.34410090239912716,
+          "lemon": 0.15666110733966818
+        },
+        "steps": 155,
+        "elapsed_s": 24.601889432000462,
+        "policy_seed": 4009,
+        "final_image_sha256": "f841bad34324cadcd16af069ac3d6e51e966888f20b5758bb9687771de012455",
+        "initial_image_sha256": "7789284cb42bfa79d0d2fb6b38a5c55fd8ae0eb5e0f2760639017a91b3481371",
+        "status": "completed"
+      },
+      "initial_changed_pixels": 286880
+    }
+  ]
+}

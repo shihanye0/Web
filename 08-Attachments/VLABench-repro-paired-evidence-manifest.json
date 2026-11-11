@@ -1,0 +1,63 @@
+{
+  "verified_at_utc": "2026-11-11T07:56:35.567031+00:00",
+  "run_directory": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z",
+  "runner_sha256": "750f70e10f8ef634df61049ad62782261819dc9145030c3bc97312c42b450f29",
+  "pinned_source_screenshots_reverified": 5,
+  "attachments": [
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/summary.json",
+      "vault_attachment": "VLABench-repro-paired-summary.json",
+      "sha256": "dcab8b51ae2c6f5a87bc63b924184242d9fb3c6a9d79405a772b736adf7e068c"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/analysis.json",
+      "vault_attachment": "VLABench-repro-paired-analysis.json",
+      "sha256": "3d8b9e07b660b76948c423f9abfe44113d425c7e9110de37455c3b4611b9b5a1"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/artifact-validation.json",
+      "vault_attachment": "VLABench-repro-paired-artifact-validation.json",
+      "sha256": "7532042f0c719627a3aa2a9a7ad74ef5c0c3c24a171fc1110c487315848ee7c1"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/completion.json",
+      "vault_attachment": "VLABench-repro-paired-completion.json",
+      "sha256": "616c2e7a4ff18193b5b455ba8fefae03800523f5459407cbaacc3905b09a87ca"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/paired-results.png",
+      "vault_attachment": "VLABench-repro-paired-results.png",
+      "sha256": "64e2376a16844b3e4e6027c270cc9e8357ec78b467721cbf821cd2780784031d"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/paired-results.svg",
+      "vault_attachment": "VLABench-repro-paired-results.svg",
+      "sha256": "6f606d14cd73777665eff41ec14d02fa9ca087b6d9d0ef8a78df9847eb8ad9a7"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z/runner.py",
+      "vault_attachment": "VLABench-repro-paired-runner.py",
+      "sha256": "750f70e10f8ef634df61049ad62782261819dc9145030c3bc97312c42b450f29"
+    },
+    {
+      "vault_attachment": "VLABench-repro-paired-data-review.json",
+      "sha256": "3651fb96812d1401dbadce845b1605e85a70193a692048898ff1ebedf28c9148"
+    },
+    {
+      "vault_attachment": "VLABench-repro-paired-protocol.json",
+      "sha256": "019900cadbcdbd11b0641a9fe7d7a2e30ca86f9c520b8c6579b392d2d4b8b1c7"
+    },
+    {
+      "vault_attachment": "VLABench-repro-paired-repeat-check.json",
+      "sha256": "3b6aceff1b737a7b224aec8a8bc2734348152e4d6ff7a0f0bd9ac6450cbf4d49"
+    },
+    {
+      "vault_attachment": "VLABench-repro-paired-entrypoint.json",
+      "sha256": "72704e49858af8a97e01544be6610c85f9d62a093331cc90117df152f4da74d5"
+    },
+    {
+      "vault_attachment": "VLABench-repro-paired-review.json",
+      "sha256": "147d8d4fe5346e6f459c560cbfe1337b8f56ef08b0598864fcc2f7744d759893"
+    }
+  ]
+}

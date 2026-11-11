@@ -1,0 +1,151 @@
+{
+  "n_pairs": 10,
+  "normal_successes": 6,
+  "texture_successes": 2,
+  "normal_success_pct": 60.0,
+  "texture_success_pct": 20.0,
+  "texture_minus_normal_percentage_points": -40.0,
+  "pair_categories": {
+    "both_success": 2,
+    "both_failure": 4,
+    "normal_only": 4,
+    "texture_only": 0
+  },
+  "code_metric_means": {
+    "normal": {
+      "intention_score": 1.0,
+      "progress_score": 0.8,
+      "code_ps_proxy": 0.8400000000000001
+    },
+    "texture": {
+      "intention_score": 1.0,
+      "progress_score": 0.55,
+      "code_ps_proxy": 0.64
+    }
+  },
+  "exact_mcnemar_two_sided_p": 0.125,
+  "mcnemar_scope": "post-hoc descriptive diagnostic, ten preset scene/policy seeds with one fixed texture; no population significance claim",
+  "paper_ps": null,
+  "rows": [
+    {
+      "scene_seed": 2000,
+      "target": "apple",
+      "container": "plate_seen",
+      "normal_success": false,
+      "normal_steps": 500,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 0.5,
+      "texture_progress": 0.5,
+      "category": "both_failure"
+    },
+    {
+      "scene_seed": 2001,
+      "target": "orange",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 156,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 1.0,
+      "texture_progress": 0.5,
+      "category": "normal_only"
+    },
+    {
+      "scene_seed": 2002,
+      "target": "orange",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 151,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 1.0,
+      "texture_progress": 0.5,
+      "category": "normal_only"
+    },
+    {
+      "scene_seed": 2003,
+      "target": "banana",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 160,
+      "texture_success": true,
+      "texture_steps": 441,
+      "normal_progress": 1.0,
+      "texture_progress": 1.0,
+      "category": "both_success"
+    },
+    {
+      "scene_seed": 2004,
+      "target": "banana",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 157,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 1.0,
+      "texture_progress": 0.5,
+      "category": "normal_only"
+    },
+    {
+      "scene_seed": 2005,
+      "target": "apple",
+      "container": "plate_seen",
+      "normal_success": false,
+      "normal_steps": 500,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 0.5,
+      "texture_progress": 0.5,
+      "category": "both_failure"
+    },
+    {
+      "scene_seed": 2006,
+      "target": "apple",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 157,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 1.0,
+      "texture_progress": 0.5,
+      "category": "normal_only"
+    },
+    {
+      "scene_seed": 2007,
+      "target": "apple",
+      "container": "plate_seen",
+      "normal_success": false,
+      "normal_steps": 500,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 0.5,
+      "texture_progress": 0.5,
+      "category": "both_failure"
+    },
+    {
+      "scene_seed": 2008,
+      "target": "pear",
+      "container": "plate_seen",
+      "normal_success": false,
+      "normal_steps": 500,
+      "texture_success": false,
+      "texture_steps": 500,
+      "normal_progress": 0.5,
+      "texture_progress": 0.0,
+      "category": "both_failure"
+    },
+    {
+      "scene_seed": 2009,
+      "target": "banana",
+      "container": "plate_seen",
+      "normal_success": true,
+      "normal_steps": 155,
+      "texture_success": true,
+      "texture_steps": 163,
+      "normal_progress": 1.0,
+      "texture_progress": 1.0,
+      "category": "both_success"
+    }
+  ]
+}

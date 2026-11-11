@@ -1,0 +1,22 @@
+{
+  "verified_at_utc": "2026-11-11T07:56:35.552131+00:00",
+  "status": "APPROVE",
+  "agent": "paired_code_review",
+  "scope": "independent read-only completed-data audit",
+  "formal_rollouts": 20,
+  "formal_steps": 7540,
+  "normal_successes": 6,
+  "texture_successes": 2,
+  "pair_categories": {
+    "both_success": 2,
+    "both_failure": 4,
+    "normal_only": 4,
+    "texture_only": 0
+  },
+  "repeat_steps": 500,
+  "repeat_bitwise_equal": true,
+  "runner_sha256": "750f70e10f8ef634df61049ad62782261819dc9145030c3bc97312c42b450f29",
+  "exceptions_found": 0,
+  "reran_simulation": false,
+  "decoded_video": false
+}

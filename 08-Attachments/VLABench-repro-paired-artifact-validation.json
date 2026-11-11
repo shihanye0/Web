@@ -1,0 +1,193 @@
+{
+  "verified_at_utc": "2026-11-11T07:54:52.386150+00:00",
+  "run_directory": "/home/user/paper/vlabench-repro/outputs/paired-20261110T1502Z",
+  "completed_pairs": 10,
+  "formal_rollouts": 20,
+  "repeat_rollouts": 1,
+  "formal_steps": 7540,
+  "repeat_steps": 500,
+  "exceptions": 0,
+  "all_checks_passed": true,
+  "checks": [
+    "result-summary-steps consistency",
+    "all steps sequential and finite state/action arrays",
+    "official_success equals contain",
+    "target-only intention threshold=0.1",
+    "progress and code proxy recomputed",
+    "paper_ps null throughout",
+    "nonincreasing min distances and historical grasp flag",
+    "paired initial observation state exact equality",
+    "initial and final PNG hashes",
+    "texture changes pixels in all pairs",
+    "20 video metadata dimensions fps and n_steps+1 frame counts",
+    "500-step repeat actions states observations frame hashes scores PNGs equal",
+    "runner bytes equal current script"
+  ],
+  "rollouts": [
+    {
+      "scene_seed": 2000,
+      "condition": "normal",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2000,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2001,
+      "condition": "normal",
+      "steps": 156,
+      "success": true,
+      "video_frames": 157,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2001,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2002,
+      "condition": "normal",
+      "steps": 151,
+      "success": true,
+      "video_frames": 152,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2002,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2003,
+      "condition": "normal",
+      "steps": 160,
+      "success": true,
+      "video_frames": 161,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2003,
+      "condition": "texture",
+      "steps": 441,
+      "success": true,
+      "video_frames": 442,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2004,
+      "condition": "normal",
+      "steps": 157,
+      "success": true,
+      "video_frames": 158,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2004,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2005,
+      "condition": "normal",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2005,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2006,
+      "condition": "normal",
+      "steps": 157,
+      "success": true,
+      "video_frames": 158,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2006,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2007,
+      "condition": "normal",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2007,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2008,
+      "condition": "normal",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2008,
+      "condition": "texture",
+      "steps": 500,
+      "success": false,
+      "video_frames": 501,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2009,
+      "condition": "normal",
+      "steps": 155,
+      "success": true,
+      "video_frames": 156,
+      "checks_passed": true
+    },
+    {
+      "scene_seed": 2009,
+      "condition": "texture",
+      "steps": 163,
+      "success": true,
+      "video_frames": 164,
+      "checks_passed": true
+    }
+  ],
+  "limitations": [
+    "video metadata checked for all20; only selected frames visually inspected",
+    "runtime restore/model assertions evidenced by frozen runner and successful completion; no fresh simulation rerun",
+    "no process exit code preserved after exec session expired; completion receipt and all artifacts verified"
+  ]
+}
