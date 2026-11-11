@@ -58,6 +58,11 @@
     {
       "vault_attachment": "VLABench-repro-paired-review.json",
       "sha256": "147d8d4fe5346e6f459c560cbfe1337b8f56ef08b0598864fcc2f7744d759893"
+    },
+    {
+      "source": "/home/user/paper/vlabench-repro/versions.json",
+      "vault_attachment": "VLABench-repro-versions-final.json",
+      "sha256": "ae5a956e34cc4661c30867027e82d1864e55926eeed852236d11ed0d2255eb1f"
     }
   ]
 }

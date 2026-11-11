@@ -132,7 +132,7 @@ $$P_{code}=\frac{\mathbf 1[\text{水果曾被抓住}]+\mathbf 1[\text{当前 con
 | `official_success` | 当前固定实现的任务完成条件，保留为二值结果 |
 | `intention_score` | 代码的水果距离意图代理量，记录实际阈值；不改称论文 $D$ |
 | `progress_score` | 代码的历史抓取与当前 `contain` 组合，保留分项 |
-| `code_ps_proxy` | 若计算 `0.2 × intention_score + 0.8 × progress_score`，明确称代码代理分 |
+| `code_ps_proxy` | 本次计算 `0.2 × intention_score + 0.8 × progress_score`，明确称代码代理分 |
 | `paper_ps` | `null`；目标容器选择的可复现操作定义尚未补齐 |
 
 代码截图、逐字源码摘录、渲染 HTML、commit、源文件散列及图片散列统一保存于 [[VLABench-repro-evidence-manifest.json|证据来源清单]]。截图验证的是公开固定版本的实现差异；三次旧运行没有记录 PS 分项，不能由成功 JSON 反推其逐步评分。
@@ -245,4 +245,4 @@ $$P_{code}=\frac{\mathbf 1[\text{水果曾被抓住}]+\mathbf 1[\text{当前 con
 - 论文：[arXiv 2412.18194v1，§3.2](https://arxiv.org/html/2412.18194v1#S3.SS2)；本地 `src/VLABench/docs/pdf/paper.pdf`，PDF 第 6 页。论文学习记录链接见开头。
 - 官方入口说明：[LeRobot VLABench 文档](https://huggingface.co/docs/lerobot/vlabench)。安装与资产方案同时核对固定 LeRobot 源码中的 `docker/Dockerfile.sim`、`benchmarks/benchmarks.yaml`。
 - 固定实现：[VLABench `cf588fe6`](https://github.com/OpenMOSS/VLABench/tree/cf588fe60c0c7282174fe979f5913170cfe69017)；[LeRobot `81b8c5bf`](https://github.com/huggingface/lerobot/tree/81b8c5bfdd5591ec59e512cfc7ac6db8151c70ee)。
-- Linux 项目状态与版本真源：`/home/user/paper/vlabench-repro/STATUS.md`、`versions.json`；本页附带的 `versions-initial.json` 是正式配对实验前快照，后续结果以新增运行收据更新。
+- Linux 项目状态与版本真源：`/home/user/paper/vlabench-repro/STATUS.md`、`versions.json`；本页附带的 `versions-initial.json` 是正式配对实验前快照，最终状态见 [[VLABench-repro-versions-final.json|完成后的版本与验证记录]]；原始运行快照仍保留在结果目录。
