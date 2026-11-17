@@ -1,0 +1,10 @@
+{
+  "id": "2505.18412v1",
+  "requested_title": "ExerciseLLM",
+  "url": "https://arxiv.org/pdf/2505.18412v1",
+  "sha256": "263aa6df277dd2f74d88fca3aecb6639c211c5864d59f75111f058383b1df52f",
+  "pages": 16,
+  "first_page": "Rehabilitation Exercise Quality Assessment and\nFeedback Generation Using Large Language\nModels with Prompt Engineering\nJessica Tang1,2[0009−0009−7725−6702], Ali Abedi1[0000−0002−7393−1362], Tracey\nJ.F. Colella1[0000−0001−6228−9012], and Shehroz S. Khan1,3[0000−0002−1195−4999]\n1 KITE Research Institute, Toronto Rehabilitation Institute, University Health\nNetwork, Toronto, Canada\n2 Faculty of Applied Science and Engineering, University of Toronto, Toronto,\nCanada\n3 College of Engineering and Technology, American University of the Middle East,\nEgaila, Kuwait\njessicao.tang@mail.utoronto.ca,\n{ali.abedi,tracey.colella,shehroz.khan}@uhn.ca\nAbstract. Exercise-based rehabilitation improves quality of life and re-\nduces morbidity, mortality, and rehospitalization, though transportation\nconstraints and staff shortages lead to high dropout rates from rehabilita-\ntion programs. Virtual platforms enable patients to complete prescribed\nexercises at home, while AI algorithms analyze performance, deliver feed-\nback, and update clinicians. Although many studies have developed ma-\nchine learning and deep learning models for exercise quality assessment,\nfew have explored the use of large language models (LLMs) for feedback\nand are limited by the lack of rehabilitation datasets containing textual\nfeedback. In this paper, we propose a new method in which exercise-\nspecific features are extracted from the skeletal joints of patients per-\nforming rehabilitation exercises and fed into pre-trained LLMs. Using\na range of prompting techniques, such as zero-shot, few-shot, chain-of-\nthought, and role-p",
+  "downloaded_at": "2026-11-17",
+  "reading_level": "selected_sections"
+}

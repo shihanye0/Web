@@ -1,0 +1,2186 @@
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+    
+  
+  
+
+  
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+  
+
+  
+
+  
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+
+  
+  
+    
+    
+    
+
+
+
+
+
+
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+
+
+    
+
+
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+
+
+
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+
+
+    
+
+
+
+
+
+
+
+
+
+
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+
+    Vision-language models for human motion understanding: Lessons from stroke rehabilitation | PLOS Digital Health
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    Skip to main content
+  
+
+
+Advertisement
+
+
+  
+    
+  
+
+
+
+  
+
+
+  
+  
+
+  
+
+    
+
+
+
+
+
+  PLOS Digital Health
+
+
+
+ 
+
+
+
+
+
+    
+    Publish
+      
+        
+
+  
+      Submissions 
+
+    
+          
+    Submission Guidelines
+  
+
+
+          
+    Figures
+  
+
+
+          
+    Tables
+  
+
+
+          
+    Supporting Information
+  
+
+
+          
+    LaTeX
+  
+
+
+          
+    What We Publish
+  
+
+
+          
+    Preprints
+  
+
+
+          
+    Revising Your Manuscript
+  
+
+
+          
+    Submit Now
+  
+
+
+    
+
+  
+
+
+
+  
+      Policies 
+
+    
+          
+    Best Practices in Research Reporting
+  
+
+
+          
+    Human Subjects Research
+  
+
+
+          
+    Animal Research
+  
+
+
+          
+    Competing Interests
+  
+
+
+          
+    Disclosure of Funding Sources
+  
+
+
+          
+    Licenses and Copyright
+  
+
+
+          
+    Data Availability
+  
+
+
+          
+    Complementary Research
+  
+
+
+          
+    Materials, Software and Code Sharing
+  
+
+
+          
+    Ethical Publishing Practice
+  
+
+
+          
+    Authorship
+  
+
+
+          
+    Corrections, Expressions of Concern, and Retractions
+  
+
+
+    
+
+  
+
+
+
+  
+      Manuscript Review and Publication 
+
+    
+          
+    Editorial and Peer Review Process
+  
+
+
+          
+    Editor Center
+  
+
+
+          
+    Guidelines for Reviewers
+  
+
+
+          
+    Accepted Manuscripts
+  
+
+
+          
+    Comments
+  
+
+
+    
+
+  
+
+        
+          
+
+
+  Submit Your Manuscript
+
+
+  
+  
+PLOS Digital Health publishes boundary-breaking research that uses digital tools, technologies, and data to advance every aspect of health care.
+  
+
+  
+    
+Get Started
+    
+  
+
+  
+ 
+          
+
+      
+
+    
+
+
+
+
+  
+      About 
+
+    
+          
+    Journal Information
+  
+
+
+          
+    Editors-in-Chief
+  
+
+
+          
+    Editorial Board
+  
+
+
+          
+    Publishing Information
+  
+
+
+          
+    Publication Fees
+  
+
+
+          
+    Press and Media
+  
+
+
+          
+    Contact
+  
+
+
+    
+
+  
+
+
+
+
+    
+      Browse
+    
+
+
+
+
+
+
+      
+
+
+    
+      
+        Search
+        Search
+        
+          
+          
+            
+          
+        
+
+      
+      
+    
+
+    
+      advanced search
+    
+
+
+
+
+
+      
+
+
+           
+        
+    
+  
+
+
+
+ 
+
+
+
+
+
+
+
+
+  
+    Loading metrics
+
+  
+
+
+
+
+
+
+
+
+
+    
+
+
+  Open Access
+
+  Peer-reviewed
+
+
+
+  Research Article
+
+
+
+
+
+
+
+    
+
+    
+
+
+
+
+  Vision-language models for human motion understanding: Lessons from stroke rehabilitation
+
+
+
+
+
+
+
+   
+Victor Li,    
+
+  
+  
+    Roles
+    Investigation,
+
+    Software,
+
+    Writing – original draft,
+
+    Writing – review & editing
+  
+
+  
+  Affiliation
+    Center for Data Science, New York University, New York, New York, United States of America
+  
+
+  
+  
+    
+      
+        
+        https://orcid.org/0009-0002-5255-3283
+      
+    
+  
+
+  
+
+
+       ⨯ 
+    
+
+
+
+
+
+   
+Naveenraj Kamalakannan,    
+
+  
+  
+    Roles
+    Investigation,
+
+    Software,
+
+    Writing – review & editing
+  
+
+  
+  Affiliations
+    Center for Data Science, New York University, New York, New York, United States of America, 
+    Tandon School of Engineering, New York University, Brooklyn, New York, United States of America
+  
+
+
+       ⨯ 
+    
+
+
+
+
+
+   
+Avinash Parnandi,    
+
+  
+  
+    Roles
+    Data curation,
+
+    Writing – review & editing
+  
+
+  
+  Affiliation
+    VitalConnect, San Jose, California, United States of America
+  
+
+
+       ⨯ 
+    
+
+
+
+
+
+   
+Heidi Schambra     ,    
+
+  
+      Contributed equally to this work with:
+    Heidi Schambra,
+    Carlos Fernandez-Granda
+  
+
+  
+  
+    Roles
+    Conceptualization,
+
+    Data curation,
+
+    Supervision,
+
+    Writing – review & editing
+  
+
+   * E-mail: Heidi.Schambra@nyulangone.org (HS); cfgranda@cims.nyu.edu (CF-G)
+
+  Affiliations
+    Department of Neurology, NYU Grossman School of Medicine, New York, New York, United States of America, 
+    Department of Rehabilitation Medicine, NYU Grossman School of Medicine, New York, New York, United States of America
+  
+
+  
+  
+    
+      
+        
+        https://orcid.org/0000-0002-1886-2288
+      
+    
+  
+
+  
+
+
+       ⨯ 
+    
+
+
+
+
+
+   
+Carlos Fernandez-Granda         
+
+  
+      Contributed equally to this work with:
+    Heidi Schambra,
+    Carlos Fernandez-Granda
+  
+
+  
+  
+    Roles
+    Conceptualization,
+
+    Supervision,
+
+    Writing – original draft,
+
+    Writing – review & editing
+  
+
+   * E-mail: Heidi.Schambra@nyulangone.org (HS); cfgranda@cims.nyu.edu (CF-G)
+
+  Affiliations
+    Center for Data Science, New York University, New York, New York, United States of America, 
+    Courant Institute of Mathematical Sciences, New York University, New York, New York, United States of America
+  
+
+  
+  
+    
+      
+        
+        https://orcid.org/0000-0001-7039-8606
+      
+    
+  
+
+  
+
+
+       ⨯ 
+    
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    
+      Vision-language models for human motion understanding: Lessons from stroke rehabilitation
+
+
+
+
+  Victor Li, 
+
+  
+
+  Naveenraj Kamalakannan, 
+
+  
+
+  Avinash Parnandi, 
+
+  
+
+  Heidi Schambra, 
+
+  
+
+  Carlos Fernandez-Granda
+
+  
+
+
+
+
+
+
+    
+
+    
+      
+      x
+
+    
+
+  
+
+
+
+
+      
+        Published: July 6, 2026
+
+        
+https://doi.org/10.1371/journal.pdig.0001506
+        
+
+        
+
+      
+
+    
+
+  
+
+  
+
+
+  
+
+
+
+
+
+          
+            Article
+        
+
+
+
+              
+            Authors
+        
+
+
+
+          
+            Metrics
+        
+
+
+
+          
+            Comments
+        
+
+
+  
+    Media Coverage
+  
+
+
+
+    
+
+
+
+  
+
+    
+      Reader Comments
+    
+
+
+    Figures
+
+  
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
+
+
+
+
+
+
+  Figures
+
+
+  
+
+    
+      
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+
+          
+
+                
+
+            
+
+      
+
+    
+
+
+    
+      
+      
+    
+
+    
+
+    
+
+  
+
+
+
+
+
+
+
+
+        
+          
+
+
+
+Abstract
+Vision–language models (VLMs) have demonstrated remarkable performance across a wide range of computer-vision tasks, sparking interest in their potential for digital health applications. Here, we apply VLMs to two fundamental challenges in data-driven stroke rehabilitation: automatic quantification of rehabilitation dose and impairment from videos. We formulate these problems as motion-identification tasks, which can be addressed using VLMs. We evaluate our proposed framework on 20 healthy controls and 51 stroke survivors. Our results show that current VLMs lack the fine-grained motion understanding required for precise quantification: dose estimates are comparable to a baseline that excludes visual information, and impairment scores cannot be reliably predicted. Nevertheless, several findings suggest future promise. With optimized prompting and post-processing, VLMs can classify high-level activities from a few frames, detect motion and grasp with moderate accuracy, and approximate dose counts within 30% of ground truth for mildly impaired and healthy participants, all without task-specific training or finetuning. These results highlight both the current limitations and emerging opportunities of VLMs for data-driven stroke rehabilitation and broader clinical video analysis.
+
+
+
+
+Author summary
+
+Stroke is a leading cause of long-term disability, with most survivors experiencing upper-limb impairment that limits daily function. Translating rehabilitation advances from animal studies to humans has been hindered by the lack of precise, practical tools to measure movement quantity and quality during therapy. This study explores whether vision-language models (VLMs), cutting-edge AI models trained on vast image-text datasets, can automatically estimate rehabilitation dose and impairment from videos. We evaluated the models on 20 healthy controls and 51 stroke survivors. Our results show that current VLMs lack the fine-grained motion understanding needed for accurate quantification. Nonetheless, these models recognize high-level activities, detect movement and grasp with moderate accuracy, and estimate dose within 30% of ground truth in structured tasks without retraining. We conclude that current VLMs are not yet clinically reliable, but their flexibility and generalization potential make them a promising future tool for data-driven stroke rehabilitation and digital-health applications.
+
+
+
+
+
+
+Citation: Li V, Kamalakannan N, Parnandi A, Schambra H, Fernandez-Granda C (2026) Vision-language models for human motion understanding: Lessons from stroke rehabilitation. PLOS Digit Health 5(7):
+           e0001506.
+        
+        https://doi.org/10.1371/journal.pdig.0001506
+Editor: Benjamin Filtjens, Delft University of Technology: Technische Universiteit Delft, NETHERLANDS, KINGDOM OF THE
+Received: December 8, 2025; Accepted: June 6, 2026; Published:  July 6, 2026
+Copyright:  © 2026 Li et al. This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.
+Data Availability: Data sharing is restricted by ethical and legal obligations governing human subjects research. The dataset consists of video recordings of patients undergoing rehabilitation; video data are inherently identifying (faces, gait, and body morphology remain identifiable regardless of metadata removal), and participant consent was obtained under terms that prohibit redistribution. These restrictions are imposed by the NYU Langone Institutional Review Board (IRB), Protocol \#s17-00447. Researchers interested in accessing the raw videos may submit a formal request to the head of the IRB, Marina Godina, at marina.godina@nyulangone.org, 1 Park Avenue 6th Floor, New York, NY 10016. We provide the code for model evaluation, logs of the model outputs, and the code for figure and table generation from those logs at https://github.com/livctr/vlms4rehab/tree/main.
+Funding: V.L., N.K., H.S. and C.F.G. were supported by U.S. National Science Foundation grant 2404476. URL: https://www.nsf.gov/funding. The funder did not play any role in the study design, data collection and analysis, decision to publish, or preparation of the manuscript.
+Competing interests:  The authors have declared that no competing interests exist.
+
+
+
+
+
+
+
+Introduction
+Vision-language models (VLMs) are large-scale deep learning models trained on massive multimodal datasets to jointly interpret visual and textual information. These models have recently achieved remarkable performance across a wide range of computer vision tasks, including image and video captioning, visual question answering, optical character recognition, document understanding, open-vocabulary object detection [1–13], and medical image understanding [14,15]. In this work, we investigate the use of VLMs for analyzing human motion, with a particular emphasis on stroke rehabilitation.
+
+Stroke is the leading cause of disability worldwide. In 2021, there were 93.8 million stroke survivors in the world [16], with upper limb impairment occurring in approximately 50–80% of cases [17]. Most patients remain unable to perform daily activities independently six months post-stroke, reducing quality of life and imposing enormous societal and economic burdens. In animal models of stroke, high numbers of movement repetitions have been shown to improve abnormalities in motion quality [18–20]. Unfortunately, clinical rehabilitation research has largely failed to translate this fundamental work from animals to humans [21–23]. A major barrier is the absence of precise, practical methods for quantifying both training dose (i.e., the number of movements performed during rehabilitation) and impairment level (i.e., the quality of those movements) [24,25].
+
+Previous approaches utilizing machine learning for automatic dose quantification [26–28] and impairment quantification [29,30] from video and wearable-sensor data relied on training datasets with similar characteristics to the test data. This reliance on similar data represents a fundamental limitation for such approaches, given that training data in this domain is very scarce (the largest publicly available dataset contains only 51 subjects [27]). In contrast, VLMs are, in principle, able to directly process images with very different lighting, backgrounds, camera angles and content, as they are trained on enormous amounts of data. In that sense, they hold great promise for digital health applications where video data are highly heterogeneous, such as remote patient monitoring, interactive diagnostic assistance, gait analysis, and surgical training. Recent work has shown the promise of VLMs for clinical gait analysis [31], though performance on fine-grained domain-specific action recognition remains limited [32].
+
+Here, we evaluate the ability of VLMs to perform three rehabilitation tasks: (A) identifying high-level rehabilitation activities, (B) quantifying training dose, and (C) quantifying motor impairment, using a cohort comprising 20 healthy controls and 51 stroke survivors. Activity identification serves as a proof of concept of whether VLMs can recognize what is happening in a rehabilitation video. Dose and impairment quantification—our focus—can be formulated as human-motion recognition problems, where the goal is to identify subtle movements. Our results indicate that current VLMs lack the fine-grained understanding of human motion required for precise quantification. For dose estimation, VLM performance is comparable to a baseline that relies solely on transition statistics between functional primitives, without access to the video data. For impairment assessment, the VLM fails to consistently provide correct responses for any of the items in the Fugl–Meyer assessment [33].
+
+Despite these negative results, several of our findings are moderately encouraging and point to the future potential of VLMs in data-driven stroke rehabilitation and other digital medicine applications. We observe that these models can classify high-level activities from very few frames. They can also identify the presence of motion and grasp with moderate accuracy. For a highly structured rehabilitation task, incorporating carefully engineered postprocessing optimized on a few held-out individuals yields dose estimates within 30% of the ground truth for mildly impaired and healthy subjects. While this falls short of the 10% error threshold below which counting inaccuracies become unlikely to affect recovery outcomes, it represents a promising step toward precise rehabilitation dose quantification.
+
+
+
+
+Materials and methods
+This section first describes the VLMs used in this study, the evaluation cohort, and data acquisition. We then detail our methodology for applying VLMs to three tasks in stroke rehabilitation, detailing our prompting strategies, baselines, and evaluation metrics.
+
+
+
+Ethics statement
+
+All subjects in the videos used in this study provided written informed consent in accordance with the Declaration of Helsinki. The study was approved by the Institutional Review Board at the New York University Grossman School of Medicine.
+
+
+
+
+
+Models and cohort
+
+
+Vision-language models (VLMs).VLMs are powerful multimodal models that can function as video question-answering systems. Their inputs are a set of video frames and a free-form textual question or instruction called a “prompt.” Their output is a free-form textual answer. In simplified terms, a VLM consists of a pre-trained vision encoder connected to a large-language model (LLM) with a vision-to-text connector. The textual and visual inputs to a VLM are first converted to tokens, which are numerical vector representations that serve as the fundamental units for reasoning and generation. The tokens are then fed through the LLM to generate a sequence of output tokens. This sequence is converted to text to produce the final output of the VLM.
+
+VLMs are trained in two stages [34]. In the first stage, the connector learns to align the visual and textual representations using a large dataset of image-text pairs. The second stage fine-tunes the vision encoder, connector, and large-language model jointly to answer questions, describe scenes, and follow instructions about images and videos. In this work, we used 15 state-of-the-art open-source vision-language models of various sizes from 6 model families released in the past two years: LLaVA-NeXT-Video [1], LLaVA-OneVision [2], NVILA [3], Qwen2.5-VL [4], InternVL3 [5], and InternVL3.5 [6]. More details on how inputs are processed for each model family are provided in Section B in S1 Appendix. Our evaluations were done with lmms_eval [35,36], an open-source, standardized evaluation framework.
+
+
+
+
+Evaluation cohort and data acquisition.This study is based on a cohort of 71 individuals presented in Table 1, consisting of 20 healthy subjects and 51 stroke patients. The stroke patients are separated into three motor impairment levels—mild, moderate, severe—based on the Fugl-Meyer assessment (FMA), a standardized 33-item clinical scale used to quantify motor impairment of the arm, wrist, and hand after stroke [33]. The subjects were recorded in an inpatient rehabilitation gym under two different contexts: (1) rehabilitation based on activities of daily living (ADL) and (2) impairment quantification via the FMA. The recordings were captured simultaneously from two different camera angles, using two high-definition cameras (Ninox, Noraxon) placed orthogonally less than 2 m from the subject, at a resolution of 1088 x 704 pixels and 60 or 100 frames per second.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Table 1.  Demographic and clinical characteristics of the cohort. Mean (range) is reported where applicable. ADL was evaluated on the full cohort, while FMA was evaluated on a subset of 4 healthy and 24 stroke subjects (see Table 2).
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.t001
+
+The ADL videos include nine activities: brushing teeth, combing hair, applying deodorant, drinking water, washing face, eating, putting on/taking off glasses, and performing repetitive target-directed movements—moving a toilet paper roll horizontally on a table (radial tabletop task, RTT) and vertically on a transparent shelf with different shelf heights (shelf) (see Section C in S1 Appendix for a more detailed description). Each subject performed each activity for  trials.
+
+In the FMA videos, subjects performed one of 33 movement items under the supervision of a trained expert. Each item is scored from 0 to 2. The aggregate FMA score is a number between 0 (maximally impaired) and 66 (healthy). A more detailed description of the FMA is provided in Section J in S1 Appendix.
+
+
+
+
+
+
+
+VLMs for stroke rehabilitation
+
+Fig 1 shows how we propose to apply VLMs for dose and impairment quantification from videos, and also for identification of high-level rehabilitation activities. Specialized prompts are provided to the model, along with multiple video frames, in order to solicit the information required for each task. In the case of dose quantification, the video is divided into short segments, and the VLM is asked to classify each segment into one of five basic functional movements or primitives, which are then counted to determine the rehabilitation dose [37]. In the case of impairment quantification, each prompt is based on an item from the Fugl-Meyer assessment (FMA). The model outputs are then combined to produce an estimate of the FMA score.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 1.  Vision-language models (VLMs) for data-driven stroke rehabilitation.
+(Top-Left) A VLM can function as a video question-answering system. The question, or prompt, and image frames from the video are separately encoded into tokens, which are fed-forward through a transformer-based backbone. The backbone’s output is then decoded into text. (A) Activity identification: The VLM is provided 8 frames uniformly sampled from a video (4 frames are shown due to space constraints) and a description of nine rehabilitation activities. The VLM output classifies the activity in the video. (B) Dose quantification: The VLM is provided a video segment along with a textual prompt. Its output is then utilized to classify the segment into one of five functional motions or primitives. Rehabilitation dose is quantified by counting the primitives over the whole video. (C) Impairment quantification: The VLM processes video segments of subjects performing mobility exercises from the Fugl-Meyer Assessment (FMA), a standard clinical evaluation of impairment. The input prompt is the corresponding FMA item. The outputs are aggregated to estimate the FMA score of the subject.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g001
+
+We evaluate VLMs on three stroke rehabilitation tasks: (A) activity identification, (B) dose quantification, and (C) impairment quantification. Table 2 summarizes the subject splits for each task. For some tasks, we reserved a small set of held-out subjects for prompt optimization (PO) and tuned prompts on these subjects before evaluating on the independent test cohort (TC); for others, we applied VLMs directly without any finetuning or prompt optimization. We include the rationale for our dataset splits in Section A in S1 Appendix.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Table 2.  Task-specific held-out and test cohorts used for VLM evaluation. TC = Test cohort; PO = Held-out subjects used for prompt optimization.
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.t002
+
+
+Activity identification.As shown in Fig 1(A), we formulated activity identification as a classification task, where the classes are nine rehabilitation activities. We provided the VLM with two inputs: eight frames, uniformly sampled from a rehabilitation video, and a classification prompt that describes the nine activities and asks the model to identify which one is depicted in the video frames. The textual output of the VLM indicates the estimated activity.
+
+We considered two alternative strategies for producing activity descriptions in the classification prompt. The first strategy was direct prompting, where we generated one-sentence descriptions of the activities using ChatGPT 5 (https://chat.openai.com) by providing screenshots of the supplementary material in [27]. The second strategy was optimized prompting, specifically adapted to the Qwen2.5-VL-7B-Instruct model. We first asked the VLM for a description of the objects in the work station for held-out videos from two control subjects. We then modified the activity descriptions to match the wording of the model. For example, “comb” became “small rectangular object.” Surprisingly, small changes like this boosted the accuracy from 53.4% to 77.5%. We include transcripts of both types of prompts in Section E in S1 Appendix.
+
+
+
+
+Dose quantification.We formulated the problem of measuring rehabilitation dosage as a sequence estimation task, where the goal is to identify the sequence of fine-grained motions carried out by a subject during a video. The five motions of interest, called functional primitives (see Table 3), are reach (move to contact a target object), reposition (move proximate to a target object, e.g., the initial neutral spot), transport (move a grasped target object), stabilize (hold a target object still), and idle (stand at the ready near a target object).
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Table 3.  Definition and motion-grasp decomposition of functional primitives for dose quantification. The table provides definitions of the five functional primitives [37], and shows how answers to the questions “Is the hand moving significantly?” and “Is the hand grasping an object?” can be used to identify a primitive (except for reach and reposition, which must be distinguished based on terminal grasp).
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.t003
+
+Fig 1(B) illustrates the high-level approach for primitive sequence estimation. We first divided the video into segments with duration 0.533 s. We constrained our procedure to produce one primitive per segment, as initial experiments allowing multiple primitives led to overcounting. The VLM was queried one or more times per segment—with each query receiving eight uniformly sampled frames and a hand-designed prompt—and its outputs were aggregated into a single per-segment primitive (e.g., transport). These per-segment primitives were combined to form the final sequence, with identical consecutive primitives collapsed (e.g., idle-transport-transport-reach becomes idle-transport-reach).
+
+More specifically, we employed a Decomposed Prompting strategy, which queries the VLM twice per segment—one querying whether the hand is moving significantly, and one querying whether the hand is grasping an object. As shown in Table 3, the combination of these two binary outputs uniquely identifies three of the five primitives. The remaining ambiguity is between reach and reposition, which both involve motion without a grasp. These were resolved with a terminal-grasp heuristic: if the VLM predicts either transport or stabilize within two seconds of the primitive’s start time, we classified it as reach; otherwise, it was classified as reposition. The 2-second threshold was validated on 21 videos from two control subjects outside the evaluation set. In Section H in S1 Appendix, we compare the Decomposed Prompting strategy to one that directly asks the VLM to output the primitive and include ablations on alternative segment durations and frame sampling rates. For context, we refer the reader to Fig A in S1 Appendix for statistics describing the durations of primitives within the videos.
+
+Two baselines provide context for our results. The Omniscient baseline is an oracle analog of Decomposed Prompting: rather than querying the VLM, the motion and grasp binary answers are set to ground-truth values derived from the primitive at the center frame of each segment. It represents the best possible performance achievable by any model under the one-primitive-per-segment constraint and the 2-second reach/reposition heuristic. The Markov baseline only relies on first-order transition statistics, estimated from the ground-truth primitive sequence. Two  transition matrices (one for motion, one for grasp) were estimated from the test set of B.1 in Table 2; predictions were then generated by starting in the no-motion/no-grasp state and randomly sampling subsequent transitions until the end of the video. This baseline merely exploits the likelihood of different transitions between primitives, but does not have access to the video.
+
+
+
+
+Optimizations for dose quantification.Here, we describe modifications to the Decomposed Prompting strategy. We evaluated these optimizations using Qwen2.5-VL-32B-Instruct on B.2 in Table 2.
+
+
+
+
+
+Contextual prompting: In an attempt to reduce over-segmentation (see Fig 4(c)), we incorporated the VLM’s predictions from the previous segment directly into the text prompt for the current segment (see Section G in S1 Appendix for the prompts).
+
+
+Cropping: Since most primitives can be identified by observing the hand in the upper extremity of interest, we employed a 2D pose model [38] to localize and crop the hand region, producing cropped images that were provided as visual input to the VLM. First, we prompted the VLM to identify all individuals in the initial video frame and designated the person with the largest bounding box as the subject. We then used a 2D pose model to obtain COCO keypoints [39] for the subject. We selected the elbow and wrist keypoints and estimated the hand region by extending the elbow-to-wrist vector by a factor of 0.7. If, for any frame in a segment, the lowest confidence score among the elbow and wrist keypoints was below 0.9, we abstained from cropping and passed on the original frames to the VLM. If quick movement was detected, we extracted a moving crop that linearly interpolated the hand position across the segment; otherwise, we extracted a still crop centered at the hand’s average position over the segment. Quick movement was detected when the average pixel movement in the horizontal or vertical direction exceeded 15. We ensured that crops respected image boundaries. The crop size was 224x224 pixels.
+
+
+Pose-Refined promptIng Module (PRIM-RS): We propose PRIM-RS as a pipeline optimized for dose quantification for the RTT and shelf tasks (B.2 in Table 2). This system, which was tuned on a held-out set of videos from two control subjects and one severe patient, operates on 0.267-s segments and employs specialized binary prompts, a pose-informed decision pathway, and carefully designed post-processing. This small PO set could raise concerns about potential bias toward a limited set of movement characteristics. However, optimization served to expose VLM failure modes and inform task-level design choices—not to fit subject-specific motion patterns—and the resulting prompts make no reference to the subjects’ movements (see Section G in S1 Appendix). We include full details in Section D in S1 Appendix.
+
+
+
+
+
+Metrics for assessing dose quantification.For evaluation, we have access to per-frame ground-truth primitive labels. These annotations pertain to a target side (left or right) and were meticulously labeled by trained annotators with Cohen’s kappa  between the labelers and the expert. We obtain the predicted sequence for the target side and compare the predicted and ground-truth sequences using three metrics: edit score, action error rate, and relative counting error.
+
+Denote the predicted sequence by P and the ground-truth sequence by G. The edit score ES(G,P) and the action error rate AER(G,P) [27] are normalized versions of the Levenshtein edit distance L(G,P), which counts the minimum number of operations needed to transform one sequence into the other. The operations are insertion, deletion, and substitution. For example, idle-reach-transport has an edit distance of 2 from reach-stabilize-transport (replace idle with reach and reach with stabilize, or delete idle and add stabilize).
+
+where len indicates the length of a sequence.
+
+Note that a higher ES is better, while a lower AER is better. For a null prediction, the ES is 0 and the AER is 1. We report both metrics because the ES is common in the action recognition literature [27,40–43] and the AER is better suited to evaluating estimation of highly granular motions like functional primitives, as it more heavily penalizes long incorrectly estimated sequences [27].
+
+The final metric is the relative counting error RCE(G,P), which directly evaluates rehabilitation dose quantification based on primitive counts. The RCE aggregates the counting errors across the primitives and normalizes the sum by the ground-truth sequence length:
+
+where  denotes the set containing the five primitives and c(p,S) the number of times primitive p occurs in the sequence S.
+
+
+
+
+Impairment quantification.As shown in Fig 1(C), we leveraged the Fugl-Meyer Assessment (FMA) to perform impairment quantification using VLMs. The FMA consists of multiple items designed to evaluate the movement quality of a subject. We used the VLM to rate each item by providing (1) a short clip of a subject performing an FMA item and (2) the rating instructions given to a trained expert for that item. The textual output of the VLM was then used to estimate the score for the item: 0 (worst), 1, or 2 (best).
+
+We employed two general strategies for prompting, explained in Fig 2. For Chain-of-Thought (CoT) prompting [44], we provided the VLM with all relevant rating information in the prompt and asked it to reason through its observations and conclude with a final score. For Rule-based Question-Answering (QA), we designed a list of questions tailored to each FMA item. Each question elicited a binary response. Depending on the response, a score was assigned or the next question was presented. This process continued until the final question, which forced a final rating. See Section K in S1 Appendix for the specific CoT and QA FMA prompts.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 2.  Strategies for Applying VLMs to Impairment Quantification.
+To assess impairment using VLMs, we evaluated two approaches. Chain-of-Thought supplies the VLM with all relevant contextual information in the prompt, requesting the model to reason through its observations and conclude with a final score. Rule-based question-answering prompts the VLM with a list of binary questions. The answers are then aggregated to deduce a final score. Here, the first “No” set the final score to “0” (the rest of the answers do not matter, but are shown for illustration). For this specific video, both methods ended up with an incorrect score: the ground-truth score was 2.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g002
+
+Since the subject performed each FMA item three times, we selected the middle repetition for the VLM to rate, using the start and end times of this middle repetition to define clip boundaries. Each subject was filmed using two camera angles throughout the FMA session: one positioned directly in front of the subject and another facing their paretic side (see Section J in S1 Appendix). We chose the camera angle best suited for rating a particular question.
+
+For most FMA items, we uniformly selected eight frames from the clip. This low number should be sufficient for accurate rating because the sampling rate captures the relevant motion characteristics and the clips are short (95% have duration <10 s; see Section J in S1 Appendix). An exception is the FMA section named Coordination/Speed, where subjects are instructed to rapidly move their finger between their nose and knee five times to test for tremor, dysmetria, and movement speed. For tremor and dysmetria, we segmented the video using eight frames per 0.267-s segment, rated each segment, and averaged the rating across segments to generate a final rating. For movement speed, we similarly segmented the video and prompted the VLM to count the number of “touches” detected on the nose and knee within each segment. We then identified the minimum time point at which the cumulative touch counts for both knee and nose exceeded five. The final score was then determined by comparing this minimum time point between the paretic and healthy sides.
+
+
+
+
+
+
+
+
+Results
+
+
+VLMs accurately classify high-level activities
+
+As a proof of concept of the ability of VLMs to understand the semantic content in rehabilitation videos, we consider the problem of identifying rehabilitation activities, as described under “Activity identification” in the Methods. Our evaluation set comprises 640 videos featuring 18 healthy subjects and 51 stroke patients.
+
+Fig 3 shows confusion matrices for optimized prompting (see Methods) separately for healthy controls (left) and stroke patients (right). Optimized prompting achieves an overall average accuracy of 77.5%: 87.2% for controls and 73.5% for stroke patients. Errors are concentrated in the face-wash/brushing and combing/RTT pairs, likely due to the small sizes of the objects involved. For stroke patients, these confusions are more pronounced and additional errors emerge across activities. Interestingly, the optimized prompt substantially boosts the performance of Qwen2.5-VL-7B-Instruct, but not that of the larger models in the Qwen family (56.4% for Qwen2.5-VL-32B-Instruct and 64.7% for Qwen2.5-VL-72B-Instruct), illustrating that prompt optimization is specific to a given model.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 3.  VLMs accurately classify high-level activities, with lower accuracy for stroke patients.
+Confusion matrices for activity identification with Qwen2.5-VL-7B-Instruct using optimized prompts (see Methods). Each cell shows the fraction of samples from a true activity (row) that were predicted as a given activity (column). Left: Healthy controls (N = 188 videos, 18 subjects, accuracy 87.2%). Right: Stroke patients (N = 452 videos, 51 subjects, accuracy 73.5%). Accuracy is notably lower for stroke patients, with increased confusion between related activities. See Fig B in S1 Appendix for a comparison between direct and optimized prompting.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g003
+
+Stratifying stroke patients by severity reveals a monotonic decrease in accuracy: 80.0% for mild (N = 180, 20 subjects), 73.2% for moderate (N = 205, 23 subjects), and 56.7% for severe (N = 67, 8 subjects). This trend suggests that both environmental context (workstation layout, objects, scene composition) and motion quality contribute to performance. Qualitatively, we observed that more severely impaired subjects sometimes perform the activity in an atypical or incomplete way that is difficult to recognize visually. This impacts model performance because our evaluation samples 8 frames uniformly from the video, and likely the control subjects achieve a recognizable pose in at least one of those frames, while severely impaired subjects may not. In conclusion, while accuracy drops with stroke severity, VLMs can still classify activities with relatively high accuracy from a small number of frames, provided the prompts are optimized on a small held-out set.
+
+
+
+
+
+VLMs are able to detect subtle motions to some extent, but not enough for precise dose quantification
+
+We evaluated the Decomposed Prompting strategy on a test set of 90 videos comprising nine activities for each of five control subjects and five mild/moderate stroke patients (see “B.1 General (all activities)” in Table 2). The total number of primitives in the test dataset was 4,059. The evaluation was fully independent, without any prompt optimization.
+
+Table 4 shows the results of applying 15 different VLMs for dose quantification using the proposed framework. The relative counting error is 65% or greater for all models. In fact, the best models achieve only slightly better performance than the Markov baseline, which does not take into account the video content. Using one of the best models, Qwen2.5-VL-32B-Instruct, we evaluated the effect of visual curation (cropping the input frames around the relevant upper extremity) and contextual prompting (see Methods for more details). Cropping boosts performance slightly, while contextual prompting does not.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Table 4.  In dose quantification, VLMs perform only slightly better than a baseline that is independent from the visual input. The table shows the edit score (ES), action error rate (AER), and relative counting error (RCE) of 15 VLMs with different sizes. Arrows indicate the direction of better performance. Green indicates the best result (including ties) among all models, and blue the second-best result. Cells show mean ± 1 sem. The best models are barely better than the Markov baseline, which only relies on transition statistics, and are very far from the Omniscient baseline, an upper bound on performance based on the ground-truth primitive sequences. The bottom of the table reports the performance of Qwen2.5-VL-32B-Instruct with engineered inputs. Evaluation was completely independent, without any prompt optimization.
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.t004
+
+Fig 4 provides a more detailed analysis of one of the best-performing models: Qwen2.5-VL-32B-Instruct with cropping. Fig 4(a) shows that the relative counting error (RCE) is close to 50% across activities, with extremely poor performance for combing. The aggregated RCE is lower for healthy subjects than for stroke patients, but is still above 50%. Fig 4(b) reports the performance of the VLM (solid bars) compared to the Omniscient baseline (lighter background bars) for motion and grasp detection at the frame level. While the predictions are moderately accurate for most activities, the accuracy is not enough to result in precise primitive counts.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 4.  VLMs detect motion and grasp with relatively high accuracy (albeit insufficient for precise dose quantification), but confuse left and right.
+The graphs provide a nuanced analysis of one of the best-performing models: Qwen2.5-VL-32B-Instruct with cropping. Evaluation was completely independent, with no prompt optimization. (a) The relative counting error (RCE ↓) is high ( for most activities) and is worst for combing. Healthy subjects show slightly lower RCEs compared to stroke patients. The bars represent mean ± 1 sem. (b) The accuracy of the predicted motion and grasp (solid bars) is between 60 and 80% across all activities, indicating moderately accurate detection. The lighter background bars illustrate the performance of the Omniscient baseline. (c) The model switches predictions between consecutive segments too frequently—especially for combing. (d) We isolated segments where only one hand was active. When instructed to track a particular hand, a VLM should detect motion 100% of the time for the moving hand and 0% for the still hand. Empirically, the VLM mistakenly classifies the still hand as moving in >60% of cases, presumably due to the motion in the other hand. Cropping partially alleviates this issue, but can fail and does not help when the hands overlap. The error bars show 95% binomial proportion confidence intervals.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g004
+
+Fig 4(c) shows that the VLM primitive estimates are quite unstable, constantly switching between primitives, which results in over-segmentation: 1.5 to 4 times more segments are predicted compared to the number of ground-truth segments after de-duplication.
+
+An interesting limitation of VLMs is that they fail to follow instructions that require differentiating between the left and right hand, despite careful prompt design (see Section G in S1 Appendix). In Fig 4(d), we report the results of an experiment based on segments where one hand is actively moving and the other is not. We prompted the VLM once for each hand, asking whether that hand was currently moving. Ideally, a model should detect motion 100% of the time for the active hand and 0% of the time for the non-active hand. However, we found that the model declared the non-active hand to be moving more than 60% of the time. Cropping partially mitigates this issue, but fails for some videos and remains ineffective when the hands overlap. More details on this experiment are provided in Section I in S1 Appendix. We further provide primitive-level results in Section H in S1 Appendix.
+
+
+
+
+
+With prompt optimization and post-processing, VLMs can quantify rehabilitation dosage for structured activities to some extent
+
+The results in Table 5 demonstrate that activity-specific optimizations boost performance. Most notably, the post-processing step in PRIM-RS, which involves smoothing to prevent over-segmentation, is critical. Cropping around the desired hand yields additional gains.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Table 5.  Prompt optimization, cropping and post-processing improve dose quantification. Results of PRIM-RS (Pose-Refined promptIng Module—RTT/shelf), which incorporates optimized prompting, cropping and post-processing, compared to Decomposed Prompting (based on non-optimized predefined prompts). Evaluation is performed on 132 videos from all available subjects outside the prompt-optimization set, including each RTT or shelf task video a subject completed. PRIM-RS operates on 0.267-s segments, half the 0.533-s default of Decomposed Prompting. We use the aerial camera angle for the shelf task and the side view closer to the hand of interest for the RTT task. PRIM-RS improves upon Decomposed Prompting for the three metrics. Cropping around the hand of interest and careful post-processing provide gains in performance. Arrows indicate the direction of better performance. Cells show mean ± 1 sem.
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.t005
+
+Fig 5 displays the dose quantification results for PRIM-RS. For the reach, reposition, and idle primitives, the per-primitive counting error (see caption) is moderately accurate at approximately 25%. This mainly stems from differences in movement speed across severity levels, and from the fact that stabilize durations can be extremely brief. The bottom right of Fig 5 shows the mean performance for subjects with different impairment levels. PRIM-RS performs considerably better (25–30%) for healthy subjects and mild patients, but its performance deteriorates for moderate and severe patients, whose movements are irregular and frequently idiosyncratic.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 5.  With prompt optimization and post-processing, VLMs can quantify rehabilitation dosage for structured activities to some extent.
+The first five panels show scatterplots comparing the predicted and ground-truth counts for 132 rehabilitation videos corresponding to two structured tasks (radial table top and shelf). Predictions are obtained using the proposed PRIM-RS method, which provides optimized prompts to the VLM Qwen2.5-VL-32B-Instruct and applies post-processing to its output. The relative counting error (RCE) is primitive-specific, measuring the counting error for each primitive normalized by its total number of ground-truth instances in the dataset. The RCE is moderately low at  for reach, reposition, and idle. It is subpar for transport and stabilize, illustrating the difficulty of differentiating these primitives. The bottom-right plot shows the average RCE across subjects with different impairment levels: the performance degrades as the severity level increases.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g005
+
+
+
+
+
+VLMs are not able to perform impairment quantification
+
+We evaluated the proposed framework on 899 videos from a cohort of 28 subjects (see “(C) Impairment Quantification” in Table 2). Evaluation was completely independent, with no prompt optimization. We applied the Chain-of-Thought (CoT) and Rule-based Question-Answering (QA) prompting strategies described in the Methods section.
+
+Fig 6 shows the results for Qwen2.5-VL-72B-Instruct. The predicted Fugl-Meyer score in the left plot is essentially constant throughout the spectrum of severity levels, indicating that the VLM fails to quantify impairment. The right plot breaks down the average error for all patients and scoring items for different subsections of the FMA. Errors for the two methods are similar to a non-informative model that ignores the visual input and returns a score of 1.
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 6.  VLMs fail at impairment quantification.
+Left: The scatterplot shows the ground-truth Fugl-Meyer score assessed by a trained human expert against the predicted Fugl-Meyer score by the VLM Qwen2.5-VL-72B-Instruct. The points would lie along the dotted diagonal line for a model that matches human rating. Instead, for two different prompting methods, the predicted Fugl-Meyer score is nearly constant across severity levels. Right: The bar plots show the average error of the VLM for different subsections of the Fugl-Meyer assessment, again using two prompting methods. For comparison, ONES displays the average error for a model that only predicts 1. The subsections are, from top to bottom, Arm—Flexor Synergy, Arm—Extensor Synergy, Arm–Movement Combining Synergy, Arm—Movement Out of Synergy, Wrist, Hand, and Coordination/Speed. Both methods perform comparatively to the non-informative ONES baseline. Bars show mean ± 1 sem.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g006
+
+
+
+
+
+
+Discussion
+This study reaches a nuanced conclusion regarding the current capabilities of vision-language models (VLMs) for human motion understanding.
+
+On the positive side, after prompt optimization on a limited number of held-out subjects, VLMs identify high-level activities accurately, and can be engineered to perform fine-grained motion identification in highly structured contexts. Moreover, VLMs can detect the presence of substantial motion or grasp with moderate accuracy, even without prompt optimization. Remarkably, these capabilities emerge without any task-specific training or finetuning on similar data, distinguishing VLMs from traditional machine-learning approaches that rely heavily on domain-specific supervision. This is particularly attractive for digital medicine applications, such as stroke rehabilitation, where annotated data is scarce.
+
+On the negative side, VLMs are unable to capture the subtle kinematic details required for precise quantification of rehabilitation dose or motor impairment, even after careful engineering. This is supported by our quantitative results, and also by qualitative observations that reveal several critical failure modes (see Fig 7):
+
+
+
+
+
+Object bias: VLMs tend to focus on large objects; for instance, several combing videos were misclassified as RTT seemingly because the presence of a black mat led the model to infer “some form of exercise or therapy.”
+
+
+Limited sensitivity to fine movements: The models fail to detect wrist motions like twisting and rotating, leading to poor performance on activities such as face washing or feeding.
+
+
+Overreliance on 2D semantics: VLMs may infer a grasp when a hand merely hovers near an object, lacking the depth reasoning needed to recognize actual contact.
+
+
+Hallucinations: In some cases, the models fabricate motion, reporting that a severely impaired patient performs a task correctly when barely any movement occurs.
+
+
+
+
+
+          Download:
+          PNG
+larger image
+
+TIFF
+original image
+
+
+Fig 7.  Failure modes of VLMs applied to stroke rehabilitation.
+(a) Large object bias: Left: The model misclassifies a combing activity as an RTT exercise, likely driven by contextual cues from larger objects such as the black mat and wristbands. Right: The model exhibits hand attribution errors, potentially due to the left hand’s interaction with a dominant object (water bottle). (b) Overreliance on 2D semantics: Timeline of a 6 s video with dotted lines marking 0.533 s segments. Colors indicate grasp state: gray (no grasp), orange (grasp), and black (mixed). The ground truth contains two distinct grasps. When queried, “Is the subject’s right hand grasping the pink object? Answer ‘Yes’ or ‘No’ directly.” for each segment, the VLM misinterprets visual proximity as physical contact and fails to distinguish the two separate grasp events. (c) Hallucination: A patient with severe impairment attempts a shoulder flexion task (ground truth Fugl-Meyer score of 0). For reference, the diagram on the right depicts successful completion of the task. The model hallucinates movement and incorrectly reports task success.
+
+
+
+              https://doi.org/10.1371/journal.pdig.0001506.g007
+
+In addition, we identify a key methodological limitation: VLM architectures require many tokens to represent a single frame. This results in a tradeoff due to computational constraints: either we reduce the sampling FPS or shorten the temporal context. The former is problematic because it intrinsically fails to capture fine-grained actions. The latter is problematic because, without temporal context about the movement speed of a patient, the VLM struggles to distinguish between the transport and stabilize primitives, as these depend strongly on the individual’s pace. It also results in oversegmentation: motion blur, occlusion, and camouflage (when the object boundary melds with the immediate background) are common in hand–object interactions, so objects may intermittently appear or disappear from view, causing the VLM to rapidly alternate its predictions for grasp detection. Attempts at contextual prompting (i.e., embedding prior information in the textual input to the VLMs) proved ineffective. Because of this inherent bottleneck in how VLMs represent video, fine-tuning on specialized datasets may not resolve their fundamental inability to capture fine-grained motion.
+
+These limitations align with broader findings from the computer vision community. ActionAtlas [32], a benchmark for domain-specialized action recognition, finds that state-of-the-art VLMs perform well below human baselines, with visual hallucinations as the dominant failure mode—consistent with our observations. Similarly, MotionBench [45], a benchmark for fine-grained motion comprehension, finds that existing VLMs perform poorly across a range of motion-oriented tasks, with repetition counting being particularly challenging. These difficulties are not confined to VLMs: even specialized video architectures fall far short of human performance on fine-grained skill assessment [46].
+
+Our findings suggest that achieving the level of human motion understanding required for data-driven stroke rehabilitation and other video-based digital health applications will necessitate both new datasets and methodological advances. On the data side, new large-scale datasets for training [47–49] and benchmarks for evaluation [32,50–52] are emerging. Most existing benchmarks still target high-level semantic understanding, but a small set now demands the temporal and spatial precision needed for fine-grained motion analysis [32,51]. A significant bottleneck nevertheless persists for digital health: the lack of large-scale, multi-site data with annotations of the granularity required for analyzing subtle human motion. Our own dataset reflects this gap: it was collected at a single clinical site, in a single inpatient rehabilitation gym, under controlled lighting, and with standardized camera placement. Broadening to multi-site recordings with greater environmental variation is an important direction for future work.
+
+On the methodological side, overcoming the VLM failure modes identified in this study will require progress in efficient video encoding [53], accurate detection of small-scale objects and subtle movements [54], monocular 3D understanding [55], and long-term spatial memory for occluded objects [56]. More broadly, one promising direction involves rethinking VLM architectures to incorporate spatially and temporally precise representations of body and object movement, such as parametric body models [57,58] and fine-grained motion annotations [27,59]. Ultimately, the goal is to achieve clinical-grade kinematic precision without sacrificing the broad language accessibility that makes these systems useful in practice.
+
+
+
+
+Supporting information
+
+S1 Appendix. Supplementary methods and results.
+Supporting Information for the main text: choice of dataset split (Section A); VLM input preprocessing (Section B); more details on the activity videos (Section C); the PRIM-RS method (Section D); prompts for activity identification (Section E); direct vs. optimized prompting for activity identification (Section F); prompts for dose quantification (Section G); further results for dose quantification (Section H); the Fig 4(d) experimental procedure (Section I); more details on the Fugl-Meyer assessment videos (Section J); and prompts for impairment quantification (Section K).
+
+https://doi.org/10.1371/journal.pdig.0001506.s001
+(PDF)
+
+
+S1 Data. Rule-based question-answering prompts.
+CSV file containing the Rule-based Question-Answering (QA) prompts used for impairment quantification. Each column is described in Table E of S1 Appendix.
+
+https://doi.org/10.1371/journal.pdig.0001506.s002
+(CSV)
+
+
+S2 Data. Chain-of-thought prompts.
+CSV file containing the Chain-of-Thought (CoT) prompts used for impairment quantification, following the same column format as S1 Data.
+
+https://doi.org/10.1371/journal.pdig.0001506.s003
+(CSV)
+
+
+
+
+
+
+
+
+
+Acknowledgments
+
+The computational requirements for this work were supported in part by the NYU Langone High Performance Computing (HPC) Core’s resources and personnel.
+
+
+References
+1.
+            Zhang Y, Li B, Liu H, Lee YJ, Gui L, Fu D. LLaVA-NeXT: A Strong Zero-shot Video Understanding Model. 2024. https://llava-vl.github.io/blog/2024-04-30-llava-next-video/ 
+2.
+            Li B, Zhang Y, Guo D, Zhang R, Li F, Zhang H, et al. Llava-onevision: Easy visual task transfer. 2024. https://arxiv.org/abs/240803326 
+3.
+            Liu Z, Zhu L, Shi B, Zhang Z, Lou Y, Yang S. NVILA: Efficient Frontier Visual Language Models. 2024. https://doi.org/arXiv:2412.04468 
+4.
+            Bai S, Chen K, Liu X, Wang J, Ge W, Song S. Qwen2.5-VL Technical Report. 2025. https://doi.org/arXiv:2502.13923 
+5.
+            Zhu J, Wang W, Chen Z, Liu Z, Ye S, Gu L. InternVL3: Exploring Advanced Training and Test-Time Recipes for Open-Source Multimodal Models. 2025. https://doi.org/arXiv:2504.10479 
+6.
+            Wang W, Gao Z, Gu L, Pu H, Cui L, Wei X. Advancing open-source multimodal models in versatility, reasoning, and efficiency. Internvl3. 2025. https://doi.org/arXiv:250818265 
+7.
+            Lin B, Ye Y, Zhu B, Cui J, Ning M, Jin P. Video-llava: Learning united visual representation by alignment before projection. arXiv preprint. 2023.  
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+8.
+            Chen Z, Wang W, Cao Y, Liu Y, Gao Z, Cui E. Expanding performance boundaries of open-source multimodal models with model, data, and test-time scaling. 2024. https://doi.org/10.48550/arXiv.241205271 
+9.
+            Zhang P, Zhang K, Li B, Zeng G, Yang J, Zhang Y. Long context transfer from language to vision. 2024. https://doi.org/arXiv:240616852 
+10.
+            Yang B, Wen B, Ding B, Liu C, Chu C, Song C, et al. Kwai Keye-VL 1.5 Technical Report. 2025. https://arxiv.org/abs/2509.01563 
+11.
+            Comanici G, Bieber E, Schaekermann M, Pasupat I, Sachdeva N, Dhillon I, et al. Gemini 2.5: Pushing the frontier with advanced reasoning, multimodality, long context, and next generation agentic capabilities. 2025. https://arxiv.org/abs/250706261 
+12.
+            OpenAI. GPT-4 Technical Report. OpenAI. 2023. https://doi.org/2303.08774 
+13.
+            Anthropic. Introducing Claude 3.5 Sonnet — our strongest vision model yet. 2024. https://www.anthropic.com/news/claude-3-5-sonnet 
+14.
+            Singhal K, Tu T, Gottweis J, Sayres R, Wulczyn E, Amin M, et al. Toward expert-level medical question answering with large language models. Nat Med. 2025;31(3):943–50.  pmid:39779926 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+15.
+            Li C, Wong C, Zhang S, Usuyama N, Liu H, Yang J, et al. Llava-med: Training a large language-and-vision assistant for biomedicine in one day. 2023. https://arxiv.org/abs/230600890 
+16.
+            Collaborators GS. Global, regional, and national burden of stroke and its risk factors, 1990–2021: a systematic analysis for the Global Burden of Disease Study 2021. The Lancet Neurology. 2024;23(7):657–82.  
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+17.
+            O’Flaherty D, Ali K. Recommendations for upper limb motor recovery: An overview of the UK and European rehabilitation after stroke guidelines. Healthcare. 2024;12(14).  
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+18.
+            Maldonado MA, Allred RP, Felthauser EL, Jones TA. Motor skill training, but not voluntary exercise, improves skilled reaching after unilateral ischemic lesions of the sensorimotor cortex in rats. Neurorehabil Neural Repair. 2008;22(3):250–61.  pmid:18073324 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+19.
+            Murata Y, Higo N, Oishi T, Yamashita A, Matsuda K, Hayashi M, et al. Effects of motor training on the recovery of manual dexterity after primary motor cortex lesion in macaque monkeys. J Neurophysiol. 2008;99(2):773–86.  pmid:18094104 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+20.
+            Jeffers MS, Karthikeyan S, Gomez-Smith M, Gasinzigwa S, Achenbach J, Feiten A. Does stroke rehabilitation really matter? Part B: An algorithm for prescribing an effective intensity of rehabilitation. Neurorehabilitation and Neural Repair. 2018;32(1):73–83.  pmid:29334831 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+21.
+            Saikaley M, McIntyre A, Pauli G, Teasell R. A systematic review of randomized controlled trial characteristics for interventions to improve upper extremity motor recovery post stroke. Top Stroke Rehabil. 2023;30(4):323–32.  pmid:35156561 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+22.
+            Stinear CM, Lang CE, Zeiler S, Byblow WD. Advances and challenges in stroke rehabilitation. Lancet Neurol. 2020;19(4):348–60.  pmid:32004440 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+23.
+            Cumberland Consensus Working Group, Cheeran B, Cohen L, Dobkin B, Ford G, Greenwood R, et al. The future of restorative neurosciences in stroke: driving the translational research pipeline from basic science to rehabilitation of people after stroke. Neurorehabil Neural Repair. 2009;23(2):97–107.  pmid:19189939 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+24.
+            Lohse KR, Pathania A, Wegman R, Boyd LA, Lang CE. On the Reporting of Experimental and Control Therapies in Stroke Rehabilitation Trials: A Systematic Review. Arch Phys Med Rehabil. 2018;99(7):1424–32.  pmid:29412168 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+25.
+            Walker MF, Hoffmann TC, Brady MC, Dean CM, Eng JJ, Farrin AJ, et al. Improving the Development, Monitoring and Reporting of Stroke Rehabilitation Research: Consensus-Based Core Recommendations from the Stroke Recovery and Rehabilitation Roundtable. Neurorehabil Neural Repair. 2017;31(10–11):877–84.  pmid:29233072 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+26.
+            Kaku A, Parnandi A, Venkatesan A, Pandit N, Schambra H, Fernandez-Granda C. Towards data-driven stroke rehabilitation via wearable sensors and deep learning. 2020. 
+27.
+            Kaku A, Liu K, Parnandi A, Rajamohan HR, Venkataramanan K, Venkatesan A. StrokeRehab: A benchmark dataset for sub-second action identification. 2022. https://openreview.net/forum?id=jIIzJaMbfw 
+28.
+            Parnandi A, Kaku A, Venkatesan A, Pandit N, Wirtanen A, Rajamohan H, et al. PrimSeq: A deep learning-based pipeline to quantitate rehabilitation training. PLOS Digit Health. 2022;1(6):e0000044.  pmid:36420347 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+29.
+            Yu B, Kaku A, Liu K, Parnandi A, Fokas E, Venkatesan A, et al. Quantifying impairment and disease severity using AI models trained on healthy subjects. NPJ Digit Med. 2024;7(1):180.  pmid:38969786 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+30.
+            Parnandi A, Kaku A, Venkatesan A, Pandit N, Fokas E, Yu B, et al. Data-Driven Quantitation of Movement Abnormality after Stroke. Bioengineering (Basel). 2023;10(6):648.  pmid:37370579 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+31.
+            Wang D, Yuan K, Muller C, Blanc F, Padoy N, Seo H. Enhancing gait video analysis in neurodegenerative diseases by knowledge augmentation in vision language model. In: Medical Image Computing and Computer Assisted Intervention – MICCAI 2024, 2024. pending. 
+32.
+            Salehi M, Park JS, Yadav T, Kusupati A, Krishna R, Choi Y, et al. In: Advances in Neural Information Processing Systems, 2024. 137372–402. https://proceedings.neurips.cc/paper_files/paper/2024/file/f8643596721dbac71d67f89497323efe-Paper-Datasets_and_Benchmarks_Track.pdf 
+33.
+            Fugl-Meyer AR, Jääskö L, Leyman I, Olsson S, Steglind S. A method for evaluation of physical performance. Scand J Rehabil Med. 1975;7(1):13–31. 
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+34.
+            Liu H, Li C, Wu Q, Lee YJ. Visual Instruction Tuning. In: 2023. https://arxiv.org/abs/2304.08485 
+35.
+            Zhang K, Li B, Zhang P, Pu F, Cahyono JA, Hu K. LMMs-Eval: Reality Check on the Evaluation of Large Multimodal Models. 2024. https://doi.org/arXiv:2407.12772 
+36.
+            Li B, Zhang P, Zhang K, Pu F, Du X, Dong Y. LMMs-Eval: Accelerating the Development of Large Multimodal Models. Zenodo. 2024. https://github.com/EvolvingLMMs-Lab/lmms-eval 
+37.
+            Schambra HM, Parnandi A, Pandit NG, Uddin J, Wirtanen A, Nilsen DM. A Taxonomy of Functional Upper Extremity Motion. Front Neurol. 2019;10:857.  pmid:31481922 
+                      View Article
+                    
+
+                        PubMed/NCBI
+                      
+
+                      Google Scholar
+                    
+
+38.
+            Jocher G, Qiu J, Chaurasia A. Ultralytics YOLO. 2023. https://github.com/ultralytics/ultralytics 
+39.
+            Lin TY, Maire M, Belongie S, Hays J, Perona P, Ramanan D, et al. Microsoft coco: Common objects in context. 2014. 
+40.
+            Farha YA, Gall J. Ms-tcn: Multi-stage temporal convolutional network for action segmentation. 2019. 
+41.
+            Wang Z, Gao Z, Wang L, Li Z, Wu G. Boundary-aware cascade networks for temporal action segmentation. 2020. 
+42.
+            Ishikawa Y, Kasai S, Aoki Y, Kataoka H. Alleviating over-segmentation errors by detecting action boundaries. 2021. 
+43.
+            Lei P, Todorovic S. Temporal deformable residual networks for action segmentation in videos. 2018. 
+44.
+            Wei J, Wang X, Schuurmans D, Bosma M, Ichter B, Xia F. Chain-of-Thought Prompting Elicits Reasoning in Large Language Models. 2023. https://doi.org/arXiv:2201.11903 
+45.
+            Hong W, Cheng Y, Yang Z, Wang W, Wang L, Gu X. MotionBench: Benchmarking and Improving Fine-grained Video Motion Understanding for Vision Language Models. In: 2024. https://doi.org/arXiv:2501.02955 
+46.
+            Pan Y, Zhang C, Bertasius G. Basket: A Large-Scale Video Dataset for Fine-Grained Skill Estimation. In: 2025 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), 2025. 28952–62. https://doi.org/10.1109/cvpr52734.2025.02696 
+47.
+            Grauman K, Westbury A, Byrne E, Chavis Z, Furnari A, Girdhar R. Ego4D: Around the World in 3,000 Hours of Egocentric Video. 2022. https://doi.org/arXiv:2110.07058 
+48.
+            Grauman K, Westbury A, Torresani L, Kitani K, Malik J, Afouras T, et al. Ego-exo4d: Understanding skilled human activity from first- and third-person perspectives. 2024. https://arxiv.org/abs/2311.18259 
+49.
+            Fu R, Zhang D, Jiang A, Fu W, Funk A, Ritchie D, et al. Gigahands: A massive annotated dataset of bimanual hand activities. 2025. 17461–74. 
+50.
+            Shao D, Zhao Y, Dai B, Lin D. FineGym: A Hierarchical Video Dataset for Fine-grained Action Understanding. 2020. 
+51.
+            Shangguan Z, Li C, Ding Y, Zheng Y, Zhao Y, Fitzgerald T. TOMATO: Assessing Visual Temporal Reasoning Capabilities in Multimodal Foundation Models. 2024. https://doi.org/arXiv:2410.23266 
+52.
+            Burgess J, Wang X, Zhang Y, Rau A, Lozano A, Dunlap L. Video Action Differencing. In: 2025. https://doi.org/arXiv:250307860 
+53.
+            Choudhury R, Zhu G, Liu S, Niinuma K, Kitani K, Jeni L. Don’t look twice: faster video transformers with run-length tokenization. Advances in Neural Information Processing Systems. 2024;37:28127–49. 
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+54.
+            Wang AN, Hoang C, Xiong Y, LeCun Y, Ren M. PooDLe: Pooled and dense self-supervised learning from naturalistic videos. 2024. https://doi.org/arXiv:TBD 
+55.
+            Yang J, Yang S, Gupta AW, Han R, Fei-Fei L, Xie S. Thinking in Space: How Multimodal Large Language Models See, Remember and Recall Spaces. arXiv preprint. 2024.  
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+56.
+            Plizzari C, Goel S, Perrett T, Chalk J, Kanazawa A, Damen D. Spatial Cognition from Egocentric Video: Out of Sight, Not Out of Mind. 2025. 
+57.
+            Pavlakos G, Choutas V, Ghorbani N, Bolkart T, Osman AAA, Tzionas D. In: Proceedings IEEE Conf. on Computer Vision and Pattern Recognition (CVPR), 2019. 10975–85. 
+58.
+            Chen LH, Lu S, Zeng A, Zhang H, Wang B, Zhang R. MotionLLM: Understanding Human Behaviors from Human Motions and Videos. arXiv preprint. 2024.  
+                      View Article
+                    
+
+                      Google Scholar
+                    
+
+59.
+            Team SD, Chen X, Chu FJ, Gleize P, Liang KJ, Sax A. SAM 3D: 3Dfy anything in images. In: 2025. https://doi.org/arXiv:2511.16624 
+
+
+
+
+
+          
+            
+
+            
+
+          
+
+
+        
+
+      
+
+    
+
+
+  
+  
+
+
+
+
+  
+    Download PDF
+  
+
+   
+    
+      Citation
+
+      XML
+      
+
+    
+
+  
+
+
+
+
+
+  
+    Print
+  
+
+  
+    Share
+    
+
+      Reddit
+
+
+      Facebook
+
+
+      LinkedIn
+
+
+      Mendeley
+
+
+      Bluesky
+
+
+      Email
+
+    
+  
+
+
+
+
+
+     
+    
+    
+      
+    
+    
+
+
+
+
+
+
+
+
+  Advertisement
+
+
+  
+    
+  
+
+
+
+
+
+
+
+
+  Subject Areas ?
+
+    
+      For more information about PLOS Subject Areas, click
+        here.
+
+      We want your feedback. Do these Subject Areas make sense for this article? Click the target next to the incorrect Subject Area and let us know. Thanks for your help!
+
+
+    
+
+  
+
+  
+      
+              Stroke rehabilitation
+         
+        Is the Subject Area "Stroke rehabilitation" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Dose prediction methods
+         
+        Is the Subject Area "Dose prediction methods" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Hands
+         
+        Is the Subject Area "Hands" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Visual impairments
+         
+        Is the Subject Area "Visual impairments" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Activities of daily living
+         
+        Is the Subject Area "Activities of daily living" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Crops
+         
+        Is the Subject Area "Crops" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Wrist
+         
+        Is the Subject Area "Wrist" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+      
+              Nose
+         
+        Is the Subject Area "Nose" applicable to this article?
+          Yes
+          No
+
+          Thanks for your feedback.
+
+        
+
+      
+
+  
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+    
+
+
+    Publications
+
+    PLOS Aging and Health
+
+    PLOS Biology
+
+    PLOS Climate
+
+    PLOS Complex Systems
+
+    PLOS Computational Biology
+
+    PLOS Digital Health
+
+    PLOS Ecosystems
+
+    PLOS Genetics
+
+  
+    
+
+    
+
+
+     
+
+    PLOS Global Public Health
+
+    PLOS Medicine
+
+    PLOS Mental Health
+
+    PLOS Neglected Tropical Diseases
+
+    PLOS One
+
+    PLOS Pathogens
+
+    PLOS Sustainability and Transformation
+
+    PLOS Water
+
+
+    
+
+    	
+
+
+
+  
+    Home
+  
+
+  
+    Blogs
+  
+
+  
+    Collections
+  
+
+  
+    Give feedback
+  
+
+  
+    LOCKSS
+  
+
+
+    
+
+    
+
+
+  Privacy Policy
+
+  Terms of Use
+
+  Advertise
+
+  Media Inquiries
+
+  Contact
+
+
+    
+
+  
+
+  
+    
+
+
+
+
+PLOS is a nonprofit 501(c)(3) corporation, #C2354500, based in California, US    
+
+    
+    
+
+  
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+        
+  
+  
+
+  
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+

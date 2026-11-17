@@ -1,0 +1,726 @@
+Policy Learning for Social Robot-Led Physiotherapy
+Carl Bettosi1,2, Lynne Baillie1, Susan Shenkin3 and Marta Romeo1
+Abstract— Social robots offer a promising solution for au-
+tonomously guiding patients through physiotherapy exercise
+sessions, but effective deployment requires advanced decision-
+making to adapt to patient needs. A key challenge is the scarcity
+of patient behavior data for developing robust policies. To
+address this, we engaged 33 expert healthcare practitioners
+as patient proxies, using their interactions with our robot
+to inform a patient behavior model capable of generating
+exercise performance metrics and subjective scores on perceived
+exertion. We trained a reinforcement learning-based policy in
+simulation, demonstrating that it can adapt exercise instructions
+to individual exertion tolerances and fluctuating performance,
+while also being applicable to patients at different recovery
+stages with varying exercise plans.
+I. INTRODUCTION
+Adherence to physical exercise programs is crucial for
+rehabilitating individuals who have sustained injuries such
+as fractures or strokes, significantly improving physical out-
+comes while delivering broader social and economic bene-
+fits [1]. However, healthcare workforce shortages in many
+countries mean patients can go weeks or months without in-
+person physiotherapy assessments, meaning they often rely
+on generic paper or video-based exercise guides [2]. While
+recent technological advances in the physiotherapy space
+show promise, many solutions remain reliant on constant
+human oversight, creating an increase in staff workload [3]
+and training [4], highlighting the need for autonomous,
+accessible approaches that can provide personalized rehabil-
+itation support in community settings.
+Social robots have demonstrated the potential to au-
+tonomously deliver exercise sessions [5], [6], adapting in-
+structions based on real-time user feedback while leverag-
+ing their physical presence to enhance engagement beyond
+screen-based agents [7]. However, developing autonomous
+control policies is challenging, as patients differ in physical
+ability, with performance fluctuating daily, requiring the
+system to recognize and adapt to both good and bad days.
+In our previous work, we co-designed a standardized
+upper-limb exercise session with physiotherapists [8]. In this
+work, we leverage our acquired knowledge and develop a so-
+cial robot prototype capable of delivering the physiotherapy
+session one-on-one with patients through verbal, visual, and
+physically demonstrated instruction. To enable autonomous
+This work was funded by the UK Engineering and Physical Sciences
+Research Council (Grant Number: EP/S023208/1)
+1Dept.
+of
+Mathematical
+and
+Computer
+Sciences,
+Heriot-Watt
+University,
+UK
+cb54@hw.ac.uk, l.baillie@hw.ac.uk,
+m.romeo@hw.ac.uk
+2School of Informatics, University of Edinburgh, UK
+3Ageing and Health, and Advanced Care Research Centre, Usher Insti-
+tute, University of Edinburgh, UK susan.shenkin@ed.ac.uk
+decision-making during these sessions, we train a reinforce-
+ment learning (RL) agent in a simulated environment that
+incorporates a dynamic patient behavior model.
+In human-robot interaction (HRI), online learning can be
+costly due to the significant time investment required for in-
+teractions with humans [9]. Additionally, modeling end-user
+behavior in software simulations is inherently challenging,
+as creating large-scale, representative datasets for training
+these models can be both difficult and time-consuming [10].
+To address these challenges, we collaborate with expert
+clinicians to integrate insights that capture a broad spectrum
+of patient behaviors. Our goal is to generate a robot control
+policy that can adaptively instruct the most optimal number
+of exercise repetitions in real-time based on:
+• Patient-specific exertion thresholds, allowing for person-
+alized intensity adjustments during sessions
+• Session-to-session variations in patient performance
+• Individual exercise plans tailored to each patient’s phys-
+ical capabilities and rehabilitation goals
+II. BACKGROUND AND RELATED WORK
+There is a notable body of work exploring social robots
+in the physical exercise domain. These robots often serve
+a variety of functions: as motivational companions [11], as
+a means of offering corrective feedback on exercises [12],
+or as instructors actively leading exercise sessions [13].
+Machine learning-based approaches allowing for personal-
+ization in response to session dynamics have been a key
+focus in these applications. For example, Tapus et al. uses
+RL to optimize proxemics, speed, and vocal content to
+introverted/extroverted personality types [14]. Winkle et al.
+demonstrated how an interactive machine learning approach,
+trained with real-world data, improved autonomous robot
+behavior for exercise sessions, though the model struggled
+with timing [5]. Pulido et al. developed a social robot for
+pediatric upper-limb rehabilitation, using automated planning
+to adapt exercises based on user performance, but found a
+high reliance on expert intervention [6].
+Although machine learning is helping to achieve per-
+sonalization in HRI, learning to adapt to the nuances of
+human task behavior—whether through direct training or
+simulation—remains highly challenging. This is particularly
+true in sensitive domains like healthcare, where acquiring
+patient behavior data is difficult. Researchers often rely on
+passive task observations [15] or interactive machine learning
+with experts [5], but these methods can be resource-intensive.
+An alternative approach is to use a sample of representative
+interactions to inform user behavior models used in simula-
+tion [16]. For instance, Tsiakas et al. [17] used RL in a social
+arXiv:2509.11297v1  [cs.RO]  14 Sep 2025
+
+Fig. 1.
+The three upper limb exercises incorporated into our prototype.
+Left: arm abduction (front view), center: arm flexion (side view), right: arm
+external rotation (top view).
+Fig. 2.
+The structure of our robot’s guided exercise sessions as informed
+through our expert-led design [8].
+robot-led cognitive learning task, adapting difficulty based on
+user performance and engagement, where simulated users
+were derived from clustered user types. Similarly, Stolarz
+et al. applied RL to an robot-led assistive therapy task for
+autism spectrum disorder, using a learned user model fitted to
+a dataset of sampled human behavior [18]. In these examples,
+however, non-end users were used to inform user models,
+inevitably leading to a gap between simulated and real-
+world performance. Where collecting end-user behavior is
+infeasible, a more rigorous approach may involve leveraging
+task experts with experience in end-user behavior.
+III. A SOCIAL ROBOT EXERCISE INSTRUCTOR
+A. Robot Platform
+We developed a prototype on the ARI platform by PAL
+Robotics [19], a 165cm tall humanoid robot with rich mul-
+timodal interaction capabilities that has shown strong suit-
+ability in real-world healthcare applications [20]. The robot’s
+task is to guide a patient through an exercise session that can
+last up to 20 minutes. The robot communicates feedback and
+exercise instructions (e.g., ‘Do 6 reps of arm rotations’) using
+verbal utterances and screen captions. The instructions are
+supplemented with still animations displayed on the screen
+(similar to those in Figure 1) and demonstrations performed
+through the robot’s upper limbs. Each limb has 2 degrees of
+freedom (DoF) in the shoulder, and 1 DoF in the upper arm,
+elbow, and wrist, allowing for accurate representations of the
+exercises. The design of these interactions was shaped by
+prior design workshops and interviews with physiotherapists
+and occupational therapists [21], [8].
+B. Standardized Upper Limb Exercise Session
+The three exercises instructable the prototype (abduction,
+flexion, rotation), illustrated in Figure 1, are popular in
+standard UK National Health Service shoulder rehabilitation
+Fig. 3.
+A participant engaging with our robot during a data collection
+session. The participant is performing a resistive abduction exercise as they
+roleplay a high ability level.
+materials. They provide good coverage of shoulder move-
+ment, are adaptable for sitting or standing, and easily sensed
+by the robot, supporting our goal of autonomy. To accommo-
+date long-term rehabilitation progression, each exercise can
+be performed using one of three modes, allowing for nine
+exercise variations:
+• Assistive: Using props or the unaffected limb to support
+movement
+• Active: Performing the movement using only the af-
+fected limb to improve range of motion (ROM)
+• Resistive:
+Incorporating
+resistance
+bands
+to
+build
+strength
+Our robot follows the same structure for each ses-
+sion, shown in Figure 2. This consists of two overarching
+phases depending on patient ability ({assistive, active} or
+{active, resistive}). {active, resistive} is excluded, as pa-
+tients ready for strengthening typically no longer require
+assistance. In each phase, patients complete three exercise
+blocks—abduction, flexion, and rotation—with three sets
+per block. The robot controls the number of repetitions
+in each set. After each block, the robot asks the patient
+for feedback on their perceived exertion. This standardized
+session design creates a consistent framework that simplifies
+the robot’s learning process but maintains alignment with
+clinical advice [8].
+C. Exercise Perception
+1) Repetition count: To assess patients’ exercise perfor-
+mance, two wearable Inertial Measurement Units (IMUs)1
+are fitted to the affected arm, as shown in Figure 3. IMUs
+have been proven effective for capturing upper limb exercise
+data [22], avoiding the limitations of vision-based meth-
+ods [23]. Positioned on the upper arm and wrist, in line
+1https://x-io.co.uk/x-imu3/
+
+with best practices [24], the IMUs collect acceleration and
+orientation data during exercise sets. Repetitions are identi-
+fied by counting peaks in accelerometer and gyroscope data
+along the dominant axes for each exercise. This technique,
+validated in lab tests, shows sufficient reliability and accuracy
+for estimating repetition counts.
+2) Perceived exertion (PE) scoring: Our co-design ses-
+sions revealed the importance of conversational dialogue
+during patient-physiotherapist interaction. To accommodate
+this, our robot asks variations of ‘How did you find that
+exercise?’, to which the patient provides a verbal response.
+Our goal is to extract a numerical score in line with the
+Borg Rating of Perceived Exertion CR10 Scale [25], a
+widely validated tool used to measure subjective effort during
+exercise, where 1=very slight, 3=moderate, 10=maximal. To
+achieve this, a physiotherapist with eight years of experience
+labeled 33% of patient responses. We then used OpenAI’s
+GPT-4 Large Language Model (LLM) to process patient
+responses, employing Few-Shot Prompting [26] with a Borg
+Scale explanation and 12 expert-labeled examples. The LLM
+achieved 94% agreement with the expert within a ±1 range
+(48% exact), tending to rate exertion slightly higher (expert
+average: 3.06, LLM average: 3.64). This LLM pipeline
+enables the robot to estimate PE from natural language input
+(e.g., “That felt fine.”= 3, “That was a little difficult.”= 4,
+“Still painful and I could do with a drink.”= 7).
+IV. EXPERT DATA COLLECTION
+To develop a behavior policy for our robot instructor, we
+required a diverse dataset of patient-representative behav-
+iors, capturing variations in responses to exercise exertion
+and fluctuations in day-to-day performance. However, direct
+robot-patient interactions at this stage were impractical and
+posed potential risks without a well-validated control policy.
+To address this, we leveraged the expertise of healthcare
+professionals with extensive experience in upper limb re-
+habilitation and patient behavior. By engaging clinicians as
+proxies for real patients, we adopted an approach inspired by
+‘patient simulation’—a well-established method in medical
+training where individuals roleplay as patients to facilitate
+learning and assessment [27]. Similar techniques, such as
+bodystorming, have been used in HRI research to inform
+system design where it is otherwise challenging to access
+real end users [28].
+A. Participants
+We recruited 33 participants, including 14 physiothera-
+pists, 17 occupational therapists, one assistant practitioner,
+and one physiotherapy student (with patient practice ex-
+perience). On average, the participants had 9.9 years of
+experience in rehabilitating patients with upper limb injuries
+and came from various public healthcare organizations and
+geographical locations across Scotland, UK. We held 23
+data collection sessions at a local community rehabilitation
+center gym, with the remainder taking place in academic
+laboratories across two universities.
+TABLE I
+EXERTION TOLERANCE CLUSTER DATA WITH ASSIGNED GROUPINGS
+Under
+Over
+Group
+Avg Reps
+Avg PE
+Avg Reps
+Avg PE
+High Performer
+106.3%
+1.3
+86.9%
+4.4
+Average Performer
+115.9%
+1.8
+52.9%
+5.5
+Low Performer
+102.4%
+2.4
+17.8%
+6.0
+B. Protocol
+Each participant completed two exercise sessions guided
+by our robot prototype, each following the structure outlined
+in Figure 2. They were assigned one of 18 scenarios based
+on a 3x6 matrix of exertion levels (underexert, overexert,
+optimal exertion) and patient abilities based on variations
+in ROM and strength levels. Abilities 1-3 would perform
+{assistive, active} phases while abilities 4-6 would per-
+form {active, resistive}. Each scenario also included a brief
+description of the patient’s state. For example, Ability 4
+– Overexertion: The patient has a high range of motion,
+performs active exercises well, and is beginning resistive
+exercises. The robot overexerts the patient by assigning too
+many repetitions. The ability descriptions were kept inten-
+tionally broad to reflect the diverse patient populations each
+expert worked with, such as those recovering from fractures
+or strokes. All participants completed an optimal exertion
+session, plus either an over or under exerted scenario.
+The robot’s actions (e.g., instruct-assistive-flexion-set-2-
+reps-4) were controlled by the researcher via a web interface
+(Wizard of Oz) while data was recorded through the IMUs as
+they performed exercises and through a microphone during
+their verbal responses. Participants were instructed to re-
+spond as they would expect patients to during similar points
+in a session. They were told they could end the session at any
+time, for instance, if they believed a patient in that particular
+scenario may be unable to continue due to fatigue. We set
+an arbitrary number of repetitions per set—six for optimal
+and overexertion conditions, and four for underexertion.
+C. Dataset
+All but one participant completed two robot-guided exer-
+cise sessions, with one session excluded due to a recording
+error, resulting in a total of 63 sessions spanning 16 hours.
+Session durations ranged from 4 to 21 minutes, with an
+average of 14 minutes. There were 10, 12, 9, 12, 10, 10
+participants for abilities 1-6 respectively, with the following
+occurrences: Optimal: 32, Underexertion: 16, and Overexer-
+tion: 15. 1020 exercise sets were complete (5187 repetitions)
+and 345 user utterances collected as feedback to the robot’s
+questioning on perceived exertion.
+In line with our robot’s decision-making objectives, we
+performed K-means clustering (k=3) across average achieved
+repetitions (as a percentage of instructed) and PE scores for
+over and under exertion sessions, to uncover variations in
+how participants responded to different exertion intensities.
+Some tolerated higher repetitions well, while others showed
+signs of fatigue or struggled. Table I summarizes these the
+clustered types. Figure 4 shows an example of the differences
+
+Fig. 4.
+The average number of repetitions achieved (as a % of number
+instructed) across all ability level 3 sessions. Each session consists of 18
+exercise sets, and the graph illustrates the temporal progression throughout
+the session.
+Fig. 5. Visualization of the simulation function for perceived exertion score
+as derived from the repetition difference and the patient’s exertion tolerance.
+across exertion levels for a single ability level. Through
+analysis of session data and participant feedback, we also
+identified six common ‘performance patterns’: struggling day
+(consistently below goal), drastic decline (sudden drop in
+performance), slow decline (gradual fatigue), linear (steady
+performance), good day (above average), and linear increase
+(improving over time).
+V. POLICY LEARNING IN SIMULATION
+We developed a software simulation environment for
+robot-patient interaction during our exercise sessions. The
+environment consists of a patient behavior model, informed
+by our dataset, that manages simulated patients and interacts
+with a reinforcement learning agent to instruct repetitions.
+This feedback loop enables policy learning (Figure 6).
+A. Patient Behavior Model
+Each episode initializes the patient behavior model with a
+profile containing static and dynamic attributes that govern
+patient responses to robot instructions. In real-world use, we
+could imagine known patient attributes of this profile be set
+by the patient’s physiotherapist. For our use, we seed the
+profile based on identified trends from our collected dataset:
+• Exercise plan: Goal repetition counts for each of the 18
+sets in the session (e.g., 10*18).
+• Exertion tolerance: Low Performer, Average Performer,
+or High Performer.
+• Daily performance: One of six performance pattern
+variations introduced in Section IV-C.
+• Performance tracker: The model also stores patient
+performance over the live session.
+At each set, the patient model receives set number and
+instructed reps, and generates baseline reps, achieved reps,
+and PE score. baseline reps is the number of repetitions our
+model expects the patient to achieve in line with their given
+daily performance. It is determined by adjusting the goal rep-
+etition count for the current set by a function that simulates
+daily performance with an added noise factor (examples in
+Section VI). Equation 1 shows how the achieved repetitions
+are calculated:
+achieved reps =
+
+
+
+
+
+baseline reps
+if instructed reps ≥baseline reps,
+instructed reps
+if instructed reps < baseline reps,
+1
+if baseline reps < 1
+(1)
+PE score is calculated by mapping the difference be-
+tween baseline reps and instructed reps to the Borg CR10
+scale. For optimal exertion (baseline reps = instructed reps),
+the score is fixed at 3.0. For underexertion (baseline reps
+> instructed reps) or overexertion (baseline reps < in-
+structed reps), the score is based on the magnitude of the
+difference, adjusted by the patient’s exertion tolerance profile
+from our clustering analysis (Table I). The score is derived
+by averaging the profile’s exertion range for a 1-rep differ-
+ence, then scaling linearly to extremes (0 for underexertion,
+10 for overexertion) as the difference approaches 5 reps.
+Differences over 5 reps return the scale’s extremes. This
+relationship is visualized in Figure 5.
+B. Reinforcement Learning Agent
+We formulate our robot’s decision-making as a RL prob-
+lem. RL is well-suited for generating complex control poli-
+cies through trial-and-error interactions. This involves our
+robot instructor agent engaging with our patient model in
+simulated sessions, where it learns to map session states to
+optimal instruction actions to maximize cumulative session
+reward [29]. The resulting policy aims to dynamically adapt
+its guidance, accounting for patient ability and session vari-
+ability.
+1) State space: S is defined as:
+• sset ∈{1, . . . , 18} is the current set.
+• sexertion tolerance ∈{low, average, high} reflects the cat-
+egory of patient exertion tolerance (taken from the
+patient’s profile).
+• savg reps ∈{30 −39.9%, . . . , 140 −149.9%} denotes
+the running average repetition count category with a
+window of the past two sets in the session, as a
+percentage of the patient’s goal reps. This tells the
+agent how the patient’s performance is changing over
+the session.
+2) Action space: A = {−70%, . . . , +70%} consists of
+percentage-based adjustments to the goal repetition count for
+the current set. This formulation allows for adaptive scaling
+
+Fig. 6.
+We collect patient-representative behavior from robot-led exercise sessions, process and cluster the data into distinct characteristics, and use these
+to inform a patient behavior model that interacts with an RL agent for policy learning in simulated sessions.
+across different exercise plans, ensuring that adjustments
+remain proportional regardless of exercise plan.
+3) Reward function:
+Rtotal = w1
+reps achieved
+baseline reps
+2
+|
+{z
+}
+Rreps
++w2
+
+1−(PE score −3)2
+α
+
+|
+{z
+}
+Rfeedback
+(2)
+Rtotal, shown in Equation 2, is an incentive to guide the
+agent’s learning objectives. In our composite reward func-
+tion, Rreps encourages the agent to maximize the number of
+repetitions achieved by the patient relative to their capability
+in that set. The quadratic form makes higher repetition
+counts disproportionately more rewarding. However, without
+considering the patient’s subjective physical state, the agent
+would be driven to push the patient at the cost of potentially
+injuring them. To address this, Rfeedback regulates the PE
+score, ensuring that it remains within a moderate range. α
+controls the steepness of the penalty for deviations from the
+ideal PE of 3. In practice, α = 2 for PE < 2;
+3 for 3 ≤
+PE ≤8;
+2 for PE > 8. The weights w1 and w2 (set
+for us to 0.8 and 0.2 respectively) can be tuned based on
+experimental results to prioritize the different signals. Rtotal
+is normalized between -1 and 1.
+4) Proximal Policy Optimization (PPO): Given the mod-
+erate complexity of the state-action space, we opted for a
+PPO agent. PPO is a policy gradient method that optimizes
+a surrogate objective function while ensuring that updates
+to the policy do not deviate too much from the previous
+policy. This approach balances exploration and exploitation,
+allowing the agent to learn stable and efficient policies in
+high-dimensional environments.
+VI. RESULTS
+We trained our PPO agent over 100,000 timesteps (5,555
+episodes). The agent achieved an average episode reward of
+13.8 out of a possible 18, indicating good performance on
+our simulated sessions with patients. To gain better insight
+into our learned policy’s behavior, we analyzed average
+performance over 500 exercise session episodes for a variety
+of patient profile combinations. To simplify visualization, we
+use a exercise plan of 10 repetitions for each of the 18 sets.
+Figure 7 illustrates the policy’s performance under the
+linear increase pattern, where patients improve across three
+exertion tolerance groups throughout the session. Baseline
+reps represent the patient’s expected performance as gen-
+erated from our patient simulation. The policy starts more
+optimistically for high performers but quickly levels to
+baseline by set 3 across all groups. It anticipates good perfor-
+mance, gradually increasing the instructed repetition counts,
+with a noticeable difference between groups in the middle
+phase—high performers are consistently instructed one more
+repetition than the others. By the end, the policy gives more
+relief to low performers while continuing to challenge high
+performers. The average difference of repetitions counts be-
+tween baseline and instructed is as follows: Low Performers:
+0.01, Average Performers: 0.19, High Performers: 0.56. The
+policy quickly adjusts the PE score after set 2 and effectively
+controls it as it peaks again through the middle phase. The
+average PE for each exertion tolerance in the sessions are:
+Low: 3.45, Average: 3.52, High: 3.78.
+Figure 8 illustrates the policy’s performance under the
+struggling day pattern. Initially, the policy applies a similar
+strategy as observed in the previous example, lacking prior
+session data. By set 3, it adapts, reducing instructed rep-
+etitions to match performance. Low performers experience
+the sharpest drop at set 3, stabilizing at around 6 reps
+for the remainder of the session. Average performers and
+high performers maintain instruction at 7 reps, with average
+performers receiving minor relief in the penultimate set.
+The average instructed repetition difference from baseline is
+0.27, 0.92, and 1.10 for the three patient exertion tolerances.
+The average PE score starts high, but is quickly stabilizes
+(averages: 3.71, 4.66, 4.38).
+Figure 9 demonstrates how our policy performs on a more
+tailored exercise plan with the linear pattern, where patients
+perform close to their goal repetitions for the duration of
+the session. In these patients’ exercise plans, all sets are 7
+repetitions except the first block of rotation exercises (sets
+7, 8, 9), which are set to 9 . Notably, the policy maintains
+appropriate adjustments even when faced with fluctuating
+repetition goals. The average difference in repetitions from
+instructed to baseline is 0.43, 0.58, and 0.63 for the three
+patient exertion tolerances. The PE score also remains con-
+trolled (average: 4.17, 4.31, 3.90).
+We observed similar performance across the remaining
+three patterns (drastic decline, slow decline, and good day).
+Notably, in the good day pattern, the policy was slow to
+increase repetitions for low performers who started strong,
+with an average repetition difference of -0.76.
+
+Fig. 7. Average performance of our trained policy on instructed reps (TOP)
+and PE score (BOTTOM) in sessions patients perform increasingly well.
+Fig. 8. Average performance of our trained policy on instructed reps (TOP)
+and PE score (BOTTOM) in sessions patients perform poorly.
+VII. DISCUSSION
+The objectives of a our robot instructor’s behavior policy
+were threefold: personalization to individual exertion toler-
+ance, adaptation to varying session performance, and applica-
+bility across different exercise plans. Our results demonstrate
+that the generated policy has learned distinct approaches
+in session instruction across three patient exertion tolerance
+groups learned from our dataset, pushing high performers
+with greater repetition instructions while instructing low
+performers more conservatively. Results also show that the
+policy adapts to different performance patterns, recognizing
+Fig. 9.
+Average performance of our trained policy on instructed reps on a
+more complex exercise plan, with goal repetitions of 7 for all sets besides
+sets 7, 8, 9, where the goal is 9 repetitions.
+when patients are performing well and adjusting repeti-
+tions accordingly, or quickly reducing them when patients
+struggle. Lastly, we observe our policy working on a more
+customized exercise plan with varying repetitions counts per
+exercise block.
+Our work presents two key novelties. First, our RL-
+based framework enables adaptive instruction beyond exist-
+ing social robot exercise instructors, dynamically adjusting to
+patient exercise performance sensed through IMUs and nat-
+uralistic verbal feedback through an LLM-based approach.
+By incorporating nine exercise variations and adapting to
+different exercise plans, our system also promotes usability
+across a wide range of patient abilities. Second, unlike
+prior RL-based HRI studies that rely on generalized user
+behavior models [18], [17], we integrate expert knowledge of
+patient rehabilitation, replacing naive user assumptions with
+informed models—bringing us closer to effective real-world
+robot behavior.
+A. Limitations and Next Steps
+Perceived Exertion (PE) is highly subjective and unreliable
+as a sole indicator of exercise difficulty; future work should
+incorporate objective metrics such as Range of Motion to
+better assess fatigue. The current policy lacks awareness of
+patient performance prior to each session, often leading to
+overexertion when patients are fatigued—this could be mit-
+igated through an initial assessment phase. Although PE is
+integrated via naturalistic voice interaction, translating open-
+ended verbal input into numerical scores remains challenging
+due to irrelevant responses and microphone reliability. Future
+iterations will incorporate additional input modalities to
+improve PE interpretation. Model generalizability to unseen
+behavior trajectories is likely limited by the current rule-
+based patient model; future work will explore more dynamic
+alternatives, potentially leveraging LLMs. The existing rep-
+etition counting pipeline from IMU data is not generalizable
+to a wider range of exercises. Future work could look
+to use more sophisticated machine learning approaches to
+strengthen this. Finally, future work will focus on integrating
+multi-session learning to track patient progress over time
+and refine personalization, allowing the robot to support
+long-term therapeutic relationships rather than adapting only
+
+within single sessions.
+VIII. CONCLUSION
+In this work, we present a social robot exercise instructor
+for standardized upper limb exercises, building on prior
+research [8], [21]. To address data limitations, we used 33
+expert clinicians as proxies to create a diverse dataset of
+patient-representative behaviors. Based on this, we developed
+a patient behavior model and trained a RL agent to personal-
+ize exercise instructions, adjusting repetition counts accord-
+ing to exertion tolerances and session-to-session performance
+fluctuations. Our results show promising adaptation in sim-
+ulation, laying the foundation for autonomous, personalized
+exercise guidance beyond current implementations. Our next
+steps are focused on validating the system through real-world
+patient evaluations and creating further enhancements with
+multi-session learning and expanded perception capabilities.
+ACKNOWLEDGMENTS
+We would like to thank South Lanarkshire University
+Health and Social Care Partnership, and the staff at both
+NHS Lanarkshire and Blantyre LIFE for their valuable input
+during the data collection phase of this work. We would also
+like to thank Tom McKeever for his clinical input on this
+paper.
+REFERENCES
+[1] A. Patel, V. Berdunov, Z. Quayyum, D. King, M. Knapp, and R. Wit-
+tenberg, “Estimated societal costs of stroke in the uk based on a
+discrete event simulation,” Age and ageing, vol. 49, no. 2, pp. 270–
+276, 2020.
+[2] A. Suero-Pineda,
+´A. Oliva-Pascual-Vaca, M. R.-P. Dur´an, P. R.
+S´anchez-Laulh´e, M. ´A. Garc´ıa-Frasquet, and J. Blanquero, “Effec-
+tiveness of a telerehabilitation tablet app in combination with face-
+to-face physiotherapy for people with wrist, hand or finger injuries:
+A pragmatic multicentre clinical trial,” Journal of telemedicine and
+telecare, vol. 31, no. 1, pp. 29–40, 2025.
+[3] D. Biggs, L. Blackburn, C. Black, and S. Shanmugam, “Physiotherapy
+under pressure: A cross-sectional study on the interplay between
+perfectionism, moral injury, and burnout,” PloS one, vol. 20, no. 2,
+p. e0299173, 2025.
+[4] L. Martinsen, N. Øster˚as, T. Moseng, A. T. Tveter, et al., “Usage,
+attitudes, facilitators, and barriers toward digital health technologies
+in musculoskeletal care: Survey among primary care physiotherapists
+in norway,” JMIR Rehabilitation and Assistive Technologies, vol. 11,
+no. 1, p. e54116, 2024.
+[5] K. Winkle, S. Lemaignan, P. Caleb-Solly, P. Bremner, A. J. Turton,
+and U. Leonards, “In-situ learning from a domain expert for real world
+socially assistive robot deployment.” in Robotics: Science and Systems,
+2020.
+[6] J. C. Pulido, C. Suarez-Mejias, J. C. Gonzalez, A. D. Ruiz, P. F. Ferri,
+M. E. M. Sahuquillo, C. E. R. De Vargas, P. Infante-Cossio, C. L. P.
+Calderon, and F. Fernandez, “A socially assistive robotic platform for
+upper-limb rehabilitation: a longitudinal study with pediatric patients,”
+IEEE Robotics & Automation Magazine, vol. 26, no. 2, pp. 24–39,
+2019.
+[7] V. Vasco, C. Willemse, P. Chevalier, D. De Tommaso, V. Gower,
+F. Gramatica, V. Tikhanoff, U. Pattacini, G. Metta, and A. Wykowska,
+“Train with me: a study comparing a socially assistive robot and a
+virtual agent for a rehabilitation task,” in International Conference on
+Social Robotics.
+Springer, 2019, pp. 453–463.
+[8] C. Bettosi, L. Baillie, and S. Shenkin, “Designing long-term interaction
+for robot-assisted recovery after critical injury.”
+[9] N. Akalin and A. Loutfi, “Reinforcement learning approaches in social
+robotics,” Sensors, vol. 21, no. 4, p. 1292, 2021.
+[10] Y. Yu, “Towards sample efficient reinforcement learning.” in IJCAI,
+2018, pp. 5739–5743.
+[11] K. Swift-Spong, E. Short, E. Wade, and M. J. Matari´c, “Effects of
+comparative feedback from a socially assistive robot on self-efficacy
+in post-stroke rehabilitation,” in 2015 IEEE International Conference
+on Rehabilitation Robotics (ICORR).
+IEEE, 2015, pp. 764–769.
+[12] M. Bogliolo, G. Marchesi, A. Germinario, E. Micheli, A. Canessa,
+F. Burlando, F. Vallone, A. Pilotto, and M. Casadio, “A robot instructor
+for the prevention and treatment of sarcopenia in the aging population:
+A pilot study,” in 2020 29th IEEE International Conference on Robot
+and Human Interactive Communication (RO-MAN).
+IEEE, 2020, pp.
+1075–1080.
+[13] M. K. Ross, F. Broz, and L. Baillie, “Implementation and evaluation
+of a motivational robotic coach for repetitive stroke rehabilitation,”
+in Companion of the 2024 ACM/IEEE International Conference on
+Human-Robot Interaction, 2024, pp. 911–915.
+[14] A. Tapus, C. T¸ ˘apus¸, and M. J. Matari´c, “User—robot personality
+matching and assistive robot behavior adaptation for post-stroke reha-
+bilitation therapy,” Intelligent Service Robotics, vol. 1, pp. 169–183,
+2008.
+[15] M. Ross, F. Broz, and L. Baillie, “Observing and clustering coaching
+behaviours to inform the design of a personalised robotic coach,” in
+Proceedings of the 23rd international conference on mobile human-
+computer interaction, 2021, pp. 1–17.
+[16] A. Andriella, C. Torras, and G. Aleny`a, “Learning robot policies
+using a high-level abstraction persona-behaviour simulator,” in 2019
+28th IEEE International Conference on Robot and Human Interactive
+Communication (RO-MAN).
+IEEE, 2019, pp. 1–8.
+[17] K. Tsiakas, M. Abujelala, and F. Makedon, “Task engagement as
+personalization feedback for socially-assistive robots and cognitive
+training,” Technologies, vol. 6, no. 2, p. 49, 2018.
+[18] M. Stolarz, A. Mitrevski, M. Wasil, and P. G. Pl¨oger, “Learning-
+based personalisation of robot behaviour for robot-assisted therapy,”
+Frontiers in Robotics and AI, vol. 11, p. 1352152, 2024.
+[19] S. Cooper, A. Di Fava, C. Vivas, L. Marchionni, and F. Ferro, “Ari: The
+social assistive robot and companion,” in 2020 29th IEEE International
+conference on robot and human interactive communication (RO-MAN).
+IEEE, 2020, pp. 745–751.
+[20] S. Cooper and R. Ros, “Towards the deployment of a social robot at
+an elderly day care facility,” in International Conference on Social
+Robotics.
+Springer, 2022, pp. 277–287.
+[21] C. Bettosi, L. Baillie, M. K. Ross, and F. Broz, “A systematic approach
+to modeling structured behavior in social robots,” in Proceedings of the
+2024 International Symposium on Technological Advances in Human-
+Robot Interaction, 2024, pp. 29–37.
+[22] K. Lee, J.-H. Kim, H. Hong, Y. Jeong, H. Ryu, H. Kim, and S.-U.
+Lee, “Deep learning model for classifying shoulder pain rehabilita-
+tion exercises using imu sensor,” Journal of NeuroEngineering and
+Rehabilitation, vol. 21, no. 1, p. 42, 2024.
+[23] W. Wei, K. Kurita, J. Kuang, and A. Gao, “Real-time limb motion
+tracking with a single imu sensor for physical therapy exercises,” in
+2021 43rd Annual International Conference of the IEEE Engineering
+in Medicine & Biology Society (EMBC). IEEE, 2021, pp. 7152–7157.
+[24] G. H¨oglund, H. Grip, and F. ¨Ohberg, “The importance of inertial
+measurement unit placement in assessing upper limb motion,” Medical
+Engineering & Physics, vol. 92, pp. 1–9, 2021.
+[25] N. Williams, “The borg rating of perceived exertion (rpe) scale,”
+Occupational medicine, vol. 67, no. 5, pp. 404–405, 2017.
+[26] T. Brown, B. Mann, N. Ryder, M. Subbiah, J. D. Kaplan, P. Dhariwal,
+A. Neelakantan, P. Shyam, G. Sastry, A. Askell, et al., “Language
+models are few-shot learners,” Advances in neural information pro-
+cessing systems, vol. 33, pp. 1877–1901, 2020.
+[27] M. Javaherian, N. Dabbaghipour, M. K. Mafinejad, N. Ghotbi, A. A.
+Khakneshin, and B. A. Moghadam, “The role of simulated patient
+in physiotherapy education: a review article,” Journal of Modern
+Rehabilitation, 2020.
+[28] D. Porfirio, E. Fisher, A. Saupp´e, A. Albarghouthi, and B. Mutlu,
+“Bodystorming human-robot interactions,” in proceedings of the 32nd
+annual ACM symposium on user Interface software and technology,
+2019, pp. 479–491.
+[29] R. S. Sutton, “Reinforcement learning: An introduction,” A Bradford
+Book, 2018.

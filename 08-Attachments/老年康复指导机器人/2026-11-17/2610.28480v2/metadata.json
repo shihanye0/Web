@@ -1,0 +1,10 @@
+{
+  "id": "2610.28480v2",
+  "requested_title": "SuperMimic",
+  "url": "https://arxiv.org/pdf/2610.28480v2",
+  "sha256": "66252d821553af508cd3e6c10d4e326fa0595f39a2a7d8f854eafd2a8fbab2a8",
+  "pages": 19,
+  "first_page": "SuperMimic: Scaling Humanoid Whole-Body Control\nwith One Differentiable World Model\nQiayuan Liao\nYiyang Shao∗\nJunfeng Long∗\nKevin Zakka\nRoberto Horowitz\nPieter Abbeel†\nKoushil Sreenath†\nUC Berkeley\nhttps://supermimic.github.io\nWorld-Model Rollout\n> 1000× fewer GPU-h\n128 L40 GPUs, 168 h [1]\n1 H100 GPU, 3 h\nFigure 1: A learned differentiable world model trains a humanoid whole-body controller and\nreduces GPU-hours by more than 1000× versus cluster-scale model-free reinforcement learn-\ning (§4.1). Left: the policy improves through imagined rollouts of the world model. Right: 128 L40\nGPUs train for 168 h in SONIC [1], against one H100 for 3 h in this work.\nAbstract: Tracking large human-motion datasets has become the dominant route\nto general, expressive humanoid whole-body control, but scaling across many mo-\ntions is expensive. Current pipelines use model-free reinforcement learning, either\nmerging per-motion specialists through lossy distillation, or brute-forcing a single\npolicy with cluster-scale compute. SuperMimic amortizes learning across all mo-\ntions with one differentiable world model of their shared dynamics, fit from logged\ntransitions of a standard rigid-body simulator. The world model and the tracking\npolicy train together in one loop, and backpropagation-through-time over short\nimagined rollouts gives the policy analytic gradients. Fast imagined rollouts and\nanalytic gradients make policy learning efficient. In 3 hours on a single GPU, Su-\nperMimic surpasses the return of a state-of-the-art motion tracker baseline trained\nfor 7 days on 128 GPUs. It reduces GPU-h",
+  "downloaded_at": "2026-11-17",
+  "reading_level": "selected_sections"
+}

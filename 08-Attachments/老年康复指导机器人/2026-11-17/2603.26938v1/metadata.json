@@ -1,0 +1,10 @@
+{
+  "id": "2603.26938v1",
+  "requested_title": "From 3D Pose to Prose",
+  "url": "https://arxiv.org/pdf/2603.26938v1",
+  "sha256": "6e8d9d049d275750a2adb42aae97394be59357d616398a6cb44995b006dff358",
+  "pages": 15,
+  "first_page": "From 3D Pose to Prose: Biomechanics-Grounded Vision–Language Coaching\nYuyang Ji1\nYixuan Shen1\nShengjie Zhu2\nYu Kong2\nFeng Liu1B\n1 Department of Computer Science, Drexel University\n2 Department of Computer Science and Engineering, Michigan State University\nLLM\nVision\nModule\n3D Skeletal Kinematics\n...\n...\n...\nExercise example: Jumping Jack\nVisual Stream\n0s\n30s\n...\n...\n...\nStreaming \nvideo\nVision\nModule\nBiomechanics\nModule\nLLM\nLooking good\nPay attention to the\nrange of motion in\nyour arms\nMove your arms\nand legs together\nPay attention to the\nrange of motion in\nyour arms\nLand softly; keep\nknees tracking toe;\narms overhead >\n160 degree\nRaise arms to at least\n160–170° shoulder\nflexion; keep elbows\n<15° bend\nMaintain hip–knee–\nankle alignment\nwithin 5° during\nlanding\nLeft–right arm\nelevation mismatch\n>15°, synchronize\nshoulder flexion\nExisting VLM methods\nBioCoach (Ours)\n...\n...\nFigure 1. Comparison with existing methods. Top: prior pixel-only VLM methods provide generic, loosely timed comments. Bottom:\nBioCoach fuses visual features with 3D skeletal kinematics and a biomechanics module to produce phase-aligned, anatomy-specific,\nquantitative cues (e.g., shoulder flexion 160◦–170◦), yielding more precise and biomechanics-grounded feedback along the same timeline.\nAbstract\nWe present BioCoach, a biomechanics-grounded vision–\nlanguage framework for fitness coaching from streaming\nvideo. BioCoach fuses visual appearance and 3D skele-\ntal kinematics, through a novel three-stage pipeline: an\nexercise-specific degree-of-freedom selector that focuses\nanalysis on salient joints; a structu",
+  "downloaded_at": "2026-11-17",
+  "reading_level": "selected_sections"
+}

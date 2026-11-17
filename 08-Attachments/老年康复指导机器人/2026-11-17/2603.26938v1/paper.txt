@@ -1,0 +1,1757 @@
+From 3D Pose to Prose: Biomechanics-Grounded Vision–Language Coaching
+Yuyang Ji1
+Yixuan Shen1
+Shengjie Zhu2
+Yu Kong2
+Feng Liu1B
+1 Department of Computer Science, Drexel University
+2 Department of Computer Science and Engineering, Michigan State University
+LLM
+Vision
+Module
+3D Skeletal Kinematics
+...
+...
+...
+Exercise example: Jumping Jack
+Visual Stream
+0s
+30s
+...
+...
+...
+Streaming 
+video
+Vision
+Module
+Biomechanics
+Module
+LLM
+Looking good
+Pay attention to the
+range of motion in
+your arms
+Move your arms
+and legs together
+Pay attention to the
+range of motion in
+your arms
+Land softly; keep
+knees tracking toe;
+arms overhead >
+160 degree
+Raise arms to at least
+160–170° shoulder
+flexion; keep elbows
+<15° bend
+Maintain hip–knee–
+ankle alignment
+within 5° during
+landing
+Left–right arm
+elevation mismatch
+>15°, synchronize
+shoulder flexion
+Existing VLM methods
+BioCoach (Ours)
+...
+...
+Figure 1. Comparison with existing methods. Top: prior pixel-only VLM methods provide generic, loosely timed comments. Bottom:
+BioCoach fuses visual features with 3D skeletal kinematics and a biomechanics module to produce phase-aligned, anatomy-specific,
+quantitative cues (e.g., shoulder flexion 160◦–170◦), yielding more precise and biomechanics-grounded feedback along the same timeline.
+Abstract
+We present BioCoach, a biomechanics-grounded vision–
+language framework for fitness coaching from streaming
+video. BioCoach fuses visual appearance and 3D skele-
+tal kinematics, through a novel three-stage pipeline: an
+exercise-specific degree-of-freedom selector that focuses
+analysis on salient joints; a structured biomechanical con-
+text that pairs individualized morphometrics with cycle
+and constraint analysis; and a vision–biomechanics condi-
+tioned feedback module that applies cross-attention to gen-
+erate precise, actionable text.
+Using parameter-efficient
+training that freezes the vision and language backbones,
+BioCoach yields transparent, personalized reasoning rather
+than pattern matching. To enable learning and fair eval-
+uation, we augment QEVD-fit-coach with biomechanics-
+oriented feedback to create QEVD-bio-fit-coach, and we
+introduce a biomechanics-aware LLM judge metric. Bio-
+Coach delivers clear gains on QEVD-bio-fit-coach across
+lexical and judgment metrics while maintaining temporal
+triggering; on the original QEVD-fit-coach, it improves text
+quality and correctness with near-parity timing, demon-
+strating that explicit kinematics and constraints are key to
+accurate, phase-aware coaching. Project
+B fl397@drexel.edu
+1. Introduction
+Live fitness coaching through streaming video is increas-
+ingly important, with a broad impact on at-home work-
+outs [44], injury prevention [15, 31], and data-driven re-
+habilitation [1, 5, 38]. Traditionally, fitness coaching has
+relied on in-person trainers who provide immediate feed-
+back to correct form deviations and reduce risks; however,
+expert coaching is expensive and often inaccessible. Ad-
+vances in computer vision now enable automated form as-
+sessment from video [13, 36], yet existing approaches face
+three critical challenges that are also the field’s key require-
+ments: (1) Timing and interaction, detecting coachable mo-
+ments and delivering feedback at the right time rather than
+post hoc; (2) Biomechanical grounding, reasoning over 3D
+poses, joint angles, ranges of motion, and exercise phases
+instead of high-level appearance; and (3) Personalization
+and explainability, producing traceable, rule-level evidence.
+Recent vision-language models have revitalized multi-
+modal understanding [4, 42, 48] and can generate fluent,
+instruction-like feedback [8, 27]; streaming VLMs such as
+Stream-VLM [32] apply these capabilities to live fitness
+coaching. However, they remain largely prompt-driven and
+struggle to autonomously surface coachable moments; they
+lack explicit morphometric context for personalization; and
+they do not integrate symbolic biomechanical constraints,
+which can yield generic or mistimed advice (see Fig. 1).
+arXiv:2603.26938v1  [cs.CV]  27 Mar 2026
+
+To address these limitations, we propose BioCoach,
+a biomechanics-grounded vision-language framework for
+streaming fitness coaching that bridges biomechanical anal-
+ysis and multimodal understanding.
+Our core insight is
+to construct explicit, interpretable intermediate represen-
+tations that expose kinematic properties to the language
+model, enabling transparent reasoning about exercise form
+while preserving end-to-end trainability. Rather than treat-
+ing visual appearance and 3D pose as disjoint streams or re-
+lying solely on pattern learning, BioCoach organizes them
+into a structured pipeline that grounds feedback in biome-
+chanical principles and individual morphology (see Fig. 1).
+Specifically, BioCoach extracts two complementary sig-
+nals from streaming video: a visual stream that captures
+appearance and context, and a 3D kinematic stream that
+captures skeletal pose and body shape. The system then
+proceeds through three coordinated steps, each introduc-
+ing a novel design. First, an exercise-specific joint atten-
+tion mechanism prioritizes the degrees of freedom rele-
+vant to the current exercise, focusing analysis on anatom-
+ically salient regions instead of treating all joints uniformly.
+Second, a structured biomechanical context pairs morpho-
+metric information for personalization with cycle analysis
+against curated references to yield explicit, rule-based form
+cues, which replace implicit visual heuristics with verifiable
+evidence. Third, a vision-biomechanics conditioning mech-
+anism fuses visual evidence with this context to produce
+coaching that is temporally targeted, interpretable through
+intermediate representations, and grounded in biomechan-
+ical principles rather than relying solely on pattern match-
+ing. Moreover, to support learning and evaluation, we create
+QEVD-bio-fit-coach by re-annotating the QEVD-fit-coach
+dataset [32] with fine-grained biomechanical annotations.
+In summary, the contributions of this work include:
+⋄We propose BioCoach, a new biomechanics-grounded
+vision-language framework for interpretable, personalized
+coaching from streaming video.
+⋄We devise a three-stage pipeline unifying exercise-
+specific joint attention, biomechanical context for personal-
+ized rule-level cues, and vision–biomechanics conditioned
+feedback for targeted, auditable coaching.
+⋄We create QEVD-bio-fit-coach by re-annotating
+QEVD-fit-coach with fine-grained biomechanical labels.
+⋄Extensive experiments show that BioCoach achieves
+superior text quality, timing accuracy, LLM-graded correct-
+ness, and biomechanics-grounded action quality scores.
+2. Related Work
+Interactive Fitness Coaching and Vision-Language
+Models.
+Interactive fitness coaching from video has
+emerged as a key research direction with benchmarks
+like QEVD [32] that pair long-range videos with times-
+tamped coaching feedback. Recent vision-language mod-
+els—including Flamingo [2], InstructBLIP [8], LLaVA
+variants [23, 51], and LLaMA-VID [21]—demonstrate
+strong video understanding via gated cross-attention and
+token-level fusion.
+Stream-VLM [32], a strong QEVD
+baseline, introduced asynchronous interaction with action
+tokens to enable unprompted feedback.
+However, these
+models operate primarily on pixel-level features without ex-
+plicit biomechanical constraints, leading to feedback that
+can be generic or poorly timed. BioCoach addresses this by
+extracting and integrating 3D skeletal kinematics as a struc-
+tured modality, enabling biomechanics-grounded coaching.
+Pose, Shape Estimation, and Biomechanical Analysis.
+Advances in 3D human pose and mesh recovery span clas-
+sic HMR [17], PARE [19], and CLIFF [22], and extend to
+recent SMPL-X–based methods that improve temporal sta-
+bility and controllability, including PromptHMR [43] and
+joint-feature–guided HMR [47], and CLIP-guided shape
+learning [26], with contemporary surveys summarizing the
+state of the art [30, 39]. Complementary efforts push for
+biomechanically faithful modeling, such as SKEL [18] and
+HSMR [45], as well as gait models like Generative Gait-
+Net [33] and Bidirectional GaitNet [34] that condition on
+anatomical factors. Toolchains like OpenSim [9] and Open-
+Cap [41] estimate kinematics and even kinetics from video,
+enabling musculoskeletal analyses outside the lab. Prior fit-
+ness/AQA systems [6, 11, 35, 37] still tend to output scores
+or templates, analyze frames rather than full cycles, and ig-
+nore morphology [25].
+Structured Representations for Language Grounding.
+Structured interfaces for grounding language in percep-
+tion span marker/slot prompts that tie text to localized evi-
+dence [46], layout- or schema-driven planners that impose
+explicit spatial structure before generation [12], and visual
+in-context prompting that conditions models on exemplar
+prompts across tasks [20]. Recent “visual chain-of-thought”
+work equips multimodal LMs with sketchpads to exter-
+nalize intermediate spatial reasoning [14]. In human mo-
+tion, motion–language models discretize continuous kine-
+matics into tokens to align motion and text within a single
+generative interface [16]. Together, these directions show
+that explicit, compact structure can improve interpretabil-
+ity, controllability, and citation of evidence—key properties
+for corrective feedback on fine-grained physical behaviors.
+3. Method
+3.1. Overview
+The proposed BioCoach framework converts streaming fit-
+ness videos into biomechanically-grounded coaching feed-
+back by creating explicit, interpretable intermediate repre-
+sentations that bridge kinematic data and language genera-
+tion. This design enables transparent reasoning about ex-
+
+Input Video
+3D Skeletal Kinematics Backbone
+Biomechanical Joint Angles 
+& Shape Coefficients
+SKEL-based 
+Pose Estimator
+Visual Appearance Backbone
+3D CNN
+Visual Tokens
+0s
+30s
+Top K Joints
+Sec. 3.3 Exercise-Specific DoF 
+Selection
+Sec. 3.4 Structured Biomechanical 
+Context Generation
+Motion Quality 
+Context Module
+Individual 
+Morphometric 
+Context Module
+Sec. 3.5 Vision-Biomechanics Conditioned Feedback Generation
+0s
+30s
+Keep elbows 
+smaller 15°
+Feedback
+Q
+x
+K
+V
+Vision-Morphometric Cross-Attention
+LLM Backbone
+i.e., LLaMA
+LLM Integration with 
+Biomechanical Instruction.
++
+Prompt
+Figure 2. BioCoach overview. Streaming video is encoded by two backbones: a 3D CNN for visual tokens and a pose extractor for 3D
+skeletal kinematics. The pipeline has three components: (1) Exercise-Specific DoF Selection uses a lightweight attention head to select the
+top K biomechanically salient joints; (2) Structured Biomechanical Context builds two representations (individual morphometric context
+and motion quality context) capturing body measurements, cycles, ranges of motion, and constraint checks; (3) Vision–Biomechanics
+Conditioned Feedback fuses visual tokens with the morphometric context via cross-attention and prepends the motion-quality context as
+structured instruction to the LLM. This yields feedback grounded in explicit kinematic evidence rather than pattern matching alone.
+ercise form, personalization to individual body geometry,
+and feedback grounded in biomechanical principles rather
+than learned patterns. As illustrated in Fig. 2, the frame-
+work extracts two complementary modalities from stream-
+ing video: visual appearance and 3D skeletal kinematics.
+These flow through a three-stage pipeline: (1) Exercise-
+Specific Degree-of-Freedom Selection Module (Sec. 3.3)
+identifies anatomically salient joints; (2) Structured Biome-
+chanical Context Generation Module (Sec. 3.4) analyzes
+motion quality while accounting for individual body geom-
+etry; (3) Vision-Biomechanics Conditioned Feedback Gen-
+eration (Sec. 3.5) generates feedback grounded in explicit
+biomechanical analysis.
+3.2. Dual-Modality Feature Extraction
+Our framework extracts two complementary modalities
+from streaming fitness videos. Both modalities originate
+from the video input V ∈RT ×H×W ×3 but capture dif-
+ferent aspects of motion: visual appearance and 3D skele-
+tal kinematics. To extract these modalities, we employ two
+specialized processing backbones, described below.
+Visual Appearance Backbone.
+Following [32], we em-
+ploy a pre-trained 3D CNN that captures fine-grained mo-
+tion patterns essential for fitness coaching (see Supp for
+details). At each timestep t, the model processes a tem-
+poral window of video frames and extracts motion-aware
+features:
+  \m
+a
+t hbf {F}_t^{vis} = \mathcal {F}(\mathbf {V}_{[t-\tau :t]}), 
+(1)
+where F : Rτ×H×W ×3 →RNv×d is the 3D CNN feature
+extractor, V[t−τ:t] denotes a sliding window of τ consecu-
+tive frames, and Fvis
+t
+∈RNv×d contains Nv visual feature
+tokens with an embedding dimension of d. The architecture
+combines 2D and 3D convolutional layers: 2D layers cap-
+ture spatial appearance cues within frames, while 3D layers
+encode temporal motion dynamics across the window. Cru-
+cially, all convolutions employ causal masking to ensure the
+model operates in a true streaming setting, generating pre-
+dictions solely from past and current observations without
+access to future information.
+3D Skeletal Kinematic Backbone.
+Complementary
+to visual appearance features, we extract explicit 3D
+skeletal kinematics to capture biomechanically-grounded
+body motion.
+We employ HSMR [45] built upon
+SKEL [18], a frame-level method that produces pose es-
+timates in biomechanically-grounded representations. Fol-
+lowing SKEL [18], we represent skeletal pose using 46-
+dimensional Euler-angle representations with joint-specific
+biomechanical constraints. To extract temporal kinematic
+information, we apply the pose extractor P to each frame in
+the temporal window V[t−τ:t]:
+  \{\
+math bf {q
+}_i \ }
+_
+{i=1}^{\
+t
+au }, \{\boldsymbol {\beta }_i\}_{i=1}^{\tau } = \mathcal {P}\left (\mathbf {V}_{[t-\tau :t]}\right ), 
+(2)
+where qi ∈R46 represents biomechanical joint angles for
+frame i. To obtain a stable body shape representation across
+the temporal window, we aggregate per-frame shape coeffi-
+cients via average pooling: ¯β = 1
+τ
+Pτ
+i=1 βi, expressed in
+SMPL-style parameterization. Thus, the kinematic modal-
+ity output at time t is: Pskel
+t
+=
+ {qi}τ
+i=1, ¯β
+
+, where
+
+¯β ∈R10 encodes individual body shape. Unlike appearance
+features that conflate body geometry with motion quality,
+skeletal kinematics provide normalized, biomechanically-
+aware representations that separate body shape from move-
+ment patterns.
+3.3. Exercise-Specific Degree-of-Freedom Selection
+The biomechanical relevance of each joint depends on
+the exercise being performed.
+A squat requires lower-
+body joints (hips, knees, ankles), while a push-up demands
+upper-body joints (shoulders, elbows, wrists). This module
+identifies exercise-specific salient joints via visual context.
+We leverage visual features Fvis
+t
+to infer exercise-
+dependent joint relevance using a lightweight attention net-
+work Aθ:
+  \ mathbf 
+{ s}^t = \mathcal {A}_\theta (\mathbf {F}_t^{\text {vis}}), 
+(3)
+where Aθ is an MLP with learnable parameters θ that out-
+puts importance scores for each joint. Each element st
+j ∈
+[0, 1] represents the biomechanical relevance of joint j. We
+select the top-K joints by importance:
+  \ ma t hc
+a l  {J}^* =  \{j : \mathbf {s}_j^t \in \text {TopK}(\mathbf {s}^t, K)\}. 
+(4)
+Skeleton joints correspond to multiple degrees of free-
+dom in the 46-dimensional Euler angle representation q
+(e.g., the shoulder has 3 degrees of freedom (DoFs): flex-
+ion/extension, abduction/adduction, and internal/external
+rotation). When a joint is selected in J ∗, all its associated
+DoFs are automatically included in downstream analysis,
+ensuring coherent joint-level reasoning. The focused joint
+set J ∗remains fixed for the entire exercise session, mim-
+icking how human coaches maintain consistent attention to
+relevant body regions throughout a movement.
+3.4. Structured Biomechanical Context Generation
+This module generates subject-specific structured biome-
+chanical contexts from kinematic data to enable personal-
+ized and biomechanically-grounded coaching. It consists of
+two submodules that, together, produce the individualized
+context required for the language module.
+3.4.1. Individual Morphometric Context Module
+Kinematic data must be contextualized within individual
+body geometry.
+This module extracts user-specific an-
+thropometric measurements from the shape parameters ¯β
+of the kinematic modality Pskel
+t
+. Raw shape parameters
+(i.e., SMPL [28] body shape coefficients ¯β) are abstract
+and difficult for language models to interpret. To address
+this, we leverage Virtual Measurements [7] to extract in-
+terpretable anthropometric measurements directly from the
+fitted SMPL mesh: mass, height, chest, waist, and
+hip circumference. Circumference measurements are de-
+rived via plane intersection, while length measurements use
+Motion Quality Context Module
+Feedback 
+Point
+Cycle
+(a) Cycle Detection
+(b) Reference Alignment
+Match
+Match
+Gray: Golden Standard
+Blue: User
+(c) Biomechanical Constraint Evaluation
+Static Joints
+Dynamic Joints
+Should remain stable
+𝑉𝑉𝑉𝑉𝑉𝑉𝜃𝜃𝑗𝑗
+𝑡𝑡
+< 𝜖𝜖
+Match reference motion
+|𝜃𝜃𝑗𝑗−𝜃𝜃𝑗𝑗
+𝑟𝑟𝑟𝑟𝑟𝑟| < 𝛿𝛿
+✓
+×
+3D Skeletal Kinematics
+Figure 3. Motion-Quality Context module. Given the selected
+joint set and the 3D skeletal kinematics, the module (a) detects
+repetition cycles and anchors the feedback moment; (b) time-
+normalizes each cycle and aligns it to a curated reference tra-
+jectory; and (c) evaluates biomechanical constraints: stability for
+static joints and deviation to reference for dynamic joints. Gray
+curves denote the reference, blue curves denote the user.
+Euclidean distance between anatomical landmarks [7]. This
+grounds shape in physical quantities that are semantically
+meaningful for exercise assessment. The extracted mea-
+surements form the morphometric context Cmorph which is
+formatted as human-readable descriptors:
+User body:
+height 1.78 m, mass 73.22 kg,
+chest 1.00 m, waist 0.83 m, hips 0.98 m.
+By providing explicit, quantitative anchors grounded in
+individual body geometry, the morphometric context en-
+ables personalized and biomechanically-aware feedback.
+This representation is fused with visual features via cross-
+attention, allowing the language model to generate coaching
+feedback that accounts for individual differences.
+3.4.2. Motion Quality Context Module
+As illustrated in Fig. 3, this module evaluates whether the
+user’s motion satisfies biomechanical constraints for the
+given exercise, using the kinematic trajectory {qi}τ
+i=1 and
+the selected joint set J ∗from Sec.3.3, and produces struc-
+tured descriptions of motion quality and form deviations.
+Cycle detection. Motion cycles are identified by analyzing
+key joints in J ∗. At each frame i in the session, we have
+the full angle vector qi ∈R46; we denote the primary DoF
+angle of joint j ∈J ∗at frame i as q∗
+j,i, where q∗
+j,i = qd(j),i
+and d(j) maps joint j to its primary DoF index in qi (e.g.,
+d(knee) = 7 for knee flexion).
+For repetitive exercises
+(e.g., squats, push-ups), we select a representative joint j
+and extract its angle trajectory {qj,i}N
+i=1 over the entire ses-
+sion. After gaussian smoothing, we identify cycle peaks and
+valleys using prominence-based peak detection, producing
+candidate cycle boundaries (is, ie). Spurious detections are
+filtered by excluding cycles that are shorter than τmin or
+
+longer than τmax. For exercise-specific variants: alternat-
+ing movements (e.g., jumping jacks) use zero-crossing de-
+tection within the detected cycle. We compute the cycle-
+specific mean angle ¯qj,cycle =
+1
+ie−is+1
+Pie
+i=is qj,i and detect
+zero-crossings of the normalized signal qj,i −¯qj,cycle. Static
+holds (e.g., planks) identify low-variance regions where
+Var({qj,i}i∈[is,ie]) < ϵ, indicating that the joint remains
+relatively stable within the detected cycle.
+Reference Alignment. Each detected cycle (is, ie) is tem-
+porally normalized by resampling to match a curated refer-
+ence trajectory R via linear interpolation. For joint j, we
+interpolate sequences:
+  \ti l de {q}_{j , k} = q _{j, \lfloor \phi  (k) \rfloor } + (\phi (k) - \lfloor \phi (k) \rfloor )(q_{j, \lceil \phi (k) \rceil } - q_{j, \lfloor \phi (k) \rfloor }), 
+(5)
+where ϕ(k) maps the reference index k ∈[1, Nref] to the
+user’s cycle timeline i ∈[is, ie], and Nref is the reference
+cycle length. Function ϕ rescales cycles to align with the
+reference length, ensuring that both trajectories map to a
+common temporal grid. The subscript j indicates the scalar
+angle trajectory for joint j, not the full 46-dimensional vec-
+tor. We compute similarity scores by comparing the interpo-
+lated user cycle {˜qj,k} with the reference trajectory, which
+includes (1) cosine similarity on normalized angle profiles,
+(2) joint-specific Pearson correlations, (3) temporal deriva-
+tive alignment measuring velocity consistency, and (4) am-
+plitude comparison of the range of motion. These metrics
+yield a cycle quality score scycle ∈[0, 1].
+Biomechanical Constraint Evaluation.
+For joint
+j ∈J ∗, we evaluate exercise-specific biomechanical con-
+straints based on the detected cycle (is, ie).
+Each joint
+is classified as static (should remain stable) or dynamic
+(should exhibit specific motion patterns), as determined by
+domain experts or LLM-assisted annotation (see Supp for
+details).
+For static joints, we measure stability via vari-
+ance: δstatic
+j
+= Var({qj,i}i∈[is,ie]) For dynamic joints, we
+measure deviation from the reference trajectory at critical
+frames: δdynamic
+j
+= |quser
+j
+(ikey) −qref
+j (ikey)|, where ikey de-
+notes critical frames (e.g., the deepest point of a squat). Vi-
+olations are detected by checking against exercise-specific
+acceptable bounds [lj, uj]:
+  \text {v i
+o
+la
+ti on } _j  =  \ b eg
+in
+ {cases} 1, & \text {if } \delta _j < l_j \text { or } \delta _j > u_j \\ 0, & \text {otherwise}. \end {cases} 
+(6)
+When detected (violationj = 1), we generate descriptions
+quantifying deviations and corrections.
+Structured Prompt Generation. At each frame, the mod-
+ule produces two outputs. Pose state captures selected joint
+configurations:
+  \m
+athbf  {p}_{\t ext { state}} ^ { ( i )} = \{\texttt {joint}_{j}\text { angle } \lfloor q_{j,i} \rfloor ^{\circ } \mid j \in \mathcal {J}^*\}, 
+(7)
+For joints where violations are detected (violationj
+=
+1),
+we
+generate
+descriptions
+quantifying
+deviations:
+vviolations
+= {“jointj deviation: δj (bound: [lj, uj])” |
+violationj = 1}. These are formatted as natural language:
+Current pose:
+right knee 85◦, left knee
+88◦, hip 75◦.
+Form issues:
+Right knee flexion
+insufficient (85◦detected, 90◦required)
+Motion quality context concatenates pose state and viola-
+tions:
+  \math c al {C
+}_{\te xt {motion}} = [\mathbf {p}_{\text {state}}^{(i)}; \mathbf {v}_{\text {violations}}], 
+(8)
+which enables precise feedback grounded in biomechanical
+analysis.
+3.5. Vision-Biomechanics Conditioned Feedback
+Generation
+This module synthesizes coaching feedback by condition-
+ing a language model (i.e., LLaMA-2-7B [40]) on visual
+features Fvis
+t , morphometric context Cmorph, and motion
+quality context Cmotion.
+Structured Multimodal Context Encoding.
+Both mor-
+phometric and motion contexts are encoded into token em-
+beddings through the language model’s embedding layer:
+  \ mathbf {m}_t =
+ \ t ext {Embed}(\mathcal {C}_{\text {morph}}), \quad \mathbf {c}_t = \text {Embed}(\mathcal {C}_{\text {motion}}), 
+(9)
+where mt encodes body measurements and pose, and ct
+encodes motion quality and constraint violations.
+Vision-Morphometric Cross-Attention.
+Visual fea-
+tures Fvis
+t are grounded in morphometric tokens mt through
+cross-attention:
+  \ math
+b f  {z}_t = \math
+b f  {F }_t^{\text {vis}} + \text {CrossAttn}(\mathbf {F}_t^{\text {vis}}, \mathbf {m}_t, \mathbf {m}_t), 
+(10)
+where
+  \resize
+b
+ox {
+\ l ine wi
+d
+t h }{!}{
+$
+ \op
+e ratorname
+ 
+{
+C
+r ossAt tn}\!\left (\mathbf {F}_t^{\text {vis}}, \mathbf {m}_t, \mathbf {m}_t\right ) = \operatorname {Softmax}\!\left ( \frac {\mathbf {F}_t^{\text {vis}} W_Q (\mathbf {m}_t W_K)^\top }{\sqrt {d}} \right )\cdot (\mathbf {m}_t W_V) $}, \label {eq:crossattn} 
+(11)
+with WQ, WK, WV being learnable projection matrices.
+This produces fused visual-morphometric features zt that
+align visual observations with individual body geometry.
+LLM Integration with Biomechanical Instruction. Mo-
+tion quality context Cmotion encapsulates rich biomechanical
+analysis, including cycle-based motion quality, constraint
+violations, and quantified form deviations. This context is
+prepended as structured instruction to directly guide lan-
+guage generation with explicit biomechanical constraints:
+  \tex t  {Prompt} = [\te xt {Embe d}(\mathcal {C}_{\text {motion}}), \text {language\_tokens}]. 
+(12)
+The LLM then generates feedback conditioned on this ex-
+plicit biomechanical analysis:
+  \text { F eedback}_t = \text {LLM}(\text {Prompt}. \{\mathbf {z}_t\}). 
+(13)
+
+By injecting structured biomechanical constraints directly
+into the prompt rather than relying solely on learned pat-
+terns, this design ensures that feedback is grounded in
+explicit, exercise-specific biomechanical principles. (See
+Supp for mathematical details.)
+3.6. Training Objective
+We employ a parameter-efficient fine-tuning strategy that
+freezes both the 3D CNN visual backbone and the LLaMA-
+2-7B language model, updating only the cross-attention fu-
+sion layers and the DoF selection network Aθ. This design
+preserves pre-trained linguistic priors while adapting multi-
+modal fusion to align visual appearance, skeletal kinemat-
+ics, and coaching feedback.
+Exercise-Specific DoF Selection Training. The attention
+network Aθ is trained with annotated exercise-specific joint
+relevance labels from domain experts and LLM-assisted an-
+notation. We use binary cross-entropy loss to align pre-
+dicted importance scores st with ground-truth salient joint
+sets J gt:
+  \m a t
+h
+c
+al 
+{
+L} _{\tex
+t { Do F }} = -\s u m 
+_{
+j
+=1}^{J} \left [ y_j \log (\mathbf {s}_j^t) + (1-y_j) \log (1-\mathbf {s}_j^t) \right ], (14)
+where yj = 1 for biomechanically-relevant joints and yj =
+0 otherwise.
+Cross-Attention Fusion.
+Training mirrors the streaming
+inference regime using autoregressive cross-entropy loss
+with selective down-weighting to prevent excessive defer-
+ral of feedback:
+  \ m a
+thc
+a
+l {
+L}_{\ tex t {CE} }  = -\sum _{t=1}^{N-1} w_{x_{t+1}} \log P(x_{t+1} \mid x_{\le t}), 
+(15)
+where wxt+1 = α < 1 for continuation tokens (<next>
+action tokens) and wxt+1 = 1 for feedback content. This
+down-weighting encourages timely feedback generation
+rather than indefinite observation windows.
+3.7. QEVD-bio-fit-coach Dataset
+We augment QEVD-fit-coach [32] (149 training videos, 74
+test videos, 23 exercises, ∼2,484 timestamped feedback) to
+create QEVD-bio-fit-coach. The enhanced set adds biome-
+chanically grounded feedback annotations.
+Using these
+signals, we systematically rewrite colloquial feedback into
+anatomically precise language: generic cues like “lower
+your body more” become quantified targets (“increase el-
+bow flexion to 90◦at the bottom”), and vague instructions
+become explicit alignments (“maintain a neutral spine, head
+to heels”). We also add brief biomechanical rationales (e.g.,
+“increase hip/knee flexion to distribute load”). The tempo-
+ral boundaries of all feedback instances are preserved ex-
+actly as in the original; only the content is rendered more
+technical. This controlled augmentation isolates the effect
+of explicit biomechanical terminology and enables evalu-
+ation of whether kinematic grounding improves coaching
+quality.
+3.8. Implementation Details
+Following Stream-VLM [32], we adopt LLaMA-2-7B [40]
+as the language backbone and a pre-trained 3D CNN for
+visual features. Skeletal kinematics are represented by 46-
+dimensional Euler angles with a temporal window of 3 sec-
+onds (τ = 12) of motion history to detect exercise cycles
+and evaluate biomechanical constraints. The DoF-selection
+network Aθ is a 3-layer MLP (ReLU activations, sigmoid
+output) that produces per-joint importance scores st
+∈
+[0, 1]J; we select the top K = 12 salient joints per exercise.
+We train two variants: one on QEVD-fit-coach (original
+feedback) and one on QEVD-bio-fit-coach (biomechanics-
+grounded feedback). Both fine-tune only the cross-attention
+layers and Aθ using AdamW (learning rate 2 × 10−5),
+a batch size of 8, and action-token down-weighting α =
+0.1. DoF selection is supervised using a balanced binary
+cross-entropy loss. For biomechanical analysis, cycle du-
+rations are constrained to [τmin, τmax] = [0.8, 5] s. Con-
+straint thresholds are exercise-specific: static-joint variance
+< 5◦; dynamic-joint deviation tolerance ±5◦to ±10◦at
+key frames. Videos are resized to H = 224, W = 160 with
+standard augmentations. (See Supp for additional imple-
+mentation details.)
+4. Experiments
+4.1. Experimental Setup
+Dataset. We evaluate on QEVD-fit-coach [32], a streaming
+fitness-coaching benchmark with 74 test videos across 23
+exercises and ∼2,484 timestamped feedback instances. To
+better assess biomechanical understanding, we also report
+results on the QEVD-bio-fit-coach.
+Baselines: We compare BioCoach against state-of-the-art
+vision–language models in two settings:
+• Zero-shot models: InstructBLIP [8], Video-LLaVA [23],
+Video-ChatGPT [29], Video-LLaMA [49], LLaMA-
+VID [21], and LLaVA-NeXT [51].
+These models are
+evaluated without any fitness-domain tuning and are pe-
+riodically prompted to generate feedback from the video
+stream.
+• Fine-tuned models: Methods trained on the QEVD-fit-
+coach benchmark [32]:
+– Socratic-LLaMA-2-7B [32]: A text-only baseline that
+feeds activity descriptors from a fine-tuned 3D CNN
+into LLaMA-2-7B to produce feedback.
+– Video-ChatGPT [29] and LLaMA-VID [21]: Turn-
+based VLMs fine-tuned on QEVD-FIT-COACH that
+
+Table 1. Evaluation on the QEVD-bio-fit-coach, a newly created benchmark with fine-grained biomechanical ground-truth feedback an-
+notations. Second line in each cell shows % improvement vs. Stream-VLM [32]. LLM-Bio-Acc. is our LLM-as-judge metric tailored to
+biomechanics, assessing the biomechanical correctness and specificity of generated feedback.
+Method
+METEOR ↑
+ROUGE-L ↑
+BERTScore ↑
+LLM-Acc. ↑
+LLM-Bio-Acc. ↑
+T-F-Score ↑
+Stream-VLM [32]
+(NeurIPS ’24)
+0.086
+0.108
+0.852
+1.86
+1.72
+0.530
+BioCoach
+0.312
+(+262.8%)
+0.302
+(+179.6%)
+0.877
+(+2.9%)
+3.12
+(+67.7%)
+3.26
+(+89.5%)
+0.544
+(+2.6%)
+Table 2. Performance on the QEVD-fit-coach with original feedback annotations. Parenthesized values are % change vs. the best baseline
+(Stream-VLM [32]). † zero-shot without fine-tuning.
+Method
+METEOR ↑
+ROUGE-L ↑
+BERTScore ↑
+LLM-Acc. ↑
+T-F-Score ↑
+Zero-shot Models
+InstructBLIP† [8]
+0.047
+0.040
+0.839
+1.56
+-
+Video-LLaVA† [23]
+0.057
+0.025
+0.847
+2.16
+-
+Video-ChatGPT† [29]
+0.098
+0.078
+0.850
+1.91
+-
+Video-LLaMA† [49]
+0.101
+0.077
+0.859
+1.29
+-
+LLaMA-VID† [21]
+0.100
+0.079
+0.859
+2.20
+-
+LLaVA-NeXT† [51]
+0.104
+0.078
+0.858
+2.27
+-
+Fine-tuned Models
+Socratic-LLaMA-2-7B [40]
+0.094
+0.071
+0.860
+2.17
+0.50
+Video-ChatGPT [29]
+0.108
+0.093
+0.863
+2.33
+0.50
+LLaMA-VID [21]
+0.106
+0.090
+0.860
+2.30
+0.50
+Stream-VLM [32] (NeurIPS ’24)
+0.127
+0.112
+0.863
+2.45
+0.56
+BioCoach
+0.129 (+1.6%)
+0.122 (+8.9%)
+0.864 (+0.1%)
+2.56 (+4.5%)
+0.544 (-2.9%)
+use CLIP/ViT visual encoders and require prompting
+at fixed intervals.
+– Stream-VLM [32]: The original streaming baseline on
+QEVD-FIT-COACH, combining a 3D CNN vision en-
+coder with a LLaMA-2 language model and special
+<next>/<feedback> tokens for interactive, timely
+responses. This is the strongest, fine-tuned baseline tai-
+lored for fitness coaching.
+Metrics. Following Stream-VLM [32], we report:
+• METEOR [3]: lexical overlap with stemming, synonym,
+and paraphrase matching.
+Rewards correct technical
+terms and entities (e.g., if the reference says “arm not
+moving,” predictions should mention the arm).
+• ROUGE-L [24]: longest–common–subsequence overlap,
+capturing phrase ordering and multiword expression sim-
+ilarity.
+• BERTScore [50]: semantic similarity via contextual em-
+beddings and cosine similarity, robust to paraphrasing be-
+yond exact word overlap.
+• LLM-Accuracy [32]: LLaMA-3-70B-Instruct [10] acts as
+an automatic judge to holistically rate each feedback on
+a 1–5 scale (higher is better), considering context, cor-
+rectness, and appropriateness; this correlates better with
+human preferences than purely lexical metrics.
+• Temporal F-Score (T-F-Score) [32]: time-alignment pre-
+cision/recall F1 indicating whether feedback is issued at
+the correct moments.
+In addition, to evaluate biomechanical fidelity on QEVD-
+bio-fit-coach, we introduce LLM-Bio-Accuracy, an LLM-
+as-judge metric specialized for biomechanics.
+Using
+the same LLaMA-3-70B-Instruct with a domain-specific
+prompt, it scores (1–5) factual biomechanical correct-
+ness and relevance against the reference context (implic-
+itly reflecting per-frame kinematics, phase labels, and con-
+straint annotations), emphasizing precise anatomy (joint
+names/sides), angles, range of motion, and phase-aware rea-
+soning (see Supp for more details).
+4.2. Results on QEVD-bio-fit-coach
+To assess biomechanics-grounded feedback on streaming
+video, we evaluate BioCoach on the new QEVD-bio-fit-
+coach benchmark and compare it to the strongest stream-
+ing baseline, Stream-VLM [32], which has been fine-tuned
+on the same annotations for fairness (Tab. 1). This bench-
+mark stresses anatomy/kinematics-centric language, quan-
+titative ranges of motion, and phase-aware cues—precisely
+what safe, actionable coaching requires.
+
+Table 3. Ablation study on QEVD-Bio-Fit-Coach. Each row removes or modifies one component while keeping others fixed.
+Model Variant
+METEOR ↑
+ROUGE-L ↑
+BERTScore ↑
+LLM-Acc. ↑
+LLM-Bio-Acc. ↑
+T-F-Score ↑
+Full Model (τ = 3 s )
+0.312
+0.302
+0.877
+3.12
+3.26
+0.544
+w/o Exercise-Specific DoF Selection
+0.305
+0.296
+0.873
+3.06
+3.14
+0.543
+w/o Motion Quality Context Module
+0.133
+0.127
+0.864
+2.63
+2.04
+0.544
+w/o Individual Morph Context Module
+0.284
+0.273
+0.871
+2.91
+3.07
+0.535
+Window size τ = 2 s
+0.311
+0.303
+0.876
+3.10
+3.22
+0.416
+BioCoach markedly outperforms Stream-VLM across all
+metrics, with the largest relative gains in lexical measures
+(METEOR +262.8% and ROUGE-L +179.6%), reflect-
+ing improved alignment with expert references.
+Judge-
+based evaluations also rise sharply: LLM-Bio-Acc. shows
+the strongest improvement (+89.5%) among judge metrics,
+indicating biomechanics-grounded, anatomy- and phase-
+accurate feedback. Temporal behavior remains strong (T-F-
+Score), showing that richer biomechanical grounding does
+not come at the expense of timely triggering. These gains
+stem from exercise-focused joint selection, personalized
+morphometrics, and cycle-aligned analysis that turn raw
+kinematics into verifiable cues, shifting the system from
+pattern matching to principled, auditable reasoning.
+For a fair comparison of Stream-VLM [32], we re-train
+BioCoach on QEVD-fit-coach (with the original annota-
+tions), i.e., without any of our biomechanical labels, and
+evaluate it under the official protocol.
+This experiment
+serves two purposes: (i) it isolates architectural gains from
+annotation gains, showing that our biomechanics-grounded
+design helps even when trained with non-biomechanical la-
+bels; and (ii) it demonstrates backward compatibility, in-
+dicating BioCoach can be deployed on datasets that lack
+fine-grained biomechanical supervision. Under this setting
+(Tab. 2), BioCoach still surpasses the strongest fine-tuned
+baseline in text/semantic quality and judged correctness
+(METEOR 0.129, ROUGE-L 0.122, BERTScore 0.864,
+LLM-Acc. 2.56), while remaining near-parity in timing (T-
+F-Score 0.544 vs. 0.56). Together with the large improve-
+ments in QEVD-bio-fit-coach, these results show that (a)
+BioCoach improves quality under legacy annotations and
+(b) adding biomechanical supervision further unlocks its
+full potential for precise, anatomy-specific feedback.
+4.3. Ablation Study
+Ablations on QEVD-bio-fit-coach (Tab. 3) reveal a clear
+component hierarchy. Removing Motion Quality Context
+causes ∼57% METEOR drop and LLM-Bio-Acc. decline
+(3.26 →2.04), showing it is the core biomechanical driver.
+Removing Morphometric Context causes moderate degra-
+dation (−9% METEOR, −6% LLM-Bio-Acc), indicating
+that personalization improves specificity.
+DoF Selection
+provides modest gains (−3.7% LLM-Bio-Acc without it),
+filtering irrelevant kinematics. Reducing the temporal win-
+dow to 2 s maintains text quality but drops the T-F-Score
+∼24%, confirming that 3 s offers better stability for cycle
+detection. The three modules divide labor: motion quality
+supplies what to say, morphometrics supply for whom, and
+DoF selection supplies where to look—together enabling in-
+terpretable reasoning without sacrificing responsiveness.
+4.4. Limitations and Future Work
+Our approach depends on the quality of 3D skeletons and
+shapes, as occlusions, loose clothing, and extreme view-
+points can distort kinematics.
+Additionally, it relies on
+curated reference trajectories that may miss exercise vari-
+ants and adaptive forms. Future work will explore multi-
+sensor fusion and broader reference coverage to mitigate
+these issues. Beyond kinematics, we plan to extend Bio-
+Coach toward kinetic reasoning, estimating joint reaction
+forces and muscle activation patterns from video to de-
+tect compensatory movement strategies that are invisible to
+angle-only analysis. Integrating musculoskeletal simulation
+could further enable load-aware coaching that flags injury-
+risk forces, not just postural deviations
+5. Conclusion
+We present BioCoach, a biomechanics-grounded vision–
+language framework for streaming fitness coaching that ex-
+poses 3D kinematics, morphometrics, and constraint anal-
+yses to the language model.
+With an exercise-specific
+DoF selector, a morphometric and motion-quality con-
+text, and a vision–biomechanics conditioned feedback mod-
+ule, BioCoach delivers interpretable coaching rather than
+appearance-level heuristics. BioCoach improves lexical, se-
+mantic, and judge metrics while maintaining competitive
+timing, demonstrating that explicit kinematics and struc-
+tured biomechanical context are key to accurate, phase-
+aware, personalized coaching.
+This formulation opens a
+path to coaching systems whose behavior can be inspected,
+trusted, and aligned with expert musculoskeletal reasoning.
+Acknowledgments This work was supported in part by the
+National Science Foundation under Grant FMitF-2319242.
+
+References
+[1] Ali Abedi,
+Tracey JF Colella,
+Maureen Pakosh,
+and
+Shehroz S Khan.
+Artificial intelligence-driven virtual re-
+habilitation for people living in the community: A scoping
+review. NPJ Digital Medicine, 7(1):25, 2024. 1
+[2] Jean-Baptiste Alayrac, Jeff Donahue, Pauline Luc, Antoine
+Miech, Iain Barr, Yana Hasson, Karel Lenc, Arthur Mensch,
+Katherine Millican, Malcolm Reynolds, et al. Flamingo: a
+visual language model for few-shot learning. NeurIPS, 2022.
+2
+[3] Satanjeev Banerjee and Alon Lavie. METEOR: An auto-
+matic metric for mt evaluation with improved correlation
+with human judgments. In Proceedings of the acl workshop
+on intrinsic and extrinsic evaluation measures for machine
+translation and/or summarization, 2005. 7
+[4] Davide Caffagni, Federico Bianchi, Silvia Terragni, et al.
+The revolution of multimodal large language models.
+In
+ACL, 2024. 1
+[5] Erdong Chen, Yuyang Ji, Jacob K Greenberg, Benjamin
+Steel, Faraz Arkam, Abigail Lewis, Pranay Singh, and
+Feng Liu.
+BioGait-VLM: A tri-modal vision-language-
+biomechanics framework for interpretable clinical gait as-
+sessment. arXiv preprint arXiv:2603.08564, 2026. 1
+[6] Steven Chen and Richard R Yang. Pose trainer: Correct-
+ing exercise posture using pose estimation. arXiv preprint
+arXiv:2006.11718, 2020. 2
+[7] Vasileios Choutas, Lea M¨uller, Chun-Hao P Huang, Siyu
+Tang, Dimitrios Tzionas, and Michael J Black. Accurate 3D
+body shape regression using metric and semantic attributes.
+In CVPR, 2022. 4
+[8] Wenliang Dai, Junnan Li, Dongxu Li, Anthony Meng Huat
+Tiong, Junqi Zhao, Weisheng Wang, Boyang Li, Pascale
+Fung, and Steven Hoi.
+Instructblip:
+Towards general-
+purpose vision-language models with instruction tuning.
+NeurIPS, 2023. 1, 2, 6, 7
+[9] Scott L. Delp, Frank C. Anderson, Allison S. Arnold, Peter
+Loan, Ayman Habib, Chand T. John, Eran Guendelman, and
+Darryl G. Thelen. OpenSim: Open-source software to cre-
+ate and analyze dynamic simulations of movement. IEEE
+TBME, 54(11):1940–1950, 2007. 2
+[10] Abhimanyu Dubey, Abhinav Jauhri, Abhinav Pandey, Ab-
+hishek Kadian, Ahmad Al-Dahle, Aiesha Letman, Akhil
+Mathur, Alan Schelten, Amy Yang, Angela Fan, et al. The
+Llama 3 herd of models. arXiv preprint arXiv:2407.21783,
+2024. 7
+[11] Debidatta Dwibedi, Yusuf Aytar, Jonathan Tompson, Pierre
+Sermanet, and Andrew Zisserman. Counting out time: Class
+agnostic video repetition counting in the wild.
+In CVPR,
+2020. 2
+[12] Weixi Feng, Wanrong Zhu, Tsu-jui Fu, Varun Jampani, Ar-
+jun Akula, Xuehai He, Sugato Basu, Xin Eric Wang, and
+William Yang Wang. Layoutgpt: Compositional visual plan-
+ning and generation with large language models. NeurIPS,
+2023. 2
+[13] Mihai Fieraru, Mihai Zanfir, Silviu Constantin Pirlea, Vlad
+Olaru, and Cristian Sminchisescu.
+AIFit: Automatic 3D
+human-interpretable feedback models for fitness training. In
+CVPR, 2021. 1
+[14] Yushi Hu, Weijia Shi, Xingyu Fu, Dan Roth, Mari Osten-
+dorf, Luke Zettlemoyer, Noah A Smith, and Ranjay Krishna.
+Visual sketchpad: Sketching as a visual chain of thought for
+multimodal language models. In NeurIPS, 2024. 2
+[15] Jenny Jacobsson, Jan Kowalski, Toomas Timpka, Per-Olof
+Hansson, Armin Spreco, and Orjan Dahlstrom. Universal
+prevention through a digital health platform reduces injury
+incidence in youth athletics (track and field): a cluster ran-
+domised controlled trial. British Journal of Sports Medicine,
+57(6):364–371, 2023. 1
+[16] Biao Jiang, Xin Chen, Wen Liu, Jingyi Yu, Gang Yu, and
+Tao Chen. Motiongpt: Human motion as a foreign language.
+NeurIPS, 2023. 2
+[17] Angjoo Kanazawa, Michael J Black, David W Jacobs, and
+Jitendra Malik. End-to-end recovery of human shape and
+pose. In CVPR, 2018. 2
+[18] Marilyn Keller, Keenon Werling, Soyong Shin, Scott Delp,
+Sergi Pujades, C Karen Liu, and Michael J Black. From skin
+to skeleton: Towards biomechanically accurate 3d digital hu-
+mans. TOG, 2023. 2, 3, 4
+[19] Muhammed Kocabas, Chun-Hao P Huang, Otmar Hilliges,
+and Michael J Black. Pare: Part attention regressor for 3d
+human body estimation. In ICCV, 2021. 2
+[20] Feng Li, Qing Jiang, Hao Zhang, Tianhe Ren, Shilong Liu,
+Xueyan Zou, Huaizhe Xu, Hongyang Li, Chunyuan Li, Jian-
+wei Yang, Lei Zhang, and Jianfeng Gao. Visual in-context
+prompting. In CVPR, 2024. 2
+[21] Yanwei Li, Chengyao Wang, and Jiaya Jia. Llama-vid: An
+image is worth 2 tokens in large language models. In ECCV,
+2024. 2, 6, 7
+[22] Zhihao Li, Jianzhuang Liu, Zhensong Zhang, Songcen Xu,
+and Youliang Yan. Cliff: Carrying location information in
+full frames into human pose and shape estimation. In ECCV,
+2022. 2
+[23] Bin Lin, Yang Ye, Bin Zhu, Jiaxi Cui, Munan Ning, Peng
+Jin, and Li Yuan. Video-llava: Learning united visual repre-
+sentation by alignment before projection. In EMNLP, 2024.
+2, 6, 7
+[24] Chin-Yew Lin. Rouge: A package for automatic evaluation
+of summaries. In Text summarization branches out, 2004. 7
+[25] Feng Liu, Minchul Kim, ZiAng Gu, Anil Jain, and Xiaoming
+Liu. Learning clothing and pose invariant 3d shape represen-
+tation for long-term person re-identification. In ICCV, 2023.
+2
+[26] Feng Liu, Minchul Kim, Zhiyuan Ren, and Xiaoming Liu.
+Distilling clip with dual guidance for learning discriminative
+human body shape representation. In CVPR, 2024. 2
+[27] Haotian Liu, Chunyuan Li, et al. Visual instruction tuning.
+In NeurIPS, 2023. 1
+[28] Matthew Loper, Naureen Mahmood, Javier Romero, Gerard
+Pons-Moll, and Michael J. Black. SMPL: A skinned multi-
+person linear model. TOG, 2015. 4
+[29] Muhammad Maaz, Hanoona Rasheed, Salman Khan, and Fa-
+had Khan.
+Video-chatgpt: Towards detailed video under-
+standing via large vision and language models. In ACL, 2024.
+6, 7
+
+[30] Rama Bastola Neupane, Kan Li, and Tesfaye Fenta Boka. A
+survey on deep 3d human pose estimation. Artificial Intelli-
+gence Review, 58(1):24, 2024. 2
+[31] Patcharin
+Nilmart,
+Mantana
+Vongsirinavarat,
+Pimpaka
+Khawsuwan, Kiatrada Chumthong, Russareeta Tadein, and
+Dwi Rosella Komalasari. Impact of telehealth-based thera-
+peutic exercise on pain, functional performance and dynamic
+knee valgus in young adult females with patellofemoral pain:
+a randomised controlled trial. BMJ Open Sport & Exercise
+Medicine, 10(4), 2024. 1
+[32] Sunny Panchal, Apratim Bhattacharyya, Guillaume Berger,
+Antoine Mercier, Cornelius B¨ohm, Florian Dietrichkeit,
+Reza Pourreza, Xuanlin Li, Pulkit Madan, Mingu Lee, et al.
+What to say and when to say it: Live fitness coaching as a
+testbed for situated interaction. NeurIPS, 2024. 1, 2, 3, 6, 7,
+8, 4
+[33] Jungnam Park, Moon Seok Park, Jehee Lee, and Jungdam
+Won. Generative gaitnet. TOG, 2022. 2
+[34] Jungnam Park, Moon Seok Park, Jehee Lee, and Jungdam
+Won. Bidirectional gaitnet: A bidirectional prediction model
+of human gait and anatomical conditions. In SIGGRAPH,
+2023. 2
+[35] Paritosh Parmar and Brendan Tran Morris. What and how
+well you performed? a multitask learning approach to action
+quality assessment. CVPR, 2019. 2
+[36] Paritosh Parmar, Amol Gharat, and Helge Rhodin.
+Do-
+main knowledge-informed self-supervised representations
+for workout form assessment. In ECCV, 2022. 1
+[37] Hamed Pirsiavash, Carl Vondrick, and Antonio Torralba. As-
+sessing the quality of actions. In ECCV, 2014. 2
+[38] Jennifer Sumner, Hui Wen Lim, Lin Siew Chong, Anjali
+Bundele, Amartya Mukhopadhyay, and Geetha Kayambu.
+Artificial intelligence in physical rehabilitation: A system-
+atic review. Artificial Intelligence in Medicine, 146:102693,
+2023. 1
+[39] Yating Tian, Hongwen Zhang, Yebin Liu, and Limin Wang.
+Recovering 3D human mesh from monocular images: A sur-
+vey. IEEE TPAMI, 45(12):15406–15425, 2023. 2
+[40] Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert,
+Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov,
+Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al.
+Llama 2: Open foundation and fine-tuned chat models. arXiv
+preprint arXiv:2307.09288, 2023. 5, 6, 7
+[41] Scott D. Uhlrich, Antoine Falisse, Łukasz Kidzi´nski, Julie
+Muccini, Michael Ko, Akshay S. Chaudhari, Jennifer L.
+Hicks, and Scott L. Delp. OpenCap: Human movement dy-
+namics from smartphone videos. PLOS Computational Biol-
+ogy, 19(10), 2023. 2
+[42] Jiaqi Wang, Hanqi Jiang, Yiheng Liu, et al. A comprehen-
+sive review of multimodal large language models: Perfor-
+mance and challenges across different tasks. arXiv preprint
+arXiv:2408.01319, 2024. 1
+[43] Yufu Wang, Yu Sun, Priyanka Patel, Kostas Daniilidis,
+Michael J. Black, and Muhammed Kocabas. PromptHMR:
+Promptable human mesh recovery. In CVPR, 2025. 2
+[44] Jan Wilke, Lisa Mohr, Gustavo Yuki, Adelle Kemlall Bhun-
+doo, David Jim´enez-Pav´on, Fernando Lai˜no, Niamh Mur-
+phy, Bernhard Novak, Stefano Nuccio, Sonia Ortega-G´omez,
+et al. Train at home, but not alone: a randomised controlled
+multicentre trial assessing the effects of live-streamed tele-
+exercise during covid-19-related lockdowns. British journal
+of sports medicine, 56(12):667–675, 2022. 1
+[45] Yan Xia, Xiaowei Zhou, Etienne Vouga, Qixing Huang, and
+Georgios Pavlakos. Reconstructing humans with a biome-
+chanically accurate skeleton. In CVPR, 2025. 2, 3, 4
+[46] Jianwei Yang, Hao Zhang, Feng Li, Xueyan Zou, Chunyuan
+Li, and Jianfeng Gao.
+Set-of-mark prompting unleashes
+extraordinary visual grounding in gpt-4v.
+arXiv preprint
+arXiv:2310.11441, 2023. 2
+[47] Xinhui Yao, Junyi He, Chang Li, Yang Xie, Haotian Luo,
+Wei Zheng, Hongxing Qin, and Yiqun Wang. JFG-HMR:
+3D joint feature-guided human mesh recovery with global–
+local feature fusion. Computers & Graphics, 132:104339,
+2025. 2
+[48] Shukang Yin, Chaoyou Fu, Sirui Zhao, Ke Li, Xing Sun,
+Tong Xu, and Enhong Chen. A survey on multimodal large
+language models. National Science Review, 11(12), 2024. 1
+[49] Hang Zhang, Xin Li, and Lidong Bing. Video-LLaMA: An
+instruction-tuned audio-visual language model for video un-
+derstanding. In EMNLP, 2023. 6, 7
+[50] Tianyi Zhang, Varsha Kishore, Felix Wu, Kilian Q Wein-
+berger, and Yoav Artzi. BERTScore: Evaluating text gener-
+ation with BERT. In ICLR, 2020. 7
+[51] Yuanhan Zhang, Bo Li, Haotian Liu, Yong Jae Lee, Liangke
+Gui, Di Fu, Jiashi Feng, Ziwei Liu, and Chunyuan Li.
+LLaVA-NeXT: A strong zero-shot video understanding
+model, 2024. Online. Available: https://llava-vl.
+github.io/blog/2024- 04- 30- llava- next-
+video/. 2, 6, 7
+
+From 3D Pose to Prose: Biomechanics-Grounded Vision–Language Coaching
+Supplementary Material
+This supplementary material provides the technical de-
+tails referenced in the main paper.
+QEVD-bio-fit-coach
+dataset construction (Sec. 6), evaluation metrics including
+the biomechanics-aware LLM judge (Sec. 7), DoF anno-
+tation (Sec. 8), cycle detection (Sec. 10), implementation
+specifics (Sec. 11) and mathematical derivations (Sec. 12).
+6. QEVD-bio-fit-coach Dataset Construction
+This section details the construction pipeline for QEVD-
+bio-fit-coach, which augments the original QEVD-fit-
+coach [32] with biomechanically-grounded feedback anno-
+tations (referenced in the main paper Sec. 3.7).
+6.1. Automated Generation Pipeline
+The QEVD-bio-fit-coach dataset is created through an au-
+tomated pipeline that applies the Motion Quality Context
+Module (Sec. 3.4.2 in the main paper) to transform collo-
+quial coaching feedback into anatomically precise, quanti-
+fied guidance.
+Selective Feedback Replacement.
+The original QEVD-
+fit-coach dataset contains diverse feedback types: corrective
+instructions addressing form deviations (e.g., “lower your
+body more”, “keep your back straight”), motivational en-
+couragement (e.g., “good job!”, “keep it up!”), and repeti-
+tion counting (e.g., “5 more reps”).
+We systematically rewrite corrective and instructional
+feedback, as these inherently describe biomechanical vi-
+olations that can be quantified. At each corrective feed-
+back timestamp, the trainer observed a form deviation; our
+pipeline detects and quantifies the actual biomechanical vi-
+olation, then replaces the colloquial description with precise
+measurements. Motivational and counting feedback are re-
+tained unchanged, as they do not describe specific form is-
+sues.
+Generation Procedure.
+For each video in the original
+QEVD-fit-coach dataset, we apply the complete BioCoach
+pipeline to generate biomechanical context:
+1. Extract 3D skeletal kinematics using HSMR + SKEL
+(Sec. 11.3) and morphometric measurements (main pa-
+per Sec. 3.4.1)
+2. Apply the trained DoF selection network Aθ (Sec. 8) to
+identify exercise-specific salient joints J ∗
+3. At each corrective/instructional feedback timestamp, run
+the Motion Quality Context Module pipeline (main pa-
+per Sec. 3.4.2): cycle detection, reference alignment, and
+biomechanical constraint evaluation to generate struc-
+tured motion context Cmotion
+4. Replace the corrective/instructional feedback with the
+automatically generated motion context, which provides:
+• Quantified form violations (e.g., “Right knee flexion
+85◦, target 90◦”)
+• Anatomically precise corrective instructions (e.g., “In-
+crease knee flexion by 5◦at the bottom phase”)
+The timestamp of each feedback instance is preserved
+exactly from the original QEVD-fit-coach; only the feed-
+back content is replaced with biomechanically-grounded
+descriptions.
+6.2. Dataset Statistics
+The resulting QEVD-bio-fit-coach dataset maintains an
+identical structure to the original QEVD-fit-coach:
+• Training set: 149 videos across 23 exercise types
+• Test set: 74 videos across the same 23 exercise types
+Annotation Examples.
+Representative transformations
+from the original to biomechanically-grounded feedback:
+• Squat: “Lower your body more” →“Knee flexion 85◦
+(target: 90◦). Increase knee flexion by 5◦at the bottom
+phase.”
+• Push-up: “Keep your back straight” →“Lumbar spine
+variance 12◦(target: < 5◦). Maintain neutral spine align-
+ment; engage the core to stabilize the lumbar region.”
+• Lunge: “Don’t lean forward” →“Thorax forward lean
+23◦from vertical. Reduce thorax flexion by 8◦; keep the
+torso upright.”
+• Plank: “Hold steady” →“Hip angle variance 8◦(target:
+< 5◦). Stabilize the hip position and maintain static align-
+ment from the shoulders to the ankles.”
+This automated pipeline ensures consistent, anatomi-
+cally precise feedback grounded in explicit biomechanical
+analysis, enabling systematic evaluation of biomechanics-
+aware coaching systems.
+7. Evaluation Metrics
+We summarize the LLM-based automatic scoring pipelines;
+each metric uses a distinct prompt and decoding setup.
+LLM-Bio-Accuracy
+• Biomech system prompt: “You are an expert biome-
+chanics analyst. Your role is to evaluate the factual ac-
+curacy and relevance of the biomechanical feedback gen-
+erated for a user’s exercise performance. Always respond
+as a python dictionary string.”
+• Biomech
+user
+template:
+Please evaluate
+the following predicted biomechanical
+feedback:
+
+Groudtruth
+Stream-VLM
+BioCoach
+(Ours)
+Exercise example: Squat
+Drop deeper and hold 
+steady. Maintain a 
+neutral pelvis (±5° tilt) 
+and drive hips back to 
+90-100°.
+Open your feet 
+wider
+Widen your base, keep 
+the pelvis neutral 
+(±5°), and push hips 
+back toward a 90-100°
+bend
+Give yourself more width to 
+roughly shoulder width, and 
+sink until the hips reach 90-
+100°.
+Hold that deep 
+position; keep pelvis 
+neutral (±5°) and stay 
+around 90-100° at the 
+hips
+Keep that depth and 
+drive each punch to 
+full reach
+Nice start, but remember 
+to go deep on those 
+squats
+You're up, keep 
+the form up!
+You can do this.
+Try to go deeper, like Kobe 
+Bryant does when he does 
+his squats.
+Nice, you're squatting
+Slow down! Slow 
+down! Slow down
+Let's squat! Keep pelvis 
+tilt within ±5°. Bend your 
+hips more, sit back until 
+90-100° hip flexion
+Widen your stance 
+to roughly shoulder 
+width
+Widen your stance to 
+roughly shoulder width.
+Keep pelvis tilt within 
+±5°
+Drop hips to 90-100° flexion. 
+Widen your stance to roughly 
+shoulder width.
+Keep your back straight, 
+Pelvis tilt within ±5°. 
+Maintain depth near 90-
+100° hip flexion.
+Good depth on squats. 
+Extend your punches 
+fully.
+…
+…
+…
+…
+…
+Figure 4. Qualitative timeline for a squat exercise. BioCoach produces temporally aligned, biomechanics-grounded cues with consistent
+phase tracking, while Stream-VLM outputs generic or mistimed feedback inconsistent with the ground-truth annotations.
+-Ground truth biomechanical context:
+<1>
+-Predicted biomechanical feedback:
+<2>
+Compare the predicted biomechanical
+feedback against the ground truth
+context.
+Focus
+on maintaining factual accuracy
+regarding joint angles, posture,
+balance, and other factors.
+biomechanical observations.
+Provide
+an integer accuracy score between 1
+and 5
+(5 = perfect alignment).
+Respond
+strictly as a Python dictionary
+string:
+{’score’:
+int(score)} with no extra
+text.
+8. Exercise-Specific DoF Annotation Protocol
+Ground-truth salient joint sets J gt were obtained using
+Qwen3-VL-30B-A3B-Instruct with biomechanics domain
+knowledge. Crucially, annotations are conditioned on both
+exercise type and execution quality. For each video seg-
+ment, Qwen3-VL-30B-A3B-Instruct was provided with the
+exercise type (e.g., squat) and the video frames. The vision-
+language model then identified which joints require atten-
+tion by analyzing visual cues of execution quality (e.g., de-
+tecting forward lean). Domain experts reviewed and vali-
+dated these LLM-generated annotations. For example:
+• Standard salient joints for squat = {hips, knees, ankles,
+lumbar}
+• Expanded set for squat with forward lean = {hips, knees,
+ankles, lumbar, thorax}
+This quality-aware annotation strategy enables the DoF
+selection network Aθ to learn execution-dependent atten-
+tion patterns. Unlike fixed per-exercise lookup tables, the
+learned selector can identify form deviations from visual
+cues and dynamically prioritize relevant joints, even when
+exercise variants or error patterns are not explicitly labeled.
+Similar quality-dependent annotations were obtained for all
+23 exercises, with an average of K = 10–15 joints per video
+segment depending on detected form deviations.
+9. Static vs. Dynamic Joint Classification
+As referenced in Sec. 3.4.2 (“Biomechanical Constraint
+Evaluation”), each joint is classified as static (should remain
+stable) or dynamic (should exhibit specific motion patterns).
+Classification Procedure.
+For each of the 23 exercise
+types, GPT-4 was used to classify joints as static or dy-
+namic.
+The model was prompted with exercise descrip-
+tions and biomechanical principles to determine, for each
+joint, whether it should maintain stability or exhibit con-
+
+trolled motion during that exercise. This produces a per-
+exercise lookup table of joint classifications. Domain ex-
+perts reviewed and validated these LLM-generated annota-
+tions. At inference time, biomechanical constraint evalua-
+tion (Sec. 3.4.2) is applied only to the intersection of the
+DoF selector’s predicted salient joints J ∗.
+• Static joints: Should maintain stable angles through-
+out the cycle.
+Evaluated via variance:
+δstatic
+j
+=
+Var({qj,i}i∈[is,ie]).
+Example: spine alignment during
+squats should have δstatic
+j
+< 5◦
+• Dynamic joints: Should follow specific motion patterns
+and reach target ranges at critical frames.
+Evaluated
+via deviation from reference at key frames: δdynamic
+j
+=
+|quser
+j
+(ikey) −qref
+j (ikey)|.
+Example: hip flexion during
+squats should reach 90◦–100◦at the bottom position
+Exercise-Specific Examples. Below, we provide complete
+joint classifications for all 24 anatomical joints across rep-
+resentative exercises:
+• Squat:
+– Dynamic: R/L hip, R/L knee, R/L ankle, R/L subtalar
+– Static: pelvis, lumbar, thorax, head, R/L scapula, R/L
+shoulder, . . . (remaining upper-body joints)
+• Push-up:
+– Dynamic: R/L scapula, R/L shoulder, R/L elbow
+– Static: pelvis, lumbar, thorax, head, R/L hip, R/L knee,
+. . . (remaining lower-body joints)
+• Plank:
+– Dynamic: none (isometric hold)
+– Static: all 24 joints (pelvis, lumbar, thorax, head, R/L
+hip, knee, ankle, ...)
+• Lunge:
+– Dynamic: R/L hip, R/L knee, R/L ankle
+– Static: pelvis, lumbar, thorax, head, R/L scapula, R/L
+shoulder, . . . (remaining joints)
+10. Cycle Detection Algorithm Details
+This section provides implementation parameters for the
+cycle detection algorithm described in the main paper,
+Sec. 3.4.2.
+Video Sampling and Preprocessing.
+Original videos are
+captured at 30 fps. Gaussian smoothing is applied using
+scipy.ndimage.gaussian filter1d with σ = 2.
+Representative Joint Selection.
+For each exercise type,
+we select a representative joint whose angle trajectory ex-
+hibits the clearest periodic pattern for cycle detection. The
+joint is chosen empirically: squats utilize knee flexion, and
+push-ups involve elbow flexion. For alternating movements,
+we select central joints that reflect bilateral patterns (high
+knees use pelvis tilt), enabling cycle detection and subse-
+quent left-right phase segmentation.
+Prominence-Based
+Peak
+Detection
+Param-
+eters.
+For
+repetitive
+exercises,
+we
+use
+scipy.signal.find peaks with:
+• Prominence threshold: pmin = 0.1 radians (≈5.7◦)
+• Distance constraint: dmin = 5 frames (half of minimum
+cycle length)
+• Cycle length bounds:
+[24, 150] frames (0.8–5.0 s at
+30 fps)
+Alternating Movement Detection Parameters.
+For al-
+ternating movements (e.g., high knees), after detecting cy-
+cle boundaries (is, ie) via prominence-based peak detection
+on the central joint trajectory, zero-crossing detection is ap-
+plied within the cycle to identify phase transitions. We com-
+pute the cycle-specific mean:
+  \bar {q }
+_
+{j , \t e x
+t 
+{
+cycl
+e}} = \frac {1}{i_e - i_s + 1}\sum _{i=i_s}^{i_e} q_{j,i}, 
+(16)
+and detect zero-crossings of the normalized signal qj,i −
+¯qj,cycle to segment left-right alternation phases. These phase
+boundaries enable the evaluation of bilateral limb patterns:
+left and right limb angles can be compared within their re-
+spective phases to assess symmetry.
+Static Hold Detection Parameters.
+For isometric holds,
+rolling variance is computed with a window of w = 10
+frames. Stability threshold ϵ = P30({σt}) (30th percentile
+of rolling standard deviations).
+Stable segments ≥10
+frames are extracted as hold cycles.
+Reference Trajectory Source.
+Reference trajectories
+are curated using exercise-specific biomechanical rules: for
+each of the 23 exercises, we define canonical joint angle
+ranges and motion patterns based on sports science litera-
+ture and domain expertise. These rules generate complete
+46-dimensional angle representations with natural within-
+cycle variations, saved as .npy files. At inference, these
+pre-computed references serve as baselines for reference
+alignment and constraint evaluation.
+Cycle Quality Score Computation.
+The four similarity
+metrics mentioned in main paper Sec. 3.4.2 are computed
+as follows: (1) all salient joint angles are concatenated
+and z-score normalized before computing cosine similarity;
+(2) Pearson correlations are averaged across salient joints
+J ∗; (3) frame-to-frame differences ∆qj,k = qj,k+1 −qj,k
+are computed for velocity comparison; (4) range of motion
+ROMj = max(qj) −min(qj) ratios are converted to [0, 1]
+and averaged. The final score combines these via weighted
+sum: scycle = 0.4·simcos+0.3·simpearson+0.2·simvel+0.1·
+simamp, clipped to [0, 1]. This score provides cycle quality
+confidence and enables best-cycle selection when multiple
+candidates exist.
+
+11. Implementation Details
+This section expands on the implementation overview in the
+main paper (Sec. 3.8), providing architecture specifications
+and training configurations.
+11.1. DoF Selection Network Architecture
+The attention network Aθ (referenced in Sec. 3.3 and
+trained as described in Sec. 3.6) is a 3-layer MLP with learn-
+able parameters θ that takes visual features Fvis
+t as input and
+outputs importance scores for each joint. The network con-
+sists of:
+• Layer 1: Projects pooled visual tokens to an intermedi-
+ate 512-dimensional space with ReLU activation and a
+dropout rate of 0.1
+• Layer 2: 256-dimensional hidden layer with ReLU acti-
+vation and dropout rate of 0.1
+• Layer 3: Output layer producing J = 24 importance
+scores st ∈[0, 1]24 via sigmoid activation
+• Top-K selection: Selects top K = 12 joints by impor-
+tance for downstream biomechanical analysis
+11.2. Visual Backbone Configuration
+As referenced in the main paper (Sec. 3.2, paragraph “Vi-
+sual Appearance Backbone”), we employ a 3D CNN fol-
+lowing [32].
+Visual Appearance Backbone Details.
+Temporal win-
+dow: τ = 12 frames sampled at 4 Hz from the 30 fps video
+(3 s motion history), where each frame represents a tempo-
+ral sampling point processed by the 3D CNN
+Output tokens: Nv = 35 visual tokens with embedding
+dimension d = 1280
+Architecture:
+2D and 3D convolutional layers with
+causal masking (detailed in the main paper, Sec. 3.2). All
+3D CNN weights are frozen during training; only the cross-
+attention layers (Sec. 12.1) are trainable
+11.3. 3D Skeletal Extraction and Morphometric
+Processing
+We extract biomechanically-grounded skeletal kinematics
+using HSMR [45] + SKEL [18] (referenced in Sec. 3.2, “3D
+Skeletal Kinematic Backbone”).
+46-Dimensional Skeletal Representation.
+Following
+SKEL [18], we use a 46-dimensional Euler-angle represen-
+tation that defines 24 anatomical joints. The degrees of free-
+dom (DoFs) are organized as:
+• Pelvis (0–2): tilt, list, rotation
+• Right leg (3–9): hip (flexion, adduction, rotation), knee
+angle, ankle angle, subtalar angle, mtp angle
+• Left leg (10–16): hip (flexion, adduction, rotation), knee
+angle, ankle angle, subtalar angle, mtp angle
+• Spine (17–25): lumbar (bending, extension, twist), tho-
+rax (bending, extension, twist), head (bending, extension,
+twist)
+• Right arm (26–35): scapula (abduction, elevation, up-
+ward rotation), shoulder (x, y, z), elbow flexion, pro/sup,
+wrist (flexion, deviation)
+• Left arm (36–45): scapula (abduction, elevation, upward
+rotation), shoulder (x, y, z), elbow flexion, pro/sup, wrist
+(flexion, deviation)
+3D Skeletal Kinematic Backbone Details.
+Skele-
+tal representation: 46-dimensional Euler-angle representa-
+tions with joint-specific biomechanical constraints follow-
+ing SKEL [18]
+Temporal aggregation: Shape parameters β averaged
+over the τ = 12 frame window to yield stable ¯β, reducing
+per-frame shape estimation noise
+Joint angle smoothing: Gaussian smoothing is applied
+to joint angle trajectories to reduce jitter while preserving
+cycle peaks for detection
+Morphometric conversion: Virtual Measurements [7] ex-
+tracts mass, height, chest, waist, and hip circum-
+ference from the fitted SMPL mesh (procedure detailed in
+the main paper Sec. 3.4.1)
+Confidence handling: When HSMR confidence is low
+(severe occlusion, extreme angles), the system retains the
+last valid pose and prepends warnings to Cmorph
+11.4. Training Configuration
+As noted in Sec. 3.6, we employ a fine-tuning strategy that
+freezes both the 3D CNN visual backbone and the LLaMA-
+2-7B language model.
+Training proceeds in two stages:
+first, training the DoF selection network Aθ, then fixing it
+and training the cross-attention fusion layers.
+Stage 1: DoF Selection Network Pre-training. The DoF
+selection network Aθ is first trained independently using bi-
+nary cross-entropy loss LDoF (Eq. in main paper Sec. 3.6)
+with ground-truth salient joint annotations J gt obtained via
+Qwen3-VL-30B (detailed in Sec. 8). The network is initial-
+ized randomly and trained until the joint selection accuracy
+converges. Once trained, Aθ is frozen to provide consistent,
+salient joint predictions during subsequent cross-attention
+training.
+Stage 2:
+Cross-Attention Fusion Training.
+With
+Aθ
+frozen,
+cross-attention
+projection
+matrices
+WQ, WK, WV , W O are trained via autoregressive cross-
+entropy loss LCE with action-token down-weighting (Eq.
+in main paper Sec. 3.6). Initialized with Xavier uniform
+(gain=0.1), the layers learn to fuse visual and morphome-
+tric features while the visual and LLM backbones remain
+frozen.
+
+12. Mathematical Derivations
+This section expands the mathematical formulations for
+vision-biomechanics conditioning (referenced in Sec. 3.5).
+12.1. Vision-Morphometric Cross-Attention Details
+The cross-attention mechanism (Eq. (11) in the main pa-
+per) fuses visual features Fvis
+t
+∈RNv×d with morphometric
+context mt ∈RNm×d.
+Architecture Details.
+• Multi-head configuration: h = 8 attention heads with
+per-head dimension dk = 160
+• Initialization:
+Cross-attention
+projection
+matrices
+WQ, WK, WV , W O
+initialized with Xavier uniform
+(gain=0.1)
+• Residual connection: zt = Fvis
+t + CrossAttn(·) prevents
+morphometric context from overriding visual evidence
+12.2. Motion Context Serialization and Prompting
+Motion quality context Cmotion (Sec. 3.4.2 in the main paper)
+is serialized as structured natural language, combining pose
+state and detected violations.
+Continuous Cycle Detection and Motion Context Up-
+dates.
+During streaming inference, cycle detection runs
+continuously: as frames arrive, the angle trajectory is up-
+dated, and the peak detection algorithm incrementally iden-
+tifies completed cycles. At each timestep, the motion qual-
+ity context Cmotion is generated by combining (1) the cur-
+rent pose state p(t)
+state, which captures instantaneous joint an-
+gles, and (2) violations vviolations from the most recently
+completed cycle’s constraint evaluation (Sec. 3.4.2). The
+pose state updates every frame, while violations are updated
+whenever a new cycle completes. This Cmotion is prepended
+to the prompt at each token generation step (main paper Eq.
+in Sec. 3.5), ensuring the LLM always conditions on up-
+to-date biomechanical analysis while maintaining stream-
+ing operation.
