@@ -1,0 +1,614 @@
+{
+  "date": "2026-11-22",
+  "endpoint": "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+  "searches": [
+    {
+      "parameters": {
+        "query": "TITLE_ABS:\"functional task exercise\" AND TITLE_ABS:\"cognitive impairment\"",
+        "format": "json",
+        "pageSize": 8,
+        "resultType": "lite"
+      },
+      "returned": 5,
+      "raw": {
+        "version": "6.9",
+        "hitCount": 5,
+        "request": {
+          "queryString": "TITLE_ABS:\"functional task exercise\" AND TITLE_ABS:\"cognitive impairment\"",
+          "resultType": "lite",
+          "cursorMark": "*",
+          "pageSize": 8,
+          "sort": "",
+          "synonym": false
+        },
+        "resultList": {
+          "result": [
+            {
+              "id": "34673918",
+              "source": "MED",
+              "pmid": "34673918",
+              "doi": "10.1093/ageing/afab210",
+              "title": "Effects of functional task exercise on everyday problem-solving ability and functional status in older adults with mild cognitive impairment-a randomised controlled trial.",
+              "authorString": "Law LLF, Mok VCT, Yau MKS, Fong KNK.",
+              "journalTitle": "Age Ageing",
+              "issue": "1",
+              "journalVolume": "51",
+              "pubYear": "2022",
+              "journalIssn": "0002-0729; 1468-2834; ",
+              "pageInfo": "afab210",
+              "pubType": "research support, non-u.s. gov't; randomized controlled trial; journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 19,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2022-01-01",
+              "firstIndexDate": "2021-10-28"
+            },
+            {
+              "id": "33605005",
+              "source": "MED",
+              "pmid": "33605005",
+              "doi": "10.1111/ajag.12908",
+              "title": "Improving outcomes for people with mild cognitive impairment: An Australian mixed-methods pilot study.",
+              "authorString": "Theodoro de Freitas L, Pain T, Barnett F.",
+              "journalTitle": "Australas J Ageing",
+              "issue": "1",
+              "journalVolume": "40",
+              "pubYear": "2021",
+              "journalIssn": "1440-6381; 1741-6612; ",
+              "pageInfo": "e87-e94",
+              "pubType": "journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 2,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2021-02-18",
+              "firstIndexDate": "2021-02-20"
+            },
+            {
+              "id": "31801630",
+              "source": "MED",
+              "pmid": "31801630",
+              "pmcid": "PMC6894271",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC6894271"
+                ]
+              },
+              "doi": "10.1186/s13195-019-0548-2",
+              "title": "Effects of functional tasks exercise on cognitive functions of older adults with mild cognitive impairment: a randomized controlled pilot trial.",
+              "authorString": "Law LLF, Mok VCT, Yau MMK.",
+              "journalTitle": "Alzheimers Res Ther",
+              "issue": "1",
+              "journalVolume": "11",
+              "pubYear": "2019",
+              "journalIssn": "1758-9193",
+              "pageInfo": "98",
+              "pubType": "research support, non-u.s. gov't; research-article; randomized controlled trial; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 42,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2019-12-04",
+              "firstIndexDate": "2019-12-05"
+            },
+            {
+              "id": "24850540",
+              "source": "MED",
+              "pmid": "24850540",
+              "doi": "10.1093/ageing/afu055",
+              "title": "Effects of functional tasks exercise on older adults with cognitive impairment at risk of Alzheimer's disease: a randomised controlled trial.",
+              "authorString": "Law LL, Barnett F, Yau MK, Gray MA.",
+              "journalTitle": "Age Ageing",
+              "issue": "6",
+              "journalVolume": "43",
+              "pubYear": "2014",
+              "journalIssn": "0002-0729; 1468-2834; ",
+              "pageInfo": "813-820",
+              "pubType": "randomized controlled trial; journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 56,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2014-05-21",
+              "firstIndexDate": "2014-05-23"
+            },
+            {
+              "id": "23761291",
+              "source": "MED",
+              "pmid": "23761291",
+              "doi": "10.1002/oti.1355",
+              "title": "Development and initial testing of functional task exercise on older adults with cognitive impairment at risk of Alzheimer's disease--FcTSim programme--a feasibility study.",
+              "authorString": "Law LL, Barnett F, Yau MK, Gray MA.",
+              "journalTitle": "Occup Ther Int",
+              "issue": "4",
+              "journalVolume": "20",
+              "pubYear": "2013",
+              "journalIssn": "0966-7903; 1557-0703; ",
+              "pageInfo": "185-197",
+              "pubType": "journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 13,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2013-06-13",
+              "firstIndexDate": "2013-06-22"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "query": "TITLE_ABS:\"cognitive rehabilitation\" AND TITLE_ABS:\"everyday functioning\" AND TITLE_ABS:dementia",
+        "format": "json",
+        "pageSize": 8,
+        "resultType": "lite"
+      },
+      "returned": 8,
+      "raw": {
+        "version": "6.9",
+        "hitCount": 13,
+        "nextCursorMark": "AoIIP5pGNigzOTE3NzE3Mg==",
+        "nextPageUrl": "https://www.ebi.ac.uk/europepmc/webservices/rest/search?query=TITLE_ABS%3A%22cognitive+rehabilitation%22+AND+TITLE_ABS%3A%22everyday+functioning%22+AND+TITLE_ABS%3Adementia&cursorMark=AoIIP5pGNigzOTE3NzE3Mg%3D%3D&resultType=lite&pageSize=8&format=json",
+        "request": {
+          "queryString": "TITLE_ABS:\"cognitive rehabilitation\" AND TITLE_ABS:\"everyday functioning\" AND TITLE_ABS:dementia",
+          "resultType": "lite",
+          "cursorMark": "*",
+          "pageSize": 8,
+          "sort": "",
+          "synonym": false
+        },
+        "resultList": {
+          "result": [
+            {
+              "id": "41699900",
+              "source": "MED",
+              "pmid": "41699900",
+              "pmcid": "PMC12910187",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC12910187"
+                ]
+              },
+              "doi": "10.1111/ajag.70140",
+              "title": "Improving Access to Cognitive Interventions for People With Dementia in Australian Community-Based Settings.",
+              "authorString": "Mulhall S, Gibson D, Longley WA, D'Cunha NM.",
+              "journalTitle": "Australas J Ageing",
+              "issue": "1",
+              "journalVolume": "45",
+              "pubYear": "2026",
+              "journalIssn": "1440-6381; 1741-6612; ",
+              "pageInfo": "e70140",
+              "pubType": "other; review; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 3,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "N",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2026-03-01",
+              "firstIndexDate": "2026-02-17"
+            },
+            {
+              "id": "40416604",
+              "source": "MED",
+              "pmid": "40416604",
+              "pmcid": "PMC12101815",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC12101815"
+                ]
+              },
+              "doi": "10.1159/000545838",
+              "title": "Cognitive Rehabilitation for People with Dementia in Norway: Case Managers' Experiences from a Pilot Study.",
+              "authorString": "Mjørud M, Michelet M, Krohne K, Bredholt TC, Evans S, Clare L.",
+              "journalTitle": "Dement Geriatr Cogn Dis Extra",
+              "issue": "1",
+              "journalVolume": "15",
+              "pubYear": "2025",
+              "journalIssn": "1664-5464",
+              "pageInfo": "69-77",
+              "pubType": "research-article; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 0,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2025-01-01",
+              "firstIndexDate": "2025-05-26"
+            },
+            {
+              "id": "40356394",
+              "source": "MED",
+              "pmid": "40356394",
+              "doi": "10.1177/13872877251334795",
+              "title": "Cognitive training for Alzheimer's disease and other forms of dementia: Insights from a systematic review and Bayesian meta-analysis.",
+              "authorString": "Giaquinto F, Iaia M, Rizzi E, Macchitella L, Romano DL, Tosi G, Angelelli P.",
+              "journalTitle": "J Alzheimers Dis",
+              "issue": "4",
+              "journalVolume": "105",
+              "pubYear": "2025",
+              "journalIssn": "1387-2877; 1875-8908; ",
+              "pageInfo": "1252-1274",
+              "pubType": "meta-analysis; research support, non-u.s. gov't; systematic review; journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 10,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2025-05-13",
+              "firstIndexDate": "2025-05-20"
+            },
+            {
+              "id": "30724405",
+              "source": "MED",
+              "pmid": "30724405",
+              "pmcid": "PMC6593854",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC6593854"
+                ]
+              },
+              "doi": "10.1002/gps.5076",
+              "title": "Individual goal-oriented cognitive rehabilitation to improve everyday functioning for people with early-stage dementia: A multicentre randomised controlled trial (the GREAT trial).",
+              "authorString": "Clare L, Kudlicka A, Oyebode JR, Jones RW, Bayer A, Leroi I, Kopelman M, James IA, Culverwell A, Pool J, Brand A, Henderson C, Hoare Z, Knapp M, Woods B.",
+              "journalTitle": "Int J Geriatr Psychiatry",
+              "issue": "5",
+              "journalVolume": "34",
+              "pubYear": "2019",
+              "journalIssn": "0885-6230; 1099-1166; ",
+              "pageInfo": "709-721",
+              "pubType": "research support, non-u.s. gov't; research-article; multicenter study; randomized controlled trial; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 102,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "Y",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "Y",
+              "tmAccessionTypeList": {
+                "accessionType": [
+                  "pdb",
+                  "doi"
+                ]
+              },
+              "firstPublicationDate": "2019-03-01",
+              "firstIndexDate": "2019-02-08"
+            },
+            {
+              "id": "37389428",
+              "source": "MED",
+              "pmid": "37389428",
+              "pmcid": "PMC10310315",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC10310315"
+                ]
+              },
+              "doi": "10.1002/14651858.cd013388.pub2",
+              "title": "Cognitive rehabilitation for people with mild to moderate dementia.",
+              "authorString": "Kudlicka A, Martyr A, Bahar-Fuchs A, Sabates J, Woods B, Clare L.",
+              "journalTitle": "Cochrane Database Syst Rev",
+              "journalVolume": "6",
+              "pubYear": "2023",
+              "journalIssn": "1469-493x",
+              "pageInfo": "CD013388",
+              "pubType": "research support, non-u.s. gov't; systematic review; systematic-review; journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 52,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "Y",
+              "tmAccessionTypeList": {
+                "accessionType": [
+                  "nct",
+                  "doi"
+                ]
+              },
+              "firstPublicationDate": "2023-06-29",
+              "firstIndexDate": "2023-07-01"
+            },
+            {
+              "id": "PPR391008",
+              "source": "PPR",
+              "doi": "10.21203/rs.3.rs-861371/v1",
+              "title": "The Effect of Attention Process Training (APT-II) On Cognitive and Daily Life Functioning in Patients With a Mild Cognitive Impairment: A Randomized Controlled Trial",
+              "authorString": "Saba M, Rwabihama J, Bouvard É, Mettling P, Sztulman É, Lemarié N, Piolino P, Blanchet S.",
+              "pubYear": "2021",
+              "pubType": "preprint",
+              "bookOrReportDetails": {
+                "publisher": "Research Square",
+                "yearOfPublication": 2021
+              },
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 0,
+              "hasReferences": "N",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "Y",
+              "tmAccessionTypeList": {
+                "accessionType": [
+                  "nct"
+                ]
+              },
+              "firstPublicationDate": "2021-09-03",
+              "firstIndexDate": "2021-09-07",
+              "versionNumber": 1
+            },
+            {
+              "id": "30879470",
+              "source": "MED",
+              "pmid": "30879470",
+              "doi": "10.3310/hta23100",
+              "title": "Goal-oriented cognitive rehabilitation for early-stage Alzheimer's and related dementias: the GREAT RCT.",
+              "authorString": "Clare L, Kudlicka A, Oyebode JR, Jones RW, Bayer A, Leroi I, Kopelman M, James IA, Culverwell A, Pool J, Brand A, Henderson C, Hoare Z, Knapp M, Morgan-Trimmer S, Burns A, Corbett A, Whitaker R, Woods B.",
+              "journalTitle": "Health Technol Assess",
+              "issue": "10",
+              "journalVolume": "23",
+              "pubYear": "2019",
+              "journalIssn": "1366-5278; 2046-4924; ",
+              "pageInfo": "1-242",
+              "pubType": "research support, non-u.s. gov't; multicenter study; randomized controlled trial; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 74,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "Y",
+              "bookid": "NBK538650",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2019-03-01",
+              "firstIndexDate": "2019-03-18"
+            },
+            {
+              "id": "PMC6184594",
+              "source": "PMC",
+              "pmcid": "PMC6184594",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC6184594"
+                ]
+              },
+              "title": "GREAT TRIAL: PERSONALISED COGNITIVE REHABILITATION GOALS OF PEOPLE WITH EARLY-STAGE DEMENTIA",
+              "authorString": "Kudlicka A, Evans S, Pool J, Oyebode J, Woods B, Clare L.",
+              "journalTitle": "Innov Aging",
+              "issue": "suppl 1",
+              "journalVolume": "1",
+              "pubYear": "2017",
+              "journalIssn": "2399-5300",
+              "pageInfo": "873-873",
+              "pubType": "abstract",
+              "isOpenAccess": "N",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 0,
+              "hasReferences": "N",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2017-06-30",
+              "firstIndexDate": "2018-11-29"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "parameters": {
+        "query": "TITLE_ABS:handwashing AND TITLE_ABS:dementia AND TITLE_ABS:prompting",
+        "format": "json",
+        "pageSize": 8,
+        "resultType": "lite"
+      },
+      "returned": 3,
+      "raw": {
+        "version": "6.9",
+        "hitCount": 3,
+        "request": {
+          "queryString": "TITLE_ABS:handwashing AND TITLE_ABS:dementia AND TITLE_ABS:prompting",
+          "resultType": "lite",
+          "cursorMark": "*",
+          "pageSize": 8,
+          "sort": "",
+          "synonym": false
+        },
+        "resultList": {
+          "result": [
+            {
+              "id": "41591103",
+              "source": "MED",
+              "pmid": "41591103",
+              "pmcid": "PMC12844825",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC12844825"
+                ]
+              },
+              "doi": "10.3390/nursrep16010006",
+              "title": "Mealtime Assistance by Family and Professional Caregivers: An Observational Study of Cognitively Impaired Older Adults in Hospitals and Nursing Homes.",
+              "authorString": "Chang HR, Koo FT, Hui JA, Tang HC, You W.",
+              "journalTitle": "Nurs Rep",
+              "issue": "1",
+              "journalVolume": "16",
+              "pubYear": "2025",
+              "journalIssn": "2039-439x; 2039-4403; ",
+              "pageInfo": "6",
+              "pubType": "research-article; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 3,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "Y",
+              "tmAccessionTypeList": {
+                "accessionType": [
+                  "gen",
+                  "doi"
+                ]
+              },
+              "firstPublicationDate": "2025-12-24",
+              "firstIndexDate": "2026-01-27"
+            },
+            {
+              "id": "18992135",
+              "source": "MED",
+              "pmid": "18992135",
+              "pmcid": "PMC2588599",
+              "fullTextIdList": {
+                "fullTextId": [
+                  "PMC2588599"
+                ]
+              },
+              "doi": "10.1186/1471-2318-8-28",
+              "title": "The COACH prompting system to assist older adults with dementia through handwashing: an efficacy study.",
+              "authorString": "Mihailidis A, Boger JN, Craig T, Hoey J.",
+              "journalTitle": "BMC Geriatr",
+              "journalVolume": "8",
+              "pubYear": "2008",
+              "journalIssn": "1471-2318",
+              "pageInfo": "28",
+              "pubType": "controlled clinical trial; research support, non-u.s. gov't; research-article; journal article",
+              "isOpenAccess": "Y",
+              "inEPMC": "Y",
+              "inPMC": "Y",
+              "citedByCount": 80,
+              "hasReferences": "Y",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "Y",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "Y",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2008-11-07",
+              "firstIndexDate": "2010-09-24"
+            },
+            {
+              "id": "16915875",
+              "source": "MED",
+              "pmid": "16915875",
+              "doi": "10.5014/ajot.60.4.442",
+              "title": "The use of automated prompting to facilitate handwashing in persons with dementia.",
+              "authorString": "Labelle KL, Mihailidis A.",
+              "journalTitle": "Am J Occup Ther",
+              "issue": "4",
+              "journalVolume": "60",
+              "pubYear": "2006",
+              "journalIssn": "0272-9490; 1943-7676; ",
+              "pageInfo": "442-450",
+              "pubType": "comparative study; clinical trial; research support, non-u.s. gov't; journal article",
+              "isOpenAccess": "N",
+              "inEPMC": "N",
+              "inPMC": "N",
+              "citedByCount": 25,
+              "hasReferences": "N",
+              "hasTextMinedTerms": "Y",
+              "hasDbCrossReferences": "N",
+              "hasPDF": "N",
+              "hasBook": "N",
+              "hasSuppl": "N",
+              "hasLabsLinks": "N",
+              "hasTMAccessionNumbers": "N",
+              "firstPublicationDate": "2006-07-01",
+              "firstIndexDate": "2008-01-29"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
