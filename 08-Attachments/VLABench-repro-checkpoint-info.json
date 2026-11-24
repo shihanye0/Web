@@ -1,0 +1,81 @@
+{
+  "_id": "69e76b805ca538d6d5fbb722",
+  "id": "lerobot/smolvla_vlabench",
+  "private": false,
+  "pipeline_tag": "robotics",
+  "library_name": "lerobot",
+  "tags": [
+    "lerobot",
+    "safetensors",
+    "smolvla",
+    "robotics",
+    "dataset:lerobot/vlabench_unified",
+    "arxiv:2506.01844",
+    "base_model:lerobot/smolvla_base",
+    "base_model:finetune:lerobot/smolvla_base",
+    "license:apache-2.0",
+    "region:us"
+  ],
+  "downloads": 18035,
+  "likes": 3,
+  "modelId": "lerobot/smolvla_vlabench",
+  "author": "lerobot",
+  "sha": "7ef370813eb35823caa94088b50f5389a51e4c47",
+  "lastModified": "2026-10-12T14:03:44.000Z",
+  "gated": false,
+  "disabled": false,
+  "model-index": null,
+  "config": {},
+  "cardData": {
+    "base_model": "lerobot/smolvla_base",
+    "datasets": "lerobot/vlabench_unified",
+    "library_name": "lerobot",
+    "license": "apache-2.0",
+    "model_name": "smolvla",
+    "pipeline_tag": "robotics",
+    "tags": [
+      "smolvla",
+      "robotics",
+      "lerobot"
+    ]
+  },
+  "siblings": [
+    {
+      "rfilename": ".gitattributes"
+    },
+    {
+      "rfilename": "README.md"
+    },
+    {
+      "rfilename": "config.json"
+    },
+    {
+      "rfilename": "model.safetensors"
+    },
+    {
+      "rfilename": "policy_postprocessor.json"
+    },
+    {
+      "rfilename": "policy_postprocessor_step_0_unnormalizer_processor.safetensors"
+    },
+    {
+      "rfilename": "policy_preprocessor.json"
+    },
+    {
+      "rfilename": "policy_preprocessor_step_5_normalizer_processor.safetensors"
+    },
+    {
+      "rfilename": "train_config.json"
+    }
+  ],
+  "spaces": [],
+  "createdAt": "2026-04-21T12:20:16.000Z",
+  "safetensors": {
+    "parameters": {
+      "F32": 3273552,
+      "BF16": 446772624
+    },
+    "total": 450046176
+  },
+  "usedStorage": 906721288
+}
